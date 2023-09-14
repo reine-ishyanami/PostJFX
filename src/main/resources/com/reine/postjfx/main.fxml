@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<?import com.reine.postjfx.controller.RequestController?>
+<?import com.reine.postjfx.controller.ResponseController?>
+<fx:root type="SplitPane" dividerPositions="0.4598393574297189, 0.5" maxHeight="-Infinity" maxWidth="-Infinity"
+         minHeight="-Infinity"
+         minWidth="-Infinity" orientation="VERTICAL" prefHeight="400.0" prefWidth="600.0"
+         xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1">
+    <items>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="211.0" prefWidth="599.0">
+            <RequestController fx:id="requestController"/>
+        </AnchorPane>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+            <ResponseController fx:id="responseController"/>
+        </AnchorPane>
+    </items>
+</fx:root>
