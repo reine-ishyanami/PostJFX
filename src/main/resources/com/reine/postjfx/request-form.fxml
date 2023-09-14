@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<fx:root prefHeight="259.0" prefWidth="600.0" type="VBox" xmlns="http://javafx.com/javafx/17.0.6"
+<fx:root prefHeight="259.0" prefWidth="600.0" type="VBox" xmlns="http://javafx.com/javafx/20.0.1"
          xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <HBox alignment="CENTER" prefHeight="65.0" prefWidth="600.0" spacing="30.0">
@@ -28,11 +28,13 @@
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                             <children>
-                                <TableView prefHeight="170.0" prefWidth="606.0">
+                                <TableView prefHeight="170.0" prefWidth="606.0" fx:id="headerTableView" editable="true">
                                     <columns>
-                                        <TableColumn prefWidth="75.0" sortable="false" text="参数名"/>
-                                        <TableColumn prefWidth="75.0" sortable="false" text="参数值"/>
-                                        <TableColumn prefWidth="75.0" sortable="false" text="参数类型"/>
+                                        <TableColumn fx:id="nameColOfHeaderTableView" prefWidth="176.80001527071"
+                                                     sortable="false" text="参数名" />
+                                        <TableColumn fx:id="valueColOfHeaderTableView" prefWidth="189.59999084472656" sortable="false" text="参数值"/>
+                                        <TableColumn prefWidth="204.0" sortable="false" text="参数类型"/>
+                                        <TableColumn prefWidth="33.60003662109375" sortable="false"/>
                                     </columns>
                                     <columnResizePolicy>
                                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
@@ -46,11 +48,12 @@
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                             <children>
-                                <TableView prefHeight="170.0" prefWidth="606.0">
+                                <TableView prefHeight="170.0" prefWidth="606.0" fx:id="paramsTableView">
                                     <columns>
-                                        <TableColumn prefWidth="75.0" sortable="false" text="参数名"/>
-                                        <TableColumn prefWidth="75.0" sortable="false" text="参数值"/>
-                                        <TableColumn prefWidth="75.0" sortable="false" text="参数类型"/>
+                                        <TableColumn prefWidth="176.80001527071" sortable="false" text="参数名"/>
+                                        <TableColumn prefWidth="189.59999084472656" sortable="false" text="参数值"/>
+                                        <TableColumn prefWidth="204.0" sortable="false" text="参数类型"/>
+                                        <TableColumn prefWidth="33.60003662109375" sortable="false"/>
                                     </columns>
                                     <columnResizePolicy>
                                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
