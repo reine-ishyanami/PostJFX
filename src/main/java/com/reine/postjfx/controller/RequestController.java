@@ -15,6 +15,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.ChoiceBoxTableCell;
+import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.VBox;
@@ -113,7 +114,7 @@ public class RequestController extends VBox {
         headersTableView.setColumnResizePolicy(param -> true);
         headersTableView.getItems().addAll(new HeaderProperty(HeaderTypeEnum.CONTENT_TYPE, "application/json"));
         nameColOfHeadersTableView.setCellValueFactory(new PropertyValueFactory<>("headerTypeEnum"));
-        nameColOfHeadersTableView.setCellFactory(ChoiceBoxTableCell.forTableColumn(new StringConverter<>() {
+        nameColOfHeadersTableView.setCellFactory(ComboBoxTableCell.forTableColumn(new StringConverter<>() {
             @Override
             public String toString(HeaderTypeEnum object) {
                 return object != null ? object.getName() : "";
@@ -158,7 +159,7 @@ public class RequestController extends VBox {
         valueColOfParamsTableView.setCellValueFactory(new PropertyValueFactory<>("value"));
         valueColOfParamsTableView.setCellFactory(TextFieldTableCell.forTableColumn());
         typeColOfParamsTableView.setCellValueFactory(new PropertyValueFactory<>("paramTypeEnum"));
-        typeColOfParamsTableView.setCellFactory(ChoiceBoxTableCell.forTableColumn(new StringConverter<>() {
+        typeColOfParamsTableView.setCellFactory(ComboBoxTableCell.forTableColumn(new StringConverter<>() {
             @Override
             public String toString(ParamTypeEnum object) {
                 return object != null ? object.getName() : "";

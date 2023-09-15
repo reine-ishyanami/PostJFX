@@ -58,9 +58,9 @@
                                     <columns>
                                         <TableColumn fx:id="keyColOfParamsTableView" prefWidth="370.0" sortable="false"
                                                      text="参数名"/>
-                                        <TableColumn fx:id="valueColOfParamsTableView" prefWidth="300.0"
+                                        <TableColumn fx:id="valueColOfParamsTableView" prefWidth="270.0"
                                                      sortable="false" text="参数值"/>
-                                        <TableColumn fx:id="typeColOfParamsTableView" prefWidth="70.0"
+                                        <TableColumn fx:id="typeColOfParamsTableView" prefWidth="100.0"
                                                      sortable="false" text="参数类型"/>
                                         <TableColumn fx:id="addRowOfParamsTableView" prefWidth="20.0" sortable="false"/>
                                         <TableColumn fx:id="removeRowOfParamsTableView" prefWidth="20.0"
