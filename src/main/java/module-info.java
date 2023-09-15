@@ -10,4 +10,5 @@ module com.reine.postjfx {
     opens com.reine.postjfx.entity to javafx.base;
     exports com.reine.postjfx;
     exports com.reine.postjfx.controller;
+    exports com.reine.postjfx.entity;
 }

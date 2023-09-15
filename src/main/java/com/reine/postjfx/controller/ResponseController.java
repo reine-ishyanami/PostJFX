@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.reine.postjfx.HelloApplication;
+import com.reine.postjfx.entity.Result;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,7 +14,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
 import java.io.IOException;
-import java.net.http.HttpResponse;
 
 /**
  * @author reine
@@ -35,21 +35,25 @@ public class ResponseController extends VBox {
         fxmlLoader.load();
     }
 
-    public void showResult(HttpResponse<String> response) {
-        int i = response.statusCode();
+    public void showResult(Result result) {
+        int i = result.code();
         switch (i / 100) {
             case 2 -> codeLabel.setTextFill(Color.GREEN);
             case 3 -> codeLabel.setTextFill(Color.YELLOW);
             case 4, 5 -> codeLabel.setTextFill(Color.RED);
         }
         try {
-            JsonNode jsonNode = mapper.readTree(response.body());
+            JsonNode jsonNode = mapper.readTree(result.message());
             String s = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(jsonNode);
             Platform.runLater(() -> {
                 codeLabel.setText(String.valueOf(i));
                 dataTextArea.setText(s);
             });
         } catch (JsonProcessingException e) {
+            Platform.runLater(() -> {
+                codeLabel.setText(String.valueOf(i));
+                dataTextArea.setText(result.message());
+            });
             throw new RuntimeException(e);
         }
     }

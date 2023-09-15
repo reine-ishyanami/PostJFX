@@ -1,13 +1,16 @@
 package com.reine.postjfx.utils;
 
+import com.reine.postjfx.entity.HeaderProperty;
+
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.Stream;
 
 /**
  * @author reine
@@ -24,10 +27,10 @@ public class HttpUtils {
      *
      * @param url
      * @param params
-     * @param header
+     * @param headers
      * @return
      */
-    public static CompletableFuture<HttpResponse<String>> get(String url, Map<String, Object> params, Map<String, String> header) {
+    public static CompletableFuture<HttpResponse<String>> get(String url, Map<String, Object> params, List<HeaderProperty> headers) {
         StringBuilder queryString = new StringBuilder();
         if (params != null) {
             for (Map.Entry<String, Object> entry : params.entrySet()) {
@@ -36,13 +39,12 @@ public class HttpUtils {
             }
         }
         String[] headerArray;
-        if (header != null) {
-            List<String> list = new ArrayList<>();
-            for (Map.Entry<String, String> entry : header.entrySet()) {
-                list.add(entry.getKey());
-                list.add(entry.getValue());
-            }
-            headerArray = list.toArray(new String[0]);
+        if (headers != null) {
+            headerArray = headers.stream().map(headerProperty -> {
+                String first = headerProperty.getHeaderTypeEnum().getName();
+                String second = headerProperty.getValue();
+                return new String[]{first, second};
+            }).reduce((a, b) -> Stream.concat(Arrays.stream(a), Arrays.stream(b)).toArray(String[]::new)).orElse(new String[]{});
         } else {
             headerArray = defaultHeader;
         }
