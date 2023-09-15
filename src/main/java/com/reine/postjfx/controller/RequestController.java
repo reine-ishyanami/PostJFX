@@ -1,7 +1,10 @@
 package com.reine.postjfx.controller;
 
 import com.reine.postjfx.HelloApplication;
+import com.reine.postjfx.component.AddButton;
+import com.reine.postjfx.component.SubButton;
 import com.reine.postjfx.entity.HeaderProperty;
+import com.reine.postjfx.entity.ParamProperty;
 import com.reine.postjfx.entity.Result;
 import com.reine.postjfx.enums.HeaderTypeEnum;
 import com.reine.postjfx.enums.RequestMethodEnum;
@@ -9,15 +12,11 @@ import com.reine.postjfx.utils.HttpUtils;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.ChoiceBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.util.Callback;
 import javafx.util.StringConverter;
 
 import java.io.IOException;
@@ -36,7 +35,7 @@ public class RequestController extends VBox {
     private TableView<HeaderProperty> headersTableView;
 
     @FXML
-    private TableView<?> paramsTableView;
+    private TableView<ParamProperty> paramsTableView;
 
     private ResponseController responseController;
 
@@ -53,10 +52,8 @@ public class RequestController extends VBox {
 
     @FXML
     void sendRequest() {
-        String url = urlField.getText();
-        if (!isUri(url)) {
-            responseController.showResult(new Result(500, "非法地址"));
-        }
+        String url = urlField.getText().split("\\?")[0];
+        if (!isUri(url)) responseController.showResult(new Result(500, "非法地址"));
         RequestMethodEnum item = methodChoiceBox.getSelectionModel().getSelectedItem();
         switch (item) {
             case GET -> {
@@ -118,63 +115,35 @@ public class RequestController extends VBox {
         }, HeaderTypeEnum.values()));
         valueColOfHeadersTableView.setCellValueFactory(new PropertyValueFactory<>("value"));
         valueColOfHeadersTableView.setCellFactory(TextFieldTableCell.forTableColumn());
-        addRowOfHeadersTableView.setCellFactory(new Callback<>() {
-            @Override
-            public TableCell<HeaderProperty, Void> call(TableColumn<HeaderProperty, Void> param) {
-                return new TableCell<>() {
-                    @Override
-                    protected void updateItem(Void item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (!empty) {
-                            HBox root = new HBox();
-                            root.setAlignment(Pos.CENTER);
-                            ImageView imageView = new ImageView("/image/add.png");
-                            imageView.setFitWidth(10);
-                            imageView.setFitHeight(10);
-                            root.getChildren().add(imageView);
-                            this.setGraphic(root);
-                            root.setOnMouseClicked(event -> headersTableView.getItems().add(new HeaderProperty()));
-                        } else {
-                            this.setGraphic(null);
-                        }
-                    }
-                };
-            }
-        });
-        removeRowOfHeadersTableView.setCellFactory(new Callback<>() {
-            @Override
-            public TableCell<HeaderProperty, Void> call(TableColumn<HeaderProperty, Void> param) {
-                return new TableCell<>() {
-                    @Override
-                    protected void updateItem(Void item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (!empty) {
-                            HBox root = new HBox();
-                            root.setAlignment(Pos.CENTER);
-                            ImageView imageView = new ImageView("/image/sub.png");
-                            imageView.setFitWidth(10);
-                            imageView.setFitHeight(10);
-                            root.getChildren().add(imageView);
-                            this.setGraphic(root);
-                            root.setOnMouseClicked(event -> {
-                                if (headersTableView.getItems().size() > 1)
-                                    headersTableView.getItems().remove(this.getIndex());
-                            });
-                        } else {
-                            this.setGraphic(null);
-                        }
-                    }
-                };
-            }
-        });
-
+        addRowOfHeadersTableView.setCellFactory(param -> new AddButton<>(headersTableView, HeaderProperty.class));
+        removeRowOfHeadersTableView.setCellFactory(param -> new SubButton<>(headersTableView));
     }
+
+
+    @FXML
+    private TableColumn<ParamProperty, String> keyColOfParamsTableView;
+
+    @FXML
+    private TableColumn<ParamProperty, String> valueColOfParamsTableView;
+
+    @FXML
+    private TableColumn<ParamProperty, Void> addRowOfParamsTableView;
+
+    @FXML
+    private TableColumn<ParamProperty, Void> removeRowOfParamsTableView;
 
     /**
      * 初始化请求参数表
      */
     void initParamsTableView() {
         paramsTableView.setColumnResizePolicy(param -> true);
+        paramsTableView.getItems().add(new ParamProperty());
+        keyColOfParamsTableView.setCellValueFactory(new PropertyValueFactory<>("key"));
+        keyColOfParamsTableView.setCellFactory(TextFieldTableCell.forTableColumn());
+        valueColOfParamsTableView.setCellValueFactory(new PropertyValueFactory<>("value"));
+        valueColOfParamsTableView.setCellFactory(TextFieldTableCell.forTableColumn());
+        addRowOfParamsTableView.setCellFactory(param -> new AddButton<>(paramsTableView, ParamProperty.class));
+        removeRowOfParamsTableView.setCellFactory(param -> new SubButton<>(paramsTableView));
     }
 
     /**
