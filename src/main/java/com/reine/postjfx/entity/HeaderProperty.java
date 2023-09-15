@@ -10,7 +10,7 @@ public class HeaderProperty {
 
     private HeaderTypeEnum headerTypeEnum;
 
-    private SimpleStringProperty value = new SimpleStringProperty();
+    private final SimpleStringProperty value = new SimpleStringProperty();
 
     public HeaderProperty() {}
 
