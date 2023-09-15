@@ -12,7 +12,8 @@ public class HeaderProperty {
 
     private final SimpleStringProperty value = new SimpleStringProperty();
 
-    public HeaderProperty() {}
+    public HeaderProperty() {
+    }
 
     public HeaderProperty(HeaderTypeEnum headerTypeEnum, String value) {
         this.headerTypeEnum = headerTypeEnum;
