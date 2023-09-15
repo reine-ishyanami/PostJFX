@@ -7,6 +7,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
 /**
+ * 表格中删除本行按钮
  * @author reine
  */
 public class SubButton<T, S> extends TableCell<T, S> {
