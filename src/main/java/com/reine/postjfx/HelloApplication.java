@@ -1,7 +1,6 @@
 package com.reine.postjfx;
 
 import com.reine.postjfx.controller.MainController;
-import com.reine.postjfx.controller.RequestController;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;

@@ -1,5 +1,6 @@
 package com.reine.postjfx.entity;
 
+import com.reine.postjfx.enums.ParamTypeEnum;
 import javafx.beans.property.SimpleStringProperty;
 
 /**
@@ -11,11 +12,15 @@ public class ParamProperty {
 
     private final SimpleStringProperty value = new SimpleStringProperty();
 
-    public ParamProperty() {}
+    private ParamTypeEnum paramTypeEnum = ParamTypeEnum.TEXT;
 
-    public ParamProperty(String key, String value) {
+    public ParamProperty() {
+    }
+
+    public ParamProperty(String key, String value, ParamTypeEnum paramTypeEnum) {
         this.key.set(key);
         this.value.set(value);
+        this.paramTypeEnum = paramTypeEnum;
     }
 
     public String getKey() {
@@ -40,5 +45,13 @@ public class ParamProperty {
 
     public void setValue(String value) {
         this.value.set(value);
+    }
+
+    public ParamTypeEnum getParamTypeEnum() {
+        return paramTypeEnum;
+    }
+
+    public void setParamTypeEnum(ParamTypeEnum paramTypeEnum) {
+        this.paramTypeEnum = paramTypeEnum;
     }
 }

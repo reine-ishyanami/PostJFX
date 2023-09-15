@@ -7,6 +7,7 @@ import com.reine.postjfx.entity.HeaderProperty;
 import com.reine.postjfx.entity.ParamProperty;
 import com.reine.postjfx.entity.Result;
 import com.reine.postjfx.enums.HeaderTypeEnum;
+import com.reine.postjfx.enums.ParamTypeEnum;
 import com.reine.postjfx.enums.RequestMethodEnum;
 import com.reine.postjfx.utils.HttpUtils;
 import javafx.collections.ObservableList;
@@ -137,7 +138,7 @@ public class RequestController extends VBox {
     private TableColumn<ParamProperty, String> valueColOfParamsTableView;
 
     @FXML
-    private TableColumn<ParamProperty, String> typeColOfParamsTableView;
+    private TableColumn<ParamProperty, ParamTypeEnum> typeColOfParamsTableView;
 
     @FXML
     private TableColumn<ParamProperty, Void> addRowOfParamsTableView;
@@ -151,11 +152,23 @@ public class RequestController extends VBox {
      */
     void initParamsTableView() {
         paramsTableView.setColumnResizePolicy(param -> true);
-        paramsTableView.getItems().add(new ParamProperty());
+        paramsTableView.getItems().add(new ParamProperty("", "", ParamTypeEnum.TEXT));
         keyColOfParamsTableView.setCellValueFactory(new PropertyValueFactory<>("key"));
         keyColOfParamsTableView.setCellFactory(TextFieldTableCell.forTableColumn());
         valueColOfParamsTableView.setCellValueFactory(new PropertyValueFactory<>("value"));
         valueColOfParamsTableView.setCellFactory(TextFieldTableCell.forTableColumn());
+        typeColOfParamsTableView.setCellValueFactory(new PropertyValueFactory<>("paramTypeEnum"));
+        typeColOfParamsTableView.setCellFactory(ChoiceBoxTableCell.forTableColumn(new StringConverter<>() {
+            @Override
+            public String toString(ParamTypeEnum object) {
+                return object != null ? object.getName() : "";
+            }
+
+            @Override
+            public ParamTypeEnum fromString(String string) {
+                return null;
+            }
+        }, ParamTypeEnum.values()));
         addRowOfParamsTableView.setCellFactory(param -> new AddButton<>(paramsTableView, ParamProperty.class));
         removeRowOfParamsTableView.setCellFactory(param -> new SubButton<>(paramsTableView));
     }
@@ -167,9 +180,11 @@ public class RequestController extends VBox {
      * 初始化顶部请求操作组件
      */
     void initTopRequestNode() {
+        // 如果是GET、DELETE方法，则不可携带请求体以及不可发送文件参数
         methodChoiceBox.valueProperty().addListener((observable, oldValue, newValue) -> {
-            paramsTab.setDisable(newValue.equals(RequestMethodEnum.GET) ||
-                    newValue.equals(RequestMethodEnum.DELETE));
+            boolean enable = newValue.equals(RequestMethodEnum.GET) || newValue.equals(RequestMethodEnum.DELETE);
+            paramsTab.setDisable(enable);
+            typeColOfParamsTableView.setEditable(!enable);
         });
         methodChoiceBox.getItems().addAll(RequestMethodEnum.GET, RequestMethodEnum.POST, RequestMethodEnum.PUT, RequestMethodEnum.DELETE);
         methodChoiceBox.setValue(RequestMethodEnum.GET);

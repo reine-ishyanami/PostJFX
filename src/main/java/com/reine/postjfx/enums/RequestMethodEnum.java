@@ -2,6 +2,7 @@ package com.reine.postjfx.enums;
 
 /**
  * 请求方法枚举
+ *
  * @author reine
  */
 public enum RequestMethodEnum {
