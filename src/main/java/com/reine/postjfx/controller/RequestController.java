@@ -29,7 +29,7 @@ public class RequestController extends VBox {
     private ChoiceBox<RequestMethodEnum> methodChoiceBox;
 
     @FXML
-    private TextField urlField;
+    private TextField urlTextField;
 
     @FXML
     private TableView<HeaderProperty> headersTableView;
@@ -55,7 +55,7 @@ public class RequestController extends VBox {
 
     @FXML
     void sendRequest() {
-        String url = urlField.getText().split("\\?")[0];
+        String url = urlTextField.getText().split("\\?")[0];
         if (!isUri(url)) responseController.showResult(new Result(500, "非法地址"));
         RequestMethodEnum item = methodChoiceBox.getSelectionModel().getSelectedItem();
         switch (item) {
@@ -72,6 +72,11 @@ public class RequestController extends VBox {
                 });
             }
         }
+    }
+
+    @FXML
+    void clear() {
+        urlTextField.clear();
     }
 
     private boolean isUri(String input) {
@@ -132,10 +137,14 @@ public class RequestController extends VBox {
     private TableColumn<ParamProperty, String> valueColOfParamsTableView;
 
     @FXML
+    private TableColumn<ParamProperty, String> typeColOfParamsTableView;
+
+    @FXML
     private TableColumn<ParamProperty, Void> addRowOfParamsTableView;
 
     @FXML
     private TableColumn<ParamProperty, Void> removeRowOfParamsTableView;
+
 
     /**
      * 初始化请求参数表
@@ -151,12 +160,15 @@ public class RequestController extends VBox {
         removeRowOfParamsTableView.setCellFactory(param -> new SubButton<>(paramsTableView));
     }
 
+    @FXML
+    private Tab paramsTab;
+
     /**
      * 初始化顶部请求操作组件
      */
     void initTopRequestNode() {
         methodChoiceBox.valueProperty().addListener((observable, oldValue, newValue) -> {
-            bodyTextArea.setDisable(newValue.equals(RequestMethodEnum.GET) ||
+            paramsTab.setDisable(newValue.equals(RequestMethodEnum.GET) ||
                     newValue.equals(RequestMethodEnum.DELETE));
         });
         methodChoiceBox.getItems().addAll(RequestMethodEnum.GET, RequestMethodEnum.POST, RequestMethodEnum.PUT, RequestMethodEnum.DELETE);
@@ -173,5 +185,4 @@ public class RequestController extends VBox {
             }
         });
     }
-
 }

@@ -1,14 +1,13 @@
 package com.reine.postjfx.enums;
 
 
-import javafx.beans.property.SimpleStringProperty;
-
 import java.util.Arrays;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
+ * 请求头枚举
  * @author reine
  */
 public enum HeaderTypeEnum {
@@ -54,7 +53,7 @@ public enum HeaderTypeEnum {
     DNT("DNT"),
     X_API_KEY("x-api-key");
 
-    private String name;
+    private final String name;
 
     HeaderTypeEnum(String name) {
         this.name = name;

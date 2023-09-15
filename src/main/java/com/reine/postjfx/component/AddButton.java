@@ -7,6 +7,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
 /**
+ * 表格中添加一行按钮
  * @author reine
  */
 public class AddButton<T, S> extends TableCell<T, S> {

@@ -7,9 +7,9 @@
 <?import javafx.scene.layout.VBox?>
 
 
-<fx:root prefHeight="267.0" prefWidth="600.0" type="VBox" xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root prefHeight="270.0" prefWidth="800.0" type="VBox" xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <HBox alignment="CENTER_LEFT" prefHeight="46.0" prefWidth="600.0" spacing="10.0">
+      <HBox alignment="CENTER_LEFT" prefHeight="46.0" prefWidth="800.0" spacing="10.0">
          <children>
             <Label text="状态码">
                <HBox.margin>
@@ -19,6 +19,6 @@
             <Label fx:id="codeLabel" />
          </children>
       </HBox>
-      <TextArea fx:id="dataTextArea" editable="false" prefHeight="214.0" prefWidth="600.0" />
+      <TextArea fx:id="dataTextArea" editable="false" prefHeight="214.0" prefWidth="800.0" promptText="响应内容" />
    </children>
 </fx:root>
