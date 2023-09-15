@@ -37,6 +37,9 @@ public class RequestController extends VBox {
     @FXML
     private TableView<ParamProperty> paramsTableView;
 
+    @FXML
+    private TextArea bodyTextArea;
+
     private ResponseController responseController;
 
     public RequestController() throws IOException {
@@ -152,6 +155,10 @@ public class RequestController extends VBox {
      * 初始化顶部请求操作组件
      */
     void initTopRequestNode() {
+        methodChoiceBox.valueProperty().addListener((observable, oldValue, newValue) -> {
+            bodyTextArea.setDisable(newValue.equals(RequestMethodEnum.GET) ||
+                    newValue.equals(RequestMethodEnum.DELETE));
+        });
         methodChoiceBox.getItems().addAll(RequestMethodEnum.GET, RequestMethodEnum.POST, RequestMethodEnum.PUT, RequestMethodEnum.DELETE);
         methodChoiceBox.setValue(RequestMethodEnum.GET);
         methodChoiceBox.setConverter(new StringConverter<>() {

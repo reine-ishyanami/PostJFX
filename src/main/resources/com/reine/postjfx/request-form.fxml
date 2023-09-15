@@ -75,7 +75,7 @@
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="190.0" prefWidth="600.0">
                             <children>
-                                <TextArea layoutX="-4.0" layoutY="-1.0" minHeight="-Infinity" minWidth="-Infinity"
+                                <TextArea fx:id="bodyTextArea" layoutX="-4.0" layoutY="-1.0" minHeight="-Infinity" minWidth="-Infinity"
                                           prefHeight="190.0" prefWidth="600.0"/>
                             </children>
                         </AnchorPane>
