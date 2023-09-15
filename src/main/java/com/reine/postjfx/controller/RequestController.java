@@ -57,9 +57,11 @@ public class RequestController extends VBox {
         RequestMethodEnum item = methodChoiceBox.getSelectionModel().getSelectedItem();
         switch (item) {
             case GET -> {
-                ObservableList<HeaderProperty> items = headersTableView.getItems();
-                items.removeIf(headerProperty -> headerProperty.getHeaderTypeEnum() == null);
-                HttpUtils.get(url, null, items).thenAccept((response) -> {
+                ObservableList<HeaderProperty> headers = headersTableView.getItems();
+                headers.removeIf(headerProperty -> headerProperty.getHeaderTypeEnum() == null);
+                ObservableList<ParamProperty> params = paramsTableView.getItems();
+                params.removeIf(paramProperty -> paramProperty.getKey() == null);
+                HttpUtils.get(url, params, headers).thenAccept((response) -> {
                     responseController.showResult(new Result(response.statusCode(), response.body()));
                 }).exceptionally(throwable -> {
                     responseController.showResult(new Result(500, throwable.getMessage()));
