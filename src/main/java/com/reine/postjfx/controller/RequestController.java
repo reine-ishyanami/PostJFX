@@ -2,9 +2,11 @@ package com.reine.postjfx.controller;
 
 import com.reine.postjfx.HelloApplication;
 import com.reine.postjfx.entity.HeaderProperty;
+import com.reine.postjfx.entity.Result;
 import com.reine.postjfx.enums.HeaderTypeEnum;
 import com.reine.postjfx.enums.RequestMethodEnum;
 import com.reine.postjfx.utils.HttpUtils;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
@@ -19,6 +21,8 @@ import javafx.util.Callback;
 import javafx.util.StringConverter;
 
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class RequestController extends VBox {
 
@@ -50,12 +54,29 @@ public class RequestController extends VBox {
     @FXML
     void sendRequest() {
         String url = urlField.getText();
+        if (!isUri(url)) {
+            responseController.showResult(new Result(500, "非法地址"));
+        }
         RequestMethodEnum item = methodChoiceBox.getSelectionModel().getSelectedItem();
         switch (item) {
-            case GET -> HttpUtils.get(url, null, null).thenAccept((response) -> {
-                responseController.showResult(response);
-            });
+            case GET -> {
+                ObservableList<HeaderProperty> items = headersTableView.getItems();
+                items.removeIf(headerProperty -> headerProperty.getHeaderTypeEnum() == null);
+                HttpUtils.get(url, null, items).thenAccept((response) -> {
+                    responseController.showResult(new Result(response.statusCode(), response.body()));
+                }).exceptionally(throwable -> {
+                    responseController.showResult(new Result(500, throwable.getMessage()));
+                    return null;
+                });
+            }
         }
+    }
+
+    private boolean isUri(String input) {
+        String regex = "^(?i)(?:([a-z]+):)(?:(?://)([^/?#]*))?([^?#]*)(?:\\?([^#]*))?(?:#(.*))?$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(input);
+        return matcher.matches();
     }
 
     @FXML
