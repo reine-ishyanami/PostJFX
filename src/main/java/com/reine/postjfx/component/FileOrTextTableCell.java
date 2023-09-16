@@ -21,6 +21,7 @@ public class FileOrTextTableCell extends TableCell<ParamProperty, String> {
     @Override
     public void startEdit() {
         super.startEdit();
+        setText(null);
         ParamProperty row = getTableRow().getItem();
         switch (row.getParamTypeEnum()) {
             case TEXT -> {
@@ -36,12 +37,19 @@ public class FileOrTextTableCell extends TableCell<ParamProperty, String> {
     }
 
     @Override
+    protected void updateItem(String item, boolean empty) {
+        super.updateItem(item, empty);
+        if (empty) {
+            setText(null);
+            setGraphic(null);
+        }
+    }
+
+    @Override
     public void commitEdit(String newValue) {
         super.commitEdit(newValue);
         setGraphic(null);
-        setText(newValue);
         getTableView().getItems().get(getIndex()).setValue(newValue);
+        setText(newValue);
     }
-
-
 }
