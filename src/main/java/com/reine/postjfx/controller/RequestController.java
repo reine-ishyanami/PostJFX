@@ -14,7 +14,6 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.ChoiceBoxTableCell;
 import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
@@ -60,19 +59,23 @@ public class RequestController extends VBox {
         String url = urlTextField.getText().split("\\?")[0];
         if (!isUri(url)) responseController.showResult(new Result(500, "非法地址"));
         RequestMethodEnum item = methodChoiceBox.getSelectionModel().getSelectedItem();
+        ObservableList<HeaderProperty> headers = headersTableView.getItems();
+        headers.removeIf(headerProperty -> headerProperty.getHeaderTypeEnum() == null);
+        ObservableList<ParamProperty> params = paramsTableView.getItems();
+        params.removeIf(paramProperty -> paramProperty.getKey() == null);
         switch (item) {
-            case GET -> {
-                ObservableList<HeaderProperty> headers = headersTableView.getItems();
-                headers.removeIf(headerProperty -> headerProperty.getHeaderTypeEnum() == null);
-                ObservableList<ParamProperty> params = paramsTableView.getItems();
-                params.removeIf(paramProperty -> paramProperty.getKey() == null);
-                HttpUtils.get(url, params, headers).thenAccept((response) -> {
-                    responseController.showResult(new Result(response.statusCode(), response.body()));
-                }).exceptionally(throwable -> {
-                    responseController.showResult(new Result(500, throwable.getMessage()));
-                    return null;
-                });
-            }
+            case GET -> HttpUtils.get(url, params, headers)
+                    .thenAccept((response) -> responseController.showResult(new Result(response.statusCode(), response.body())))
+                    .exceptionally(throwable -> {
+                        responseController.showResult(new Result(500, throwable.getMessage()));
+                        return null;
+                    });
+            case POST -> HttpUtils.post(url, params, headers, bodyTextArea.getText())
+                    .thenAccept(response -> responseController.showResult(new Result(response.statusCode(), response.body())))
+                    .exceptionally(throwable -> {
+                        responseController.showResult(new Result(500, throwable.getMessage()));
+                        return null;
+                    });
         }
     }
 
@@ -157,6 +160,7 @@ public class RequestController extends VBox {
         keyColOfParamsTableView.setCellValueFactory(new PropertyValueFactory<>("key"));
         keyColOfParamsTableView.setCellFactory(TextFieldTableCell.forTableColumn());
         valueColOfParamsTableView.setCellValueFactory(new PropertyValueFactory<>("value"));
+        // TODO 选择文件发送
         valueColOfParamsTableView.setCellFactory(TextFieldTableCell.forTableColumn());
         typeColOfParamsTableView.setCellValueFactory(new PropertyValueFactory<>("paramTypeEnum"));
         typeColOfParamsTableView.setCellFactory(ComboBoxTableCell.forTableColumn(new StringConverter<>() {
@@ -167,7 +171,7 @@ public class RequestController extends VBox {
 
             @Override
             public ParamTypeEnum fromString(String string) {
-                return null;
+                return ParamTypeEnum.valueOf(string);
             }
         }, ParamTypeEnum.values()));
         addRowOfParamsTableView.setCellFactory(param -> new AddButton<>(paramsTableView, ParamProperty.class));
@@ -187,7 +191,7 @@ public class RequestController extends VBox {
             paramsTab.setDisable(enable);
             typeColOfParamsTableView.setEditable(!enable);
         });
-        methodChoiceBox.getItems().addAll(RequestMethodEnum.GET, RequestMethodEnum.POST, RequestMethodEnum.PUT, RequestMethodEnum.DELETE);
+        methodChoiceBox.getItems().addAll(RequestMethodEnum.values());
         methodChoiceBox.setValue(RequestMethodEnum.GET);
         methodChoiceBox.setConverter(new StringConverter<>() {
             @Override
