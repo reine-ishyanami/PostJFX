@@ -2,6 +2,8 @@ package com.reine.postjfx.controller;
 
 import com.reine.postjfx.HelloApplication;
 import com.reine.postjfx.component.AddButton;
+import com.reine.postjfx.component.CustomComboBoxTableCell;
+import com.reine.postjfx.component.FileOrTextTableCell;
 import com.reine.postjfx.component.SubButton;
 import com.reine.postjfx.entity.HeaderProperty;
 import com.reine.postjfx.entity.ParamProperty;
@@ -160,20 +162,9 @@ public class RequestController extends VBox {
         keyColOfParamsTableView.setCellValueFactory(new PropertyValueFactory<>("key"));
         keyColOfParamsTableView.setCellFactory(TextFieldTableCell.forTableColumn());
         valueColOfParamsTableView.setCellValueFactory(new PropertyValueFactory<>("value"));
-        // TODO 选择文件发送
-        valueColOfParamsTableView.setCellFactory(TextFieldTableCell.forTableColumn());
+        valueColOfParamsTableView.setCellFactory(param -> new FileOrTextTableCell());
         typeColOfParamsTableView.setCellValueFactory(new PropertyValueFactory<>("paramTypeEnum"));
-        typeColOfParamsTableView.setCellFactory(ComboBoxTableCell.forTableColumn(new StringConverter<>() {
-            @Override
-            public String toString(ParamTypeEnum object) {
-                return object != null ? object.getName() : "";
-            }
-
-            @Override
-            public ParamTypeEnum fromString(String string) {
-                return ParamTypeEnum.valueOf(string);
-            }
-        }, ParamTypeEnum.values()));
+        typeColOfParamsTableView.setCellFactory(param -> new CustomComboBoxTableCell());
         addRowOfParamsTableView.setCellFactory(param -> new AddButton<>(paramsTableView, ParamProperty.class));
         removeRowOfParamsTableView.setCellFactory(param -> new SubButton<>(paramsTableView));
     }
