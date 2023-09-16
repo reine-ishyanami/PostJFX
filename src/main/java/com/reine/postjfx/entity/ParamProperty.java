@@ -1,6 +1,7 @@
 package com.reine.postjfx.entity;
 
 import com.reine.postjfx.enums.ParamTypeEnum;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 /**
@@ -12,7 +13,10 @@ public class ParamProperty {
 
     private final SimpleStringProperty value = new SimpleStringProperty();
 
+    private final SimpleBooleanProperty fileParam = new SimpleBooleanProperty();
+
     private ParamTypeEnum paramTypeEnum = ParamTypeEnum.TEXT;
+
 
     public ParamProperty() {
     }
@@ -21,6 +25,7 @@ public class ParamProperty {
         this.key.set(key);
         this.value.set(value);
         this.paramTypeEnum = paramTypeEnum;
+        setFileParam(paramTypeEnum.equals(ParamTypeEnum.FILE));
     }
 
     public String getKey() {
@@ -53,5 +58,19 @@ public class ParamProperty {
 
     public void setParamTypeEnum(ParamTypeEnum paramTypeEnum) {
         this.paramTypeEnum = paramTypeEnum;
+        System.out.println(paramTypeEnum.getName());
+        setFileParam(paramTypeEnum.equals(ParamTypeEnum.FILE));
+    }
+
+    public boolean isFileParam() {
+        return fileParam.get();
+    }
+
+    public SimpleBooleanProperty fileParamProperty() {
+        return fileParam;
+    }
+
+    public void setFileParam(boolean fileParam) {
+        this.fileParam.set(fileParam);
     }
 }
