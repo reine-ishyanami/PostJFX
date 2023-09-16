@@ -4,16 +4,17 @@ import com.reine.postjfx.entity.HeaderProperty;
 import com.reine.postjfx.entity.ParamProperty;
 import com.reine.postjfx.enums.ParamTypeEnum;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Stream;
 
@@ -58,29 +59,15 @@ public class HttpUtils {
      * @return
      */
     public static CompletableFuture<HttpResponse<String>> post(String url, List<ParamProperty> params, List<HeaderProperty> headers, String body) {
-        String boundary = UUID.randomUUID().toString();
-        String[] headerArray = Optional.ofNullable(handlePostHeader(params, headers, boundary)).orElse(defaultHeader);
+        String[] headerArray = Optional.ofNullable(handlePostHeader(params, headers)).orElse(defaultHeader);
         // 如果含有文件
         if (params.stream().anyMatch(paramProperty -> paramProperty.getParamTypeEnum().equals(ParamTypeEnum.FILE))) {
-            try {
-                MultipartBodyBuilder builder = new MultipartBodyBuilder(boundary);
-                params.forEach(paramProperty -> {
-                    switch (paramProperty.getParamTypeEnum()) {
-                        case TEXT -> builder.addTextPart(paramProperty.getKey(), paramProperty.getValue());
-                        case FILE ->
-                                builder.addFilePart(paramProperty.getKey(), paramProperty.getValue(), Paths.get(paramProperty.getValue()));
-                    }
-                });
-                HttpRequest request = null;
-                request = HttpRequest.newBuilder()
-                        .uri(URI.create(url))
-                        .headers(headerArray)
-                        .POST(HttpRequest.BodyPublishers.ofByteArray(builder.build()))
-                        .build();
-                return client.sendAsync(request, HttpResponse.BodyHandlers.ofString());
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(url))
+                    .headers(headerArray)
+                    .POST(HttpRequest.BodyPublishers.ofByteArray(createMultipartRequestBody(params)))
+                    .build();
+            return client.sendAsync(request, HttpResponse.BodyHandlers.ofString());
             // 不包含文件
         } else {
             String queryString = Optional.ofNullable(handleGetOrDeleteQueryParam(params)).orElse("");
@@ -91,7 +78,6 @@ public class HttpUtils {
                     .build();
             return client.sendAsync(request, HttpResponse.BodyHandlers.ofString());
         }
-
     }
 
     /**
@@ -117,7 +103,7 @@ public class HttpUtils {
      * @return
      */
     private static String[] handleGetHeader(List<HeaderProperty> headers) {
-        if (headers != null)
+        if (!headers.isEmpty())
             return
                     headers.stream()
                             .map(headerProperty -> {
@@ -137,14 +123,67 @@ public class HttpUtils {
      * @param headers
      * @return
      */
-    private static String[] handlePostHeader(List<ParamProperty> params, List<HeaderProperty> headers, String boundary) {
-        if (headers != null) {
+    private static String[] handlePostHeader(List<ParamProperty> params, List<HeaderProperty> headers) {
+        if (!headers.isEmpty()) {
             return handleGetHeader(headers);
         } else {
             if (params.stream().anyMatch(paramProperty -> paramProperty.getParamTypeEnum().equals(ParamTypeEnum.FILE))) {
-                return new String[]{"Content-Type", "multipart/form-data; boundary=" + boundary};
+                return new String[]{"Content-Type", "multipart/form-data; boundary=boundary"};
             } else return null;
         }
+    }
+
+
+    /**
+     * 创建文件上传请求体
+     *
+     * @param params 请求参数
+     * @return
+     */
+    private static byte[] createMultipartRequestBody(List<ParamProperty> params) {
+        // 定义boundary
+        String boundary = "boundary";
+
+        ByteArrayOutputStream requestBodyStream = new ByteArrayOutputStream();
+
+        // 添加文本参数
+        params.stream().filter(paramProperty -> !paramProperty.isFileParam()).forEach(paramProperty -> {
+            String fieldName = paramProperty.getKey();
+            String fieldValue = paramProperty.getValue();
+            try {
+                String textPart = "--" + boundary + "\r\n"
+                        + "Content-Disposition: form-data; name=\"" + fieldName + "\"\r\n\r\n"
+                        + fieldValue + "\r\n";
+                requestBodyStream.write(textPart.getBytes(StandardCharsets.UTF_8));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
+        // 添加文件参数
+        params.stream().filter(ParamProperty::isFileParam).forEach(paramProperty -> {
+            String fieldName = paramProperty.getKey();
+            Path filePath = Paths.get(paramProperty.getValue());
+            try {
+                String fileName = filePath.getFileName().toString();
+                String filePart = "--" + boundary + "\r\n"
+                        + "Content-Disposition: form-data; name=\"" + fieldName + "\"; filename=\"" + fileName + "\"\r\n"
+                        + "Content-Type: application/octet-stream\r\n\r\n";
+                requestBodyStream.write(filePart.getBytes(StandardCharsets.UTF_8));
+                Files.copy(filePath, requestBodyStream);
+                requestBodyStream.write("\r\n".getBytes(StandardCharsets.UTF_8));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
+        try {
+            requestBodyStream.write(("--" + boundary + "--\r\n").getBytes(StandardCharsets.UTF_8));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return requestBodyStream.toByteArray();
     }
 
 
