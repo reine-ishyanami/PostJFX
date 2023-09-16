@@ -27,6 +27,7 @@ public class FileOrTextTableCell extends TableCell<ParamProperty, String> {
             case TEXT -> {
                 valueTextField.setText(row.getValue());
                 setGraphic(valueTextField);
+                valueTextField.requestFocus();
             }
             case FILE -> {
                 FileChooser fileChooser = new FileChooser();
@@ -39,17 +40,15 @@ public class FileOrTextTableCell extends TableCell<ParamProperty, String> {
     @Override
     protected void updateItem(String item, boolean empty) {
         super.updateItem(item, empty);
-        if (empty) {
-            setText(null);
-            setGraphic(null);
-        }
+        if (empty) setText(null);
+        else setText(item);
     }
 
     @Override
     public void commitEdit(String newValue) {
         super.commitEdit(newValue);
         setGraphic(null);
-        getTableView().getItems().get(getIndex()).setValue(newValue);
         setText(newValue);
+        getTableView().getItems().get(getIndex()).setValue(newValue);
     }
 }
