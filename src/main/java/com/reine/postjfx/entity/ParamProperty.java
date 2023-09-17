@@ -58,7 +58,6 @@ public class ParamProperty {
 
     public void setParamTypeEnum(ParamTypeEnum paramTypeEnum) {
         this.paramTypeEnum = paramTypeEnum;
-        System.out.println(paramTypeEnum.getName());
         setFileParam(paramTypeEnum.equals(ParamTypeEnum.FILE));
     }
 

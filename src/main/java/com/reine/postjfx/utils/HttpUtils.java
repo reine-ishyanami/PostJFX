@@ -39,8 +39,8 @@ public class HttpUtils {
      * @return
      */
     public static CompletableFuture<HttpResponse<String>> get(String url, List<ParamProperty> params, List<HeaderProperty> headers) {
-        String queryString = Optional.ofNullable(handleGetOrDeleteQueryParam(params)).orElse("");
-        String[] headerArray = Optional.ofNullable(handleGetHeader(headers)).orElse(defaultHeader);
+        String queryString = Optional.ofNullable(handleGetOrDeleteParam(params)).orElse("");
+        String[] headerArray = Optional.ofNullable(handleGetOrDeleteHeader(headers)).orElse(defaultHeader);
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(String.format("%s?%s", url, queryString)))
                 .headers(headerArray)
@@ -59,18 +59,18 @@ public class HttpUtils {
      * @return
      */
     public static CompletableFuture<HttpResponse<String>> post(String url, List<ParamProperty> params, List<HeaderProperty> headers, String body) {
-        String[] headerArray = Optional.ofNullable(handlePostHeader(params, headers)).orElse(defaultHeader);
+        String[] headerArray = Optional.ofNullable(handlePostOrPutHeader(params, headers)).orElse(defaultHeader);
         // 如果含有文件
         if (params.stream().anyMatch(paramProperty -> paramProperty.getParamTypeEnum().equals(ParamTypeEnum.FILE))) {
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(url))
                     .headers(headerArray)
-                    .POST(HttpRequest.BodyPublishers.ofByteArray(createMultipartRequestBody(params)))
+                    .POST(HttpRequest.BodyPublishers.ofByteArray(handlePostOrPutParam(params)))
                     .build();
             return client.sendAsync(request, HttpResponse.BodyHandlers.ofString());
             // 不包含文件
         } else {
-            String queryString = Optional.ofNullable(handleGetOrDeleteQueryParam(params)).orElse("");
+            String queryString = Optional.ofNullable(handleGetOrDeleteParam(params)).orElse("");
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(String.format("%s?%s", url, queryString)))
                     .headers(headerArray)
@@ -80,13 +80,64 @@ public class HttpUtils {
         }
     }
 
+
+    /**
+     * put请求
+     *
+     * @param url
+     * @param params
+     * @param headers
+     * @param body
+     * @return
+     */
+    public static CompletableFuture<HttpResponse<String>> put(String url, List<ParamProperty> params, List<HeaderProperty> headers, String body) {
+        String[] headerArray = Optional.ofNullable(handlePostOrPutHeader(params, headers)).orElse(defaultHeader);
+        // 如果含有文件
+        if (params.stream().anyMatch(paramProperty -> paramProperty.getParamTypeEnum().equals(ParamTypeEnum.FILE))) {
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(url))
+                    .headers(headerArray)
+                    .PUT(HttpRequest.BodyPublishers.ofByteArray(handlePostOrPutParam(params)))
+                    .build();
+            return client.sendAsync(request, HttpResponse.BodyHandlers.ofString());
+        // 不包含文件
+        } else {
+            String queryString = Optional.ofNullable(handleGetOrDeleteParam(params)).orElse("");
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(String.format("%s?%s", url, queryString)))
+                    .headers(headerArray)
+                    .PUT(HttpRequest.BodyPublishers.ofString(body))
+                    .build();
+            return client.sendAsync(request, HttpResponse.BodyHandlers.ofString());
+        }
+    }
+
+    /**
+     * delete请求
+     *
+     * @param url
+     * @param params
+     * @param headers
+     * @return
+     */
+    public static CompletableFuture<HttpResponse<String>> delete(String url, List<ParamProperty> params, List<HeaderProperty> headers) {
+        String queryString = Optional.ofNullable(handleGetOrDeleteParam(params)).orElse("");
+        String[] headerArray = Optional.ofNullable(handleGetOrDeleteHeader(headers)).orElse(defaultHeader);
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(String.format("%s?%s", url, queryString)))
+                .headers(headerArray)
+                .DELETE()
+                .build();
+        return client.sendAsync(request, HttpResponse.BodyHandlers.ofString());
+    }
+
     /**
      * 解析Get请求或Delete请求的请求参数
      *
      * @param params
      * @return
      */
-    private static String handleGetOrDeleteQueryParam(List<ParamProperty> params) {
+    private static String handleGetOrDeleteParam(List<ParamProperty> params) {
         if (params != null)
             return params.stream().map(paramProperty -> {
                 String key = paramProperty.getKey();
@@ -102,7 +153,7 @@ public class HttpUtils {
      * @param headers
      * @return
      */
-    private static String[] handleGetHeader(List<HeaderProperty> headers) {
+    private static String[] handleGetOrDeleteHeader(List<HeaderProperty> headers) {
         if (!headers.isEmpty())
             return
                     headers.stream()
@@ -123,9 +174,9 @@ public class HttpUtils {
      * @param headers
      * @return
      */
-    private static String[] handlePostHeader(List<ParamProperty> params, List<HeaderProperty> headers) {
+    private static String[] handlePostOrPutHeader(List<ParamProperty> params, List<HeaderProperty> headers) {
         if (!headers.isEmpty()) {
-            return handleGetHeader(headers);
+            return handleGetOrDeleteHeader(headers);
         } else {
             if (params.stream().anyMatch(paramProperty -> paramProperty.getParamTypeEnum().equals(ParamTypeEnum.FILE))) {
                 return new String[]{"Content-Type", "multipart/form-data; boundary=boundary"};
@@ -140,7 +191,7 @@ public class HttpUtils {
      * @param params 请求参数
      * @return
      */
-    private static byte[] createMultipartRequestBody(List<ParamProperty> params) {
+    private static byte[] handlePostOrPutParam(List<ParamProperty> params) {
         // 定义boundary
         String boundary = "boundary";
 
