@@ -13,7 +13,7 @@ public class ParamProperty {
 
     private final SimpleStringProperty value = new SimpleStringProperty();
 
-    private final SimpleBooleanProperty fileParam = new SimpleBooleanProperty();
+    private final SimpleBooleanProperty fileParam = new SimpleBooleanProperty(false);
 
     private ParamTypeEnum paramTypeEnum = ParamTypeEnum.TEXT;
 
