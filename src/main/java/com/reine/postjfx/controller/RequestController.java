@@ -1,10 +1,7 @@
 package com.reine.postjfx.controller;
 
 import com.reine.postjfx.App;
-import com.reine.postjfx.component.AddButton;
-import com.reine.postjfx.component.CustomComboBoxTableCell;
-import com.reine.postjfx.component.FileOrTextTableCell;
-import com.reine.postjfx.component.SubButton;
+import com.reine.postjfx.component.*;
 import com.reine.postjfx.entity.HeaderProperty;
 import com.reine.postjfx.entity.ParamProperty;
 import com.reine.postjfx.entity.Result;
@@ -16,7 +13,6 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.VBox;
@@ -119,17 +115,7 @@ public class RequestController extends VBox {
         headersTableView.setColumnResizePolicy(param -> true);
         headersTableView.getItems().addAll(new HeaderProperty(HeaderTypeEnum.CONTENT_TYPE, "application/json"));
         nameColOfHeadersTableView.setCellValueFactory(new PropertyValueFactory<>("headerTypeEnum"));
-        nameColOfHeadersTableView.setCellFactory(ComboBoxTableCell.forTableColumn(new StringConverter<>() {
-            @Override
-            public String toString(HeaderTypeEnum object) {
-                return object != null ? object.getName() : "";
-            }
-
-            @Override
-            public HeaderTypeEnum fromString(String string) {
-                return HeaderTypeEnum.valueOf(string);
-            }
-        }, HeaderTypeEnum.values()));
+        nameColOfHeadersTableView.setCellFactory(param -> new ComboBoxHeadersTableCell());
         valueColOfHeadersTableView.setCellValueFactory(new PropertyValueFactory<>("value"));
         valueColOfHeadersTableView.setCellFactory(TextFieldTableCell.forTableColumn());
         addRowOfHeadersTableView.setCellFactory(param -> new AddButton<>());
@@ -164,7 +150,7 @@ public class RequestController extends VBox {
         valueColOfParamsTableView.setCellValueFactory(new PropertyValueFactory<>("value"));
         valueColOfParamsTableView.setCellFactory(param -> new FileOrTextTableCell());
         typeColOfParamsTableView.setCellValueFactory(new PropertyValueFactory<>("paramTypeEnum"));
-        typeColOfParamsTableView.setCellFactory(param -> new CustomComboBoxTableCell());
+        typeColOfParamsTableView.setCellFactory(param -> new ComboBoxParamsTableCell());
         addRowOfParamsTableView.setCellFactory(param -> new AddButton<>());
         removeRowOfParamsTableView.setCellFactory(param -> new SubButton<>());
     }

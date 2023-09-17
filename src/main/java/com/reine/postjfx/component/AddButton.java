@@ -20,7 +20,9 @@ public class AddButton<T> extends TableCell<T, Void> {
     @Override
     protected void updateItem(Void item, boolean empty) {
         super.updateItem(item, empty);
-        if (!empty) {
+        if (empty) {
+            this.setGraphic(null);
+        } else {
             HBox root = new HBox();
             root.setAlignment(Pos.CENTER);
             ImageView imageView = new ImageView("/image/add.png");
@@ -36,8 +38,6 @@ public class AddButton<T> extends TableCell<T, Void> {
                     throw new RuntimeException(e);
                 }
             });
-        } else {
-            this.setGraphic(null);
         }
     }
 }
