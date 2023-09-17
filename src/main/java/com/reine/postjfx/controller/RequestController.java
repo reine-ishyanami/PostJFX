@@ -19,6 +19,7 @@ import javafx.scene.layout.VBox;
 import javafx.util.StringConverter;
 
 import java.io.IOException;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -60,7 +61,7 @@ public class RequestController extends VBox {
         ObservableList<HeaderProperty> headers = headersTableView.getItems();
         headers.removeIf(headerProperty -> headerProperty.getHeaderTypeEnum() == null);
         ObservableList<ParamProperty> params = paramsTableView.getItems();
-        params.removeIf(paramProperty -> paramProperty.getKey() == null);
+        params.removeIf(paramProperty -> paramProperty.getKey() == null || Objects.equals(paramProperty.getKey(), ""));
         switch (item) {
             case GET -> HttpUtils.get(url, params, headers)
                     .thenAccept((response) -> responseController.showResult(new Result(response.statusCode(), response.body())))
