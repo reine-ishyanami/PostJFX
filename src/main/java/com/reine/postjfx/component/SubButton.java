@@ -2,7 +2,6 @@ package com.reine.postjfx.component;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.TableCell;
-import javafx.scene.control.TableView;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
@@ -11,17 +10,14 @@ import javafx.scene.layout.HBox;
  *
  * @author reine
  */
-public class SubButton<T, S> extends TableCell<T, S> {
+public class SubButton<T> extends TableCell<T, Void> {
 
-    private final TableView<T> tableView;
-
-    public SubButton(TableView<T> tableView) {
+    public SubButton() {
         super();
-        this.tableView = tableView;
     }
 
     @Override
-    protected void updateItem(S item, boolean empty) {
+    protected void updateItem(Void item, boolean empty) {
         super.updateItem(item, empty);
         if (!empty) {
             HBox root = new HBox();
@@ -32,8 +28,7 @@ public class SubButton<T, S> extends TableCell<T, S> {
             root.getChildren().add(imageView);
             this.setGraphic(root);
             root.setOnMouseClicked(event -> {
-                if (tableView.getItems().size() > 1)
-                    tableView.getItems().remove(this.getIndex());
+                if (getTableView().getItems().size() > 1) getTableView().getItems().remove(getIndex());
             });
         } else {
             this.setGraphic(null);
