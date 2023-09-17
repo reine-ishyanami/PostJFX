@@ -2,7 +2,6 @@ package com.reine.postjfx.component;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.TableCell;
-import javafx.scene.control.TableView;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
@@ -11,21 +10,15 @@ import javafx.scene.layout.HBox;
  *
  * @author reine
  */
-public class AddButton<T, S> extends TableCell<T, S> {
+public class AddButton<T> extends TableCell<T, Void> {
 
-    private final TableView<T> tableView;
-
-    private final Class<T> itemType;
-
-    public AddButton(TableView<T> tableView, Class<T> itemType) {
+    public AddButton() {
         super();
-        this.tableView = tableView;
-        this.itemType = itemType;
     }
 
-
+    @SuppressWarnings("unchecked")
     @Override
-    protected void updateItem(S item, boolean empty) {
+    protected void updateItem(Void item, boolean empty) {
         super.updateItem(item, empty);
         if (!empty) {
             HBox root = new HBox();
@@ -37,7 +30,8 @@ public class AddButton<T, S> extends TableCell<T, S> {
             this.setGraphic(root);
             root.setOnMouseClicked(event -> {
                 try {
-                    tableView.getItems().add(itemType.getDeclaredConstructor().newInstance());
+                    Class<?> rowType = getTableRow().getItem().getClass();
+                    getTableView().getItems().add((T) rowType.cast(rowType.getDeclaredConstructor().newInstance()));
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
