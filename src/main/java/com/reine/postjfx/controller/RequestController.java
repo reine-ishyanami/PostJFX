@@ -126,7 +126,6 @@ public class RequestController extends VBox {
      */
     void initHeadersTableView() {
         headersTableView.setColumnResizePolicy(param -> true);
-        headersTableView.getItems().addAll(new HeaderProperty(HeaderTypeEnum.CONTENT_TYPE, "application/json"));
         nameColOfHeadersTableView.setCellValueFactory(new PropertyValueFactory<>("headerTypeEnum"));
         nameColOfHeadersTableView.setCellFactory(param -> new ComboBoxHeadersTableCell());
         valueColOfHeadersTableView.setCellValueFactory(new PropertyValueFactory<>("value"));
@@ -167,7 +166,6 @@ public class RequestController extends VBox {
      */
     void initParamsTableView() {
         paramsTableView.setColumnResizePolicy(param -> true);
-        paramsTableView.getItems().add(new ParamProperty("", "", ParamTypeEnum.TEXT));
         keyColOfParamsTableView.setCellValueFactory(new PropertyValueFactory<>("key"));
         keyColOfParamsTableView.setCellFactory(TextFieldTableCell.forTableColumn());
         valueColOfParamsTableView.setCellValueFactory(new PropertyValueFactory<>("value"));
@@ -185,7 +183,7 @@ public class RequestController extends VBox {
     @FXML
     void addColIfNoneOfParamsTableView() {
         if (paramsTableView.getItems().isEmpty()) {
-            paramsTableView.getItems().add(new ParamProperty());
+            paramsTableView.getItems().add(new ParamProperty("", "", ParamTypeEnum.TEXT));
         }
     }
 
