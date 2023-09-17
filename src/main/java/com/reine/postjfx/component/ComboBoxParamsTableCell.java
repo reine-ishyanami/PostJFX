@@ -7,13 +7,14 @@ import javafx.scene.control.TableCell;
 import javafx.util.StringConverter;
 
 /**
+ * 请求参数表中的下拉选择框
  * @author reine
  */
-public class CustomComboBoxTableCell extends TableCell<ParamProperty, ParamTypeEnum> {
+public class ComboBoxParamsTableCell extends TableCell<ParamProperty, ParamTypeEnum> {
 
     private final ComboBox<ParamTypeEnum> comboBox = new ComboBox<>();
 
-    public CustomComboBoxTableCell() {
+    public ComboBoxParamsTableCell() {
         comboBox.getItems().addAll(ParamTypeEnum.values());
         comboBox.setConverter(new StringConverter<>() {
             @Override
@@ -38,7 +39,7 @@ public class CustomComboBoxTableCell extends TableCell<ParamProperty, ParamTypeE
     protected void updateItem(ParamTypeEnum item, boolean empty) {
         super.updateItem(item, empty);
         setGraphic(null);
-        if (empty) setText(null);
+        if (empty || item == null) setText(null);
         else setText(item.getName());
     }
 

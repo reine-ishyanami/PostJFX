@@ -8,6 +8,7 @@ import javafx.stage.FileChooser;
 import java.util.Optional;
 
 /**
+ * 文本与文件输入切换
  * @author reine
  */
 public class FileOrTextTableCell extends TableCell<ParamProperty, String> {
@@ -40,7 +41,7 @@ public class FileOrTextTableCell extends TableCell<ParamProperty, String> {
     @Override
     protected void updateItem(String item, boolean empty) {
         super.updateItem(item, empty);
-        if (empty) setText(null);
+        if (empty || item == null) setText(null);
         else setText(item);
     }
 

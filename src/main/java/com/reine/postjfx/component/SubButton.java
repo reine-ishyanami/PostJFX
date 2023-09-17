@@ -19,7 +19,9 @@ public class SubButton<T> extends TableCell<T, Void> {
     @Override
     protected void updateItem(Void item, boolean empty) {
         super.updateItem(item, empty);
-        if (!empty) {
+        if (empty) {
+            this.setGraphic(null);
+        } else {
             HBox root = new HBox();
             root.setAlignment(Pos.CENTER);
             ImageView imageView = new ImageView("/image/sub.png");
@@ -30,8 +32,6 @@ public class SubButton<T> extends TableCell<T, Void> {
             root.setOnMouseClicked(event -> {
                 if (getTableView().getItems().size() > 1) getTableView().getItems().remove(getIndex());
             });
-        } else {
-            this.setGraphic(null);
         }
     }
 }
