@@ -7,7 +7,7 @@ plugins {
 }
 
 group 'com.reine'
-version '1.0-SNAPSHOT'
+version '1.0.0'
 
 repositories {
     mavenCentral()
@@ -20,13 +20,13 @@ ext {
 sourceCompatibility = '17'
 targetCompatibility = '17'
 
-tasks.withType(JavaCompile) {
+tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
 }
 
 application {
     mainModule = 'com.reine.postjfx'
-    mainClass = 'com.reine.postjfx.HelloApplication'
+    mainClass = 'com.reine.postjfx.App'
 }
 
 javafx {
