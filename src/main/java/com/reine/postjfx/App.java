@@ -7,7 +7,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class HelloApplication extends Application {
+public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         MainController mainController = new MainController();

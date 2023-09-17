@@ -3,7 +3,7 @@ package com.reine.postjfx.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.reine.postjfx.HelloApplication;
+import com.reine.postjfx.App;
 import com.reine.postjfx.entity.Result;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -29,7 +29,7 @@ public class ResponseController extends VBox {
     private final ObjectMapper mapper = new ObjectMapper();
 
     public ResponseController() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("response-data.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("response-data.fxml"));
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
         fxmlLoader.load();

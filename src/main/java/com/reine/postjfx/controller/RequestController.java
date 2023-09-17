@@ -1,6 +1,6 @@
 package com.reine.postjfx.controller;
 
-import com.reine.postjfx.HelloApplication;
+import com.reine.postjfx.App;
 import com.reine.postjfx.component.AddButton;
 import com.reine.postjfx.component.CustomComboBoxTableCell;
 import com.reine.postjfx.component.FileOrTextTableCell;
@@ -46,7 +46,7 @@ public class RequestController extends VBox {
     private ResponseController responseController;
 
     public RequestController() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("request-form.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("request-form.fxml"));
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
         fxmlLoader.load();
@@ -132,8 +132,8 @@ public class RequestController extends VBox {
         }, HeaderTypeEnum.values()));
         valueColOfHeadersTableView.setCellValueFactory(new PropertyValueFactory<>("value"));
         valueColOfHeadersTableView.setCellFactory(TextFieldTableCell.forTableColumn());
-        addRowOfHeadersTableView.setCellFactory(param -> new AddButton<>(headersTableView, HeaderProperty.class));
-        removeRowOfHeadersTableView.setCellFactory(param -> new SubButton<>(headersTableView));
+        addRowOfHeadersTableView.setCellFactory(param -> new AddButton<>());
+        removeRowOfHeadersTableView.setCellFactory(param -> new SubButton<>());
     }
 
 
@@ -165,8 +165,8 @@ public class RequestController extends VBox {
         valueColOfParamsTableView.setCellFactory(param -> new FileOrTextTableCell());
         typeColOfParamsTableView.setCellValueFactory(new PropertyValueFactory<>("paramTypeEnum"));
         typeColOfParamsTableView.setCellFactory(param -> new CustomComboBoxTableCell());
-        addRowOfParamsTableView.setCellFactory(param -> new AddButton<>(paramsTableView, ParamProperty.class));
-        removeRowOfParamsTableView.setCellFactory(param -> new SubButton<>(paramsTableView));
+        addRowOfParamsTableView.setCellFactory(param -> new AddButton<>());
+        removeRowOfParamsTableView.setCellFactory(param -> new SubButton<>());
     }
 
     @FXML
