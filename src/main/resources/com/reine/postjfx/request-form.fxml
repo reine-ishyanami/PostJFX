@@ -30,7 +30,7 @@
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="800.0">
                             <children>
                                 <TableView fx:id="headersTableView" editable="true" prefHeight="180.0"
-                                           prefWidth="800.0">
+                                           prefWidth="800.0" onMouseClicked="#addColIfNoneOfHeadersTableView">
                                     <columns>
                                         <TableColumn fx:id="nameColOfHeadersTableView" prefWidth="370.0"
                                                      sortable="false"
@@ -54,7 +54,8 @@
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="800.0">
                             <children>
-                                <TableView fx:id="paramsTableView" editable="true" prefHeight="180.0" prefWidth="800.0">
+                                <TableView fx:id="paramsTableView" editable="true" prefHeight="180.0"
+                                           prefWidth="800.0" onMouseClicked="#addColIfNoneOfParamsTableView">
                                     <columns>
                                         <TableColumn fx:id="keyColOfParamsTableView" prefWidth="370.0" sortable="false"
                                                      text="参数名"/>

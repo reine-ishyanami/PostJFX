@@ -75,6 +75,18 @@ public class RequestController extends VBox {
                         responseController.showResult(new Result(500, throwable.getMessage()));
                         return null;
                     });
+            case PUT -> HttpUtils.put(url, params, headers, bodyTextArea.getText())
+                    .thenAccept(response -> responseController.showResult(new Result(response.statusCode(), response.body())))
+                    .exceptionally(throwable -> {
+                        responseController.showResult(new Result(500, throwable.getMessage()));
+                        return null;
+                    });
+            case DELETE -> HttpUtils.delete(url, params, headers)
+                    .thenAccept((response) -> responseController.showResult(new Result(response.statusCode(), response.body())))
+                    .exceptionally(throwable -> {
+                        responseController.showResult(new Result(500, throwable.getMessage()));
+                        return null;
+                    });
         }
     }
 
@@ -123,6 +135,16 @@ public class RequestController extends VBox {
         removeRowOfHeadersTableView.setCellFactory(param -> new SubButton<>());
     }
 
+    /**
+     * 如果请求标头表为空，则点击添加一行
+     */
+    @FXML
+    void addColIfNoneOfHeadersTableView() {
+        if (headersTableView.getItems().isEmpty()) {
+            headersTableView.getItems().add(new HeaderProperty());
+        }
+    }
+
 
     @FXML
     private TableColumn<ParamProperty, String> keyColOfParamsTableView;
@@ -154,6 +176,17 @@ public class RequestController extends VBox {
         typeColOfParamsTableView.setCellFactory(param -> new ComboBoxParamsTableCell());
         addRowOfParamsTableView.setCellFactory(param -> new AddButton<>());
         removeRowOfParamsTableView.setCellFactory(param -> new SubButton<>());
+    }
+
+
+    /**
+     * 如果请求参数表为空，则点击添加一行
+     */
+    @FXML
+    void addColIfNoneOfParamsTableView() {
+        if (paramsTableView.getItems().isEmpty()) {
+            paramsTableView.getItems().add(new ParamProperty());
+        }
     }
 
     @FXML
