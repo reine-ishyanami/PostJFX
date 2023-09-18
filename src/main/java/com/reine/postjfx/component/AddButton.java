@@ -36,6 +36,7 @@ public class AddButton<T> extends TableCell<T, Void> {
             root.getChildren().add(imageView);
             this.setGraphic(root);
             root.setOnMouseClicked(event -> {
+                event.consume();
                 try {
                     Class<?> rowType = getTableRow().getItem().getClass();
                     getTableView().getItems().add((T) rowType.cast(rowType.getDeclaredConstructor().newInstance()));
