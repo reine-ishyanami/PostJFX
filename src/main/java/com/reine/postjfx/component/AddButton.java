@@ -34,6 +34,7 @@ public class AddButton<T> extends TableCell<T, Void> {
             imageView.setFitWidth(10);
             imageView.setFitHeight(10);
             root.getChildren().add(imageView);
+            root.setPickOnBounds(true);
             this.setGraphic(root);
             root.setOnMouseClicked(event -> {
                 event.consume();
