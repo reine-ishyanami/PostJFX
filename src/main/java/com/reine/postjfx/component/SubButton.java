@@ -35,7 +35,8 @@ public class SubButton<T> extends TableCell<T, Void> {
             root.getChildren().add(imageView);
             this.setGraphic(root);
             root.setOnMouseClicked(event -> {
-                if (getTableView().getItems().size() > 1) getTableView().getItems().remove(getIndex());
+                event.consume();
+                getTableView().getItems().remove(getIndex());
             });
         }
     }
