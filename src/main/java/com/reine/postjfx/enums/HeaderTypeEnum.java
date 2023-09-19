@@ -1,12 +1,17 @@
 package com.reine.postjfx.enums;
 
 
+import java.util.Arrays;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
 /**
  * 请求头枚举
  *
  * @author reine
  */
-public enum HeaderTypeEnum {
+public enum HeaderTypeEnum{
     ACCEPT("Accept"),
     ACCEPT_CHARSET("Accept-Charset"),
     ACCEPT_ENCODING("Accept-Encoding"),
@@ -57,6 +62,13 @@ public enum HeaderTypeEnum {
 
     public String getName() {
         return name;
+    }
+
+    private static final Map<String, HeaderTypeEnum> HEADER_TYPE_ENUM_MAP =
+            Arrays.stream(HeaderTypeEnum.values()).collect(Collectors.toMap(HeaderTypeEnum::getName, Function.identity()));
+
+    public static HeaderTypeEnum of(String name){
+        return HEADER_TYPE_ENUM_MAP.get(name);
     }
 
 }
