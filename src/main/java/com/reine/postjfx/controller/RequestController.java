@@ -149,10 +149,10 @@ public class RequestController extends VBox {
     private TableColumn<ParamProperty, String> keyColOfParamsTableView;
 
     @FXML
-    private TableColumn<ParamProperty, String> valueColOfParamsTableView;
+    private TableColumn<ParamProperty, ParamTypeEnum> typeColOfParamsTableView;
 
     @FXML
-    private TableColumn<ParamProperty, ParamTypeEnum> typeColOfParamsTableView;
+    private TableColumn<ParamProperty, String> valueColOfParamsTableView;
 
     @FXML
     private TableColumn<ParamProperty, Void> addRowOfParamsTableView;
@@ -168,10 +168,10 @@ public class RequestController extends VBox {
         paramsTableView.setColumnResizePolicy(param -> true);
         keyColOfParamsTableView.setCellValueFactory(new PropertyValueFactory<>("key"));
         keyColOfParamsTableView.setCellFactory(TextFieldTableCell.forTableColumn());
-        valueColOfParamsTableView.setCellValueFactory(new PropertyValueFactory<>("value"));
-        valueColOfParamsTableView.setCellFactory(param -> new FileOrTextTableCell());
         typeColOfParamsTableView.setCellValueFactory(new PropertyValueFactory<>("paramTypeEnum"));
         typeColOfParamsTableView.setCellFactory(param -> new ComboBoxParamsTableCell());
+        valueColOfParamsTableView.setCellValueFactory(new PropertyValueFactory<>("value"));
+        valueColOfParamsTableView.setCellFactory(param -> new FileOrTextTableCell());
         addRowOfParamsTableView.setCellFactory(param -> new AddButton<>());
         removeRowOfParamsTableView.setCellFactory(param -> new SubButton<>());
     }
