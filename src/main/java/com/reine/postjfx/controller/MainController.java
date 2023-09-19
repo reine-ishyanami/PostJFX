@@ -28,6 +28,7 @@ public class MainController extends SplitPane {
     @FXML
     void initialize() {
         requestController.setResponseController(responseController);
+        responseController.setMainController(this);
     }
 
 
