@@ -40,14 +40,14 @@ public class RequestController extends VBox {
     @FXML
     private TextArea bodyTextArea;
 
-    private ResponseController responseController;
-
     public RequestController() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("request-form.fxml"));
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
         fxmlLoader.load();
     }
+
+    private ResponseController responseController;
 
     public void setResponseController(ResponseController responseController) {
         this.responseController = responseController;
