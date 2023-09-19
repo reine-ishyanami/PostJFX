@@ -1,5 +1,5 @@
 name: Gradle JPackage Build
-on: [ push, pull_request ]
+on: workflow_dispatch
 jobs:
   build:
     runs-on: ${{ matrix.os }}
