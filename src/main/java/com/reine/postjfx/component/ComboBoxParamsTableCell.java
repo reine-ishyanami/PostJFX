@@ -24,7 +24,7 @@ public class ComboBoxParamsTableCell extends TableCell<ParamProperty, ParamTypeE
 
             @Override
             public ParamTypeEnum fromString(String string) {
-                return ParamTypeEnum.valueOf(string);
+                return ParamTypeEnum.of(string);
             }
         });
 

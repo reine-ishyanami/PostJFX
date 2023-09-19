@@ -24,7 +24,7 @@ public class ComboBoxHeadersTableCell extends TableCell<HeaderProperty, HeaderTy
 
             @Override
             public HeaderTypeEnum fromString(String string) {
-                return HeaderTypeEnum.valueOf(string);
+                return HeaderTypeEnum.of(string);
             }
         });
 
