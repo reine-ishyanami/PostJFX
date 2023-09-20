@@ -10,7 +10,7 @@ import java.io.IOException;
 /**
  * @author reine
  */
-public class MainController extends SplitPane {
+public class PostPageController extends SplitPane {
 
     @FXML
     private RequestController requestController;
@@ -18,8 +18,8 @@ public class MainController extends SplitPane {
     @FXML
     private ResponseController responseController;
 
-    public MainController() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("main.fxml"));
+    public PostPageController() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("post-page.fxml"));
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
         fxmlLoader.load();
