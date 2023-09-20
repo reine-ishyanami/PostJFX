@@ -12,4 +12,5 @@ module com.reine.postjfx {
     exports com.reine.postjfx.controller;
     exports com.reine.postjfx.entity;
     exports com.reine.postjfx.enums;
+    exports com.reine.postjfx.component;
 }
