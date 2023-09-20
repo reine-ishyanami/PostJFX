@@ -30,17 +30,17 @@ public class ResponseController extends VBox {
     @FXML
     private TextArea dataTextArea;
 
-    private MainController mainController;
+    private PostPageController postPageController;
 
-    public void setMainController(MainController mainController) {
-        this.mainController = mainController;
+    public void setMainController(PostPageController postPageController) {
+        this.postPageController = postPageController;
         // 绑定计算
         // 当拖动分割面板的分割条时，下方响应内容区域高度也会随之改变
         // 计算规则 【 (- (分割条所占区域) + 1.0) * (主界面高度) - (响应码区域高度)】
-        dataTextArea.prefHeightProperty().bind(mainController.getDividers().get(0).positionProperty()
+        dataTextArea.prefHeightProperty().bind(postPageController.getDividers().get(0).positionProperty()
                 .negate()
                 .add(1.0)
-                .multiply(mainController.getPrefHeight())
+                .multiply(postPageController.getPrefHeight())
                 .subtract(tip.getPrefHeight()));
     }
 

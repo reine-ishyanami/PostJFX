@@ -1,0 +1,49 @@
+package com.reine.postjfx.controller;
+
+import com.reine.postjfx.App;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
+import javafx.scene.image.ImageView;
+
+import java.io.IOException;
+
+/**
+ * @author reine
+ */
+public class PostTabController extends TabPane {
+
+    @FXML
+    private Tab addPostPageTab;
+
+    public PostTabController() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("post-tab.fxml"));
+        fxmlLoader.setRoot(this);
+        fxmlLoader.setController(this);
+        fxmlLoader.load();
+    }
+
+    /**
+     * 添加一个tab
+     */
+    @FXML
+    void addPostPage() {
+        try {
+            Tab tab = new Tab();
+            tab.setText("New Tab");
+            tab.setContent(new PostPageController());
+            ObservableList<Tab> tabs = this.getTabs();
+            Tab addTabButton = tabs.remove(tabs.size() - 1);
+            tabs.addAll(tab, addTabButton);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @FXML
+    void initialize() {
+
+    }
+}
