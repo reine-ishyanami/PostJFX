@@ -8,7 +8,6 @@ import com.reine.postjfx.entity.Result;
 import com.reine.postjfx.enums.HeaderTypeEnum;
 import com.reine.postjfx.enums.ParamTypeEnum;
 import com.reine.postjfx.enums.RequestMethodEnum;
-import com.reine.postjfx.utils.HttpUtils;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -56,7 +55,10 @@ public class RequestController extends VBox {
     @FXML
     void sendRequest() {
         String url = urlTextField.getText().split("\\?")[0];
-        if (!isUri(url)) responseController.showResult(new Result(500, "非法地址"));
+        if (!isHttpUri(url)) {
+            responseController.showResult(new Result(500, "非法地址"));
+            return;
+        }
         RequestMethodEnum httpMethod = methodChoiceBox.getSelectionModel().getSelectedItem();
         ObservableList<HeaderProperty> headers = headersTableView.getItems();
         headers.removeIf(headerProperty -> headerProperty.getHeaderTypeEnum() == null);
@@ -75,8 +77,8 @@ public class RequestController extends VBox {
         urlTextField.clear();
     }
 
-    private boolean isUri(String input) {
-        String regex = "^(?i)(?:([a-z]+):)(?:(?://)([^/?#]*))?([^?#]*)(?:\\?([^#]*))?(?:#(.*))?$";
+    private boolean isHttpUri(String input) {
+        String regex = "^(http|https)://[a-zA-Z0-9.-]+(:[0-9]+)?(/[a-zA-Z0-9/]+)*(\\?[a-zA-Z0-9&=]+)?$";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(input);
         return matcher.matches();
