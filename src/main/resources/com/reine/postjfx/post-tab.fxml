@@ -1,17 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.reine.postjfx.controller.PostPageController?>
-<?import javafx.scene.control.*?>
-<?import com.reine.postjfx.component.EditableTab?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
 <fx:root type="TabPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
          xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17.0.6">
     <tabs>
-        <EditableTab fx:id="initTab">
-            <PostPageController/>
-        </EditableTab>
         <Tab closable="false">
             <graphic>
-                <Button onAction="#addPostPage" text="+"/>
+                <Button fx:id="addTabButton" onAction="#addPostPage" text="+" focusTraversable="false"/>
             </graphic>
         </Tab>
     </tabs>

@@ -8,6 +8,7 @@ import javafx.scene.control.SplitPane;
 import java.io.IOException;
 
 /**
+ * 具体单个请求页面
  * @author reine
  */
 public class PostPageController extends SplitPane {
