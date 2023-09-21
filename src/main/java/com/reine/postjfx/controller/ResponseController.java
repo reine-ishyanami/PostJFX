@@ -17,6 +17,7 @@ import javafx.scene.paint.Color;
 import java.io.IOException;
 
 /**
+ * 下方响应内容
  * @author reine
  */
 public class ResponseController extends VBox {

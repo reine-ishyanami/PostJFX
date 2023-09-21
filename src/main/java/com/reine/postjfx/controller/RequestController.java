@@ -22,6 +22,10 @@ import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * 上方操作区域
+ * @author reine
+ */
 public class RequestController extends VBox {
 
     @FXML

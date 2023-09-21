@@ -9,6 +9,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.StackPane;
 
 /**
+ * 可编辑选项卡标题的选项卡
  * @author reine
  */
 public class EditableTab extends Tab {
@@ -42,6 +43,8 @@ public class EditableTab extends Tab {
             if (event.getButton().equals(MouseButton.PRIMARY) && event.getClickCount() == 2) {
                 titleLabel.setVisible(false);
                 titleTextField.setVisible(true);
+                titleTextField.requestFocus();
+                titleTextField.selectAll();
             }
         });
 

@@ -6,6 +6,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
+ * 请求参数类型枚举
  * @author reine
  */
 public enum ParamTypeEnum {
