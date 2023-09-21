@@ -31,6 +31,11 @@ public class HttpUtils {
             "User-Agent", "PostJFX/1.1.0",
             "Accept", "*/*"
     };
+    private static final String[] defaultHeaderWithBody = new String[]{
+            "User-Agent", "PostJFX/1.1.0",
+            "Accept", "*/*",
+            "Content-Type", "application/json"
+    };
 
     /**
      * get请求
@@ -61,7 +66,7 @@ public class HttpUtils {
      * @return
      */
     public static CompletableFuture<HttpResponse<String>> post(String url, List<ParamProperty> params, List<HeaderProperty> headers, String body) {
-        String[] headerArray = Optional.ofNullable(handlePostOrPutHeader(params, headers)).orElse(defaultHeader);
+        String[] headerArray = Optional.ofNullable(handlePostOrPutHeader(params, headers, body)).orElse(defaultHeader);
         // 如果含有文件
         if (params.stream().anyMatch(paramProperty -> paramProperty.getParamTypeEnum().equals(ParamTypeEnum.FILE))) {
             HttpRequest request = HttpRequest.newBuilder()
@@ -93,7 +98,7 @@ public class HttpUtils {
      * @return
      */
     public static CompletableFuture<HttpResponse<String>> put(String url, List<ParamProperty> params, List<HeaderProperty> headers, String body) {
-        String[] headerArray = Optional.ofNullable(handlePostOrPutHeader(params, headers)).orElse(defaultHeader);
+        String[] headerArray = Optional.ofNullable(handlePostOrPutHeader(params, headers, body)).orElse(defaultHeader);
         // 如果含有文件
         if (params.stream().anyMatch(paramProperty -> paramProperty.getParamTypeEnum().equals(ParamTypeEnum.FILE))) {
             HttpRequest request = HttpRequest.newBuilder()
@@ -166,7 +171,7 @@ public class HttpUtils {
                             })
                             .reduce((a, b) -> Stream.concat(Arrays.stream(a), Arrays.stream(b)).toArray(String[]::new))
                             .orElse(new String[]{});
-        else return null;
+        else return defaultHeader;
     }
 
     /**
@@ -174,9 +179,13 @@ public class HttpUtils {
      *
      * @param params
      * @param headers
+     * @param body
      * @return
      */
-    private static String[] handlePostOrPutHeader(List<ParamProperty> params, List<HeaderProperty> headers) {
+    private static String[] handlePostOrPutHeader(List<ParamProperty> params, List<HeaderProperty> headers, String body) {
+        if (!body.isEmpty()) {
+            return defaultHeaderWithBody;
+        }
         if (!headers.isEmpty()) {
             return handleGetOrDeleteHeader(headers);
         } else {
