@@ -27,8 +27,10 @@ public class HttpUtils {
 
     private static final HttpClient client = HttpClient.newHttpClient();
 
-    private static final String[] defaultHeader = new String[]{"Content-Type", "application/json"};
-
+    private static final String[] defaultHeader = new String[]{
+            "User-Agent", "PostJFX/1.1.0",
+            "Accept", "*/*"
+    };
 
     /**
      * get请求
@@ -100,7 +102,7 @@ public class HttpUtils {
                     .PUT(HttpRequest.BodyPublishers.ofByteArray(handlePostOrPutParam(params)))
                     .build();
             return client.sendAsync(request, HttpResponse.BodyHandlers.ofString());
-        // 不包含文件
+            // 不包含文件
         } else {
             String queryString = Optional.ofNullable(handleGetOrDeleteParam(params)).orElse("");
             HttpRequest request = HttpRequest.newBuilder()
