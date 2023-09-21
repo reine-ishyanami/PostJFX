@@ -72,7 +72,6 @@ public class ResponseController extends VBox {
                 codeLabel.setText(String.valueOf(i));
                 dataTextArea.setText(result.message());
             });
-            throw new RuntimeException(e);
         }
     }
 

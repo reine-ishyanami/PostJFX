@@ -57,37 +57,17 @@ public class RequestController extends VBox {
     void sendRequest() {
         String url = urlTextField.getText().split("\\?")[0];
         if (!isUri(url)) responseController.showResult(new Result(500, "非法地址"));
-        RequestMethodEnum item = methodChoiceBox.getSelectionModel().getSelectedItem();
+        RequestMethodEnum httpMethod = methodChoiceBox.getSelectionModel().getSelectedItem();
         ObservableList<HeaderProperty> headers = headersTableView.getItems();
         headers.removeIf(headerProperty -> headerProperty.getHeaderTypeEnum() == null);
         ObservableList<ParamProperty> params = paramsTableView.getItems();
         params.removeIf(paramProperty -> paramProperty.getKey() == null || Objects.equals(paramProperty.getKey(), ""));
-        switch (item) {
-            case GET -> HttpUtils.get(url, params, headers)
-                    .thenAccept((response) -> responseController.showResult(new Result(response.statusCode(), response.body())))
-                    .exceptionally(throwable -> {
-                        responseController.showResult(new Result(500, throwable.getMessage()));
-                        return null;
-                    });
-            case POST -> HttpUtils.post(url, params, headers, bodyTextArea.getText())
-                    .thenAccept(response -> responseController.showResult(new Result(response.statusCode(), response.body())))
-                    .exceptionally(throwable -> {
-                        responseController.showResult(new Result(500, throwable.getMessage()));
-                        return null;
-                    });
-            case PUT -> HttpUtils.put(url, params, headers, bodyTextArea.getText())
-                    .thenAccept(response -> responseController.showResult(new Result(response.statusCode(), response.body())))
-                    .exceptionally(throwable -> {
-                        responseController.showResult(new Result(500, throwable.getMessage()));
-                        return null;
-                    });
-            case DELETE -> HttpUtils.delete(url, params, headers)
-                    .thenAccept((response) -> responseController.showResult(new Result(response.statusCode(), response.body())))
-                    .exceptionally(throwable -> {
-                        responseController.showResult(new Result(500, throwable.getMessage()));
-                        return null;
-                    });
-        }
+        httpMethod.http(url, params, headers, bodyTextArea.getText())
+                .thenAccept(response -> responseController.showResult(new Result(response.statusCode(), response.body())))
+                .exceptionally(throwable -> {
+                    responseController.showResult(new Result(500, throwable.getMessage()));
+                    return null;
+                });
     }
 
     @FXML
