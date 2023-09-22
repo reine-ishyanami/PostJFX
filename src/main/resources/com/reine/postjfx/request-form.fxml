@@ -12,12 +12,13 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
+<?import javafx.scene.control.ComboBox?>
 <fx:root prefWidth="800.0" type="VBox" xmlns="http://javafx.com/javafx/17.0.6"
          xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <HBox alignment="CENTER" prefHeight="70.0" prefWidth="800.0" spacing="30.0">
             <children>
-                <ChoiceBox fx:id="methodChoiceBox" prefHeight="23.0" prefWidth="110.0"/>
+                <ComboBox fx:id="methodComboBox" prefHeight="23.0" prefWidth="110.0"/>
                 <TextField fx:id="urlTextField" prefHeight="23.0" prefWidth="400.0" promptText="请求url" />
                 <Button fx:id="sendButton" mnemonicParsing="false" onAction="#sendRequest" text="发送" disable="true"/>
                 <Button mnemonicParsing="false" onAction="#clear" text="清空"/>

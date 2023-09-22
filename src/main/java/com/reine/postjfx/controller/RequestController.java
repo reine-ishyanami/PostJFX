@@ -55,7 +55,7 @@ public class RequestController extends VBox {
     @FXML
     void sendRequest() {
         String url = urlTextField.getText().split("\\?")[0];
-        RequestMethodEnum httpMethod = methodChoiceBox.getSelectionModel().getSelectedItem();
+        RequestMethodEnum httpMethod = methodComboBox.getSelectionModel().getSelectedItem();
         ObservableList<HeaderProperty> headers = headersTableView.getItems();
         headers.removeIf(headerProperty -> headerProperty.getHeaderTypeEnum() == null);
         ObservableList<ParamProperty> params = paramsTableView.getItems();
@@ -160,7 +160,7 @@ public class RequestController extends VBox {
     }
 
     @FXML
-    private ChoiceBox<RequestMethodEnum> methodChoiceBox;
+    private ComboBox<RequestMethodEnum> methodComboBox;
 
     @FXML
     private TextField urlTextField;
@@ -176,14 +176,14 @@ public class RequestController extends VBox {
      */
     void initTopRequestNode() {
         // 如果是GET、DELETE方法，则不可携带请求体以及不可发送文件参数
-        methodChoiceBox.valueProperty().addListener((observable, oldValue, newValue) -> {
+        methodComboBox.valueProperty().addListener((observable, oldValue, newValue) -> {
             boolean enable = newValue.equals(RequestMethodEnum.GET) || newValue.equals(RequestMethodEnum.DELETE);
             bodyTab.setDisable(enable);
             typeColOfParamsTableView.setEditable(!enable);
         });
-        methodChoiceBox.getItems().addAll(RequestMethodEnum.values());
-        methodChoiceBox.setValue(RequestMethodEnum.GET);
-        methodChoiceBox.setConverter(new StringConverter<>() {
+        methodComboBox.getItems().addAll(RequestMethodEnum.values());
+        methodComboBox.setValue(RequestMethodEnum.GET);
+        methodComboBox.setConverter(new StringConverter<>() {
             @Override
             public String toString(RequestMethodEnum object) {
                 return object.getName();
