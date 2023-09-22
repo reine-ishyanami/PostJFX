@@ -18,8 +18,8 @@
         <HBox alignment="CENTER" prefHeight="70.0" prefWidth="800.0" spacing="30.0">
             <children>
                 <ChoiceBox fx:id="methodChoiceBox" prefHeight="23.0" prefWidth="110.0"/>
-                <TextField fx:id="urlTextField" prefHeight="23.0" prefWidth="400.0" promptText="请求url"/>
-                <Button mnemonicParsing="false" onAction="#sendRequest" text="发送"/>
+                <TextField fx:id="urlTextField" prefHeight="23.0" prefWidth="400.0" promptText="请求url" />
+                <Button fx:id="sendButton" mnemonicParsing="false" onAction="#sendRequest" text="发送" disable="true"/>
                 <Button mnemonicParsing="false" onAction="#clear" text="清空"/>
             </children>
         </HBox>
@@ -75,7 +75,7 @@
                         </AnchorPane>
                     </content>
                 </Tab>
-                <Tab text="请求体" fx:id="paramsTab">
+                <Tab text="请求体" fx:id="bodyTab">
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="800.0">
                             <children>

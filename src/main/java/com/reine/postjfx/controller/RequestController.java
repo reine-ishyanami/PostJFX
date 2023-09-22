@@ -24,15 +24,11 @@ import java.util.regex.Pattern;
 
 /**
  * 上方操作区域
+ *
  * @author reine
  */
 public class RequestController extends VBox {
 
-    @FXML
-    private ChoiceBox<RequestMethodEnum> methodChoiceBox;
-
-    @FXML
-    private TextField urlTextField;
 
     @FXML
     private TableView<HeaderProperty> headersTableView;
@@ -59,10 +55,6 @@ public class RequestController extends VBox {
     @FXML
     void sendRequest() {
         String url = urlTextField.getText().split("\\?")[0];
-        if (!isHttpUri(url)) {
-            responseController.showResult(new Result(500, "非法地址"));
-            return;
-        }
         RequestMethodEnum httpMethod = methodChoiceBox.getSelectionModel().getSelectedItem();
         ObservableList<HeaderProperty> headers = headersTableView.getItems();
         headers.removeIf(headerProperty -> headerProperty.getHeaderTypeEnum() == null);
@@ -81,12 +73,6 @@ public class RequestController extends VBox {
         urlTextField.clear();
     }
 
-    private boolean isHttpUri(String input) {
-        String regex = "^(http|https)://[a-zA-Z0-9.-]+(:[0-9]+)?(/[a-zA-Z0-9/]+)*(\\?[a-zA-Z0-9&=]+)?$";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(input);
-        return matcher.matches();
-    }
 
     @FXML
     void initialize() {
@@ -174,7 +160,16 @@ public class RequestController extends VBox {
     }
 
     @FXML
-    private Tab paramsTab;
+    private ChoiceBox<RequestMethodEnum> methodChoiceBox;
+
+    @FXML
+    private TextField urlTextField;
+
+    @FXML
+    private Button sendButton;
+
+    @FXML
+    private Tab bodyTab;
 
     /**
      * 初始化顶部请求操作组件
@@ -183,7 +178,7 @@ public class RequestController extends VBox {
         // 如果是GET、DELETE方法，则不可携带请求体以及不可发送文件参数
         methodChoiceBox.valueProperty().addListener((observable, oldValue, newValue) -> {
             boolean enable = newValue.equals(RequestMethodEnum.GET) || newValue.equals(RequestMethodEnum.DELETE);
-            paramsTab.setDisable(enable);
+            bodyTab.setDisable(enable);
             typeColOfParamsTableView.setEditable(!enable);
         });
         methodChoiceBox.getItems().addAll(RequestMethodEnum.values());
@@ -199,5 +194,32 @@ public class RequestController extends VBox {
                 return null;
             }
         });
+
+        Tooltip tooltip = new Tooltip();
+        tooltip.setText("非法地址");
+
+        // 当输入的URL不合法时，提示用户，并使发送按钮不可点击
+        urlTextField.textProperty().addListener(((observable, oldValue, newValue) -> {
+            if (isHttpUri(newValue)) {
+                urlTextField.setTooltip(null);
+                sendButton.setDisable(false);
+            } else {
+                urlTextField.setTooltip(tooltip);
+                sendButton.setDisable(true);
+            }
+        }));
+    }
+
+    /**
+     * 验证url地址是否合法
+     *
+     * @param input
+     * @return
+     */
+    private boolean isHttpUri(String input) {
+        String regex = "^(http|https)://[a-zA-Z0-9.-]+(:[0-9]+)?(/[a-zA-Z0-9/]+)*(\\?[a-zA-Z0-9&=]+)?$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(input);
+        return matcher.matches();
     }
 }
