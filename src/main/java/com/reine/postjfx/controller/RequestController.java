@@ -1,5 +1,8 @@
 package com.reine.postjfx.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.reine.postjfx.App;
 import com.reine.postjfx.component.*;
 import com.reine.postjfx.entity.HeaderProperty;
@@ -78,6 +81,7 @@ public class RequestController extends VBox {
     void initialize() {
         initHeadersTableView();
         initParamsTableView();
+        initBodyTab();
         initTopRequestNode();
     }
 
@@ -159,6 +163,37 @@ public class RequestController extends VBox {
         }
     }
 
+    private final ObjectMapper mapper = new ObjectMapper();
+
+    @FXML
+    private Button formatButton;
+
+
+    private void initBodyTab() {
+        // 判断body中的字符串是否是json字符串，如果是则可以格式化
+        bodyTextArea.textProperty().addListener((observable, oldValue, newValue) -> {
+            try {
+                mapper.readTree(newValue);
+                formatButton.setDisable(false);
+            } catch (JsonProcessingException e) {
+                formatButton.setDisable(true);
+            }
+        });
+    }
+
+
+    @FXML
+    void formatBody(){
+        try {
+            String body = bodyTextArea.getText();
+            JsonNode jsonNode = mapper.readTree(body);
+            String s = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(jsonNode);
+            bodyTextArea.setText(s);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @FXML
     private ComboBox<RequestMethodEnum> methodComboBox;
 
@@ -170,6 +205,8 @@ public class RequestController extends VBox {
 
     @FXML
     private Tab bodyTab;
+
+    private final Tooltip urlToolTip = new Tooltip("非法地址");
 
     /**
      * 初始化顶部请求操作组件
@@ -195,16 +232,13 @@ public class RequestController extends VBox {
             }
         });
 
-        Tooltip tooltip = new Tooltip();
-        tooltip.setText("非法地址");
-
         // 当输入的URL不合法时，提示用户，并使发送按钮不可点击
         urlTextField.textProperty().addListener(((observable, oldValue, newValue) -> {
             if (isHttpUri(newValue)) {
                 urlTextField.setTooltip(null);
                 sendButton.setDisable(false);
             } else {
-                urlTextField.setTooltip(tooltip);
+                urlTextField.setTooltip(urlToolTip);
                 sendButton.setDisable(true);
             }
         }));
