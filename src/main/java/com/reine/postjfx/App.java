@@ -14,10 +14,13 @@ public class App extends Application {
     public void start(Stage stage) throws IOException {
         PostTabController postTabController = new PostTabController();
         Scene scene = new Scene(postTabController);
+        scene.getStylesheets().add(
+                Objects.requireNonNull(App.class.getResource("/css/default.css")).toString()
+        );
         stage.setTitle("PostJFX");
         stage.setScene(scene);
         stage.getIcons().add(
-                new Image(Objects.requireNonNull(getClass().getResource("/image/logo.png")).toString())
+                new Image(Objects.requireNonNull(App.class.getResource("/image/logo.png")).toString())
         );
         stage.setResizable(false);
         stage.show();

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
@@ -12,15 +12,13 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<?import javafx.scene.control.ComboBox?>
-<fx:root prefWidth="800.0" type="VBox" xmlns="http://javafx.com/javafx/17.0.6"
-         xmlns:fx="http://javafx.com/fxml/1">
+<fx:root prefWidth="800.0" type="VBox" xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <HBox alignment="CENTER" prefHeight="70.0" prefWidth="800.0" spacing="30.0">
             <children>
                 <ComboBox fx:id="methodComboBox" prefHeight="23.0" prefWidth="110.0"/>
-                <TextField fx:id="urlTextField" prefHeight="23.0" prefWidth="400.0" promptText="请求url" />
-                <Button fx:id="sendButton" mnemonicParsing="false" onAction="#sendRequest" text="发送" disable="true"/>
+                <TextField fx:id="urlTextField" prefHeight="23.0" prefWidth="400.0" promptText="请求url"/>
+                <Button fx:id="sendButton" disable="true" mnemonicParsing="false" onAction="#sendRequest" text="发送"/>
                 <Button mnemonicParsing="false" onAction="#clear" text="清空"/>
             </children>
         </HBox>
@@ -30,12 +28,12 @@
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="800.0">
                             <children>
-                                <TableView fx:id="headersTableView" editable="true" prefHeight="200.0"
-                                           prefWidth="800.0" onMouseClicked="#addColIfNoneOfHeadersTableView">
+                                <TableView fx:id="headersTableView" editable="true"
+                                           onMouseClicked="#addColIfNoneOfHeadersTableView" prefHeight="200.0"
+                                           prefWidth="800.0">
                                     <columns>
                                         <TableColumn fx:id="nameColOfHeadersTableView" prefWidth="370.0"
-                                                     sortable="false"
-                                                     text="参数名"/>
+                                                     sortable="false" text="参数名"/>
                                         <TableColumn fx:id="valueColOfHeadersTableView" prefWidth="370.0"
                                                      sortable="false" text="参数值"/>
                                         <TableColumn fx:id="addRowOfHeadersTableView" prefWidth="20.0"
@@ -55,13 +53,14 @@
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="800.0">
                             <children>
-                                <TableView fx:id="paramsTableView" editable="true" prefHeight="200.0"
-                                           prefWidth="800.0" onMouseClicked="#addColIfNoneOfParamsTableView">
+                                <TableView fx:id="paramsTableView" editable="true"
+                                           onMouseClicked="#addColIfNoneOfParamsTableView" prefHeight="200.0"
+                                           prefWidth="800.0">
                                     <columns>
                                         <TableColumn fx:id="keyColOfParamsTableView" prefWidth="270.0" sortable="false"
                                                      text="参数名"/>
-                                        <TableColumn fx:id="typeColOfParamsTableView" prefWidth="100.0"
-                                                     sortable="false" text="参数类型"/>
+                                        <TableColumn fx:id="typeColOfParamsTableView" prefWidth="100.0" sortable="false"
+                                                     text="参数类型"/>
                                         <TableColumn fx:id="valueColOfParamsTableView" prefWidth="370.0"
                                                      sortable="false" text="参数值"/>
                                         <TableColumn fx:id="addRowOfParamsTableView" prefWidth="20.0" sortable="false"/>
@@ -76,12 +75,13 @@
                         </AnchorPane>
                     </content>
                 </Tab>
-                <Tab text="请求体" fx:id="bodyTab">
+                <Tab fx:id="bodyTab" text="请求体">
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="800.0">
                             <children>
-                                <TextArea fx:id="bodyTextArea" layoutX="-4.0" layoutY="-1.0" minHeight="-Infinity" minWidth="-Infinity"
-                                          prefHeight="200.0" prefWidth="800.0"/>
+                                <TextArea fx:id="bodyTextArea" layoutX="-4.0" layoutY="-1.0" minHeight="-Infinity"
+                                          minWidth="-Infinity" prefHeight="200.0" prefWidth="800.0"/>
+                                <Button fx:id="formatButton" layoutX="730.0" layoutY="160.0" mnemonicParsing="false" text="格式化" onAction="#formatBody" disable="true"/>
                             </children>
                         </AnchorPane>
                     </content>
