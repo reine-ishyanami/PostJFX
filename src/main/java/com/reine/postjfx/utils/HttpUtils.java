@@ -2,6 +2,7 @@ package com.reine.postjfx.utils;
 
 import com.reine.postjfx.entity.HeaderProperty;
 import com.reine.postjfx.entity.ParamProperty;
+import com.reine.postjfx.enums.HeaderTypeEnum;
 import com.reine.postjfx.enums.ParamTypeEnum;
 
 import java.io.ByteArrayOutputStream;
@@ -14,7 +15,8 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Stream;
 
@@ -27,15 +29,22 @@ public class HttpUtils {
 
     private static final HttpClient client = HttpClient.newHttpClient();
 
-    private static final String[] defaultHeader = new String[]{
-            "User-Agent", "PostJFX/1.1.0",
-            "Accept", "*/*"
-    };
-    private static final String[] defaultHeaderWithBody = new String[]{
-            "User-Agent", "PostJFX/1.1.0",
-            "Accept", "*/*",
-            "Content-Type", "application/json"
-    };
+    private static final String defaultUserAgent = "PostJFX/1.1.0";
+
+    private static final List<HeaderProperty> defaultHeader = List.of(
+            new HeaderProperty(HeaderTypeEnum.USER_AGENT, defaultUserAgent),
+            new HeaderProperty(HeaderTypeEnum.ACCEPT, "*/*")
+    );
+    private static final List<HeaderProperty> defaultHeaderWithBody = List.of(
+            new HeaderProperty(HeaderTypeEnum.USER_AGENT, defaultUserAgent),
+            new HeaderProperty(HeaderTypeEnum.ACCEPT, "*/*"),
+            new HeaderProperty(HeaderTypeEnum.CONTENT_TYPE, "application/json")
+    );
+    private static final List<HeaderProperty> defaultHeaderWithFileParam = List.of(
+            new HeaderProperty(HeaderTypeEnum.USER_AGENT, defaultUserAgent),
+            new HeaderProperty(HeaderTypeEnum.ACCEPT, "*/*"),
+            new HeaderProperty(HeaderTypeEnum.CONTENT_TYPE, "multipart/form-data; boundary=boundary")
+    );
 
     /**
      * get请求
@@ -47,7 +56,7 @@ public class HttpUtils {
      */
     public static CompletableFuture<HttpResponse<String>> get(String url, List<ParamProperty> params, List<HeaderProperty> headers) {
         String queryString = Optional.ofNullable(handleGetOrDeleteParam(params)).orElse("");
-        String[] headerArray = Optional.ofNullable(handleGetOrDeleteHeader(headers)).orElse(defaultHeader);
+        String[] headerArray = handleGetOrDeleteHeader(headers);
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(String.format("%s?%s", url, queryString)))
                 .headers(headerArray)
@@ -66,7 +75,7 @@ public class HttpUtils {
      * @return
      */
     public static CompletableFuture<HttpResponse<String>> post(String url, List<ParamProperty> params, List<HeaderProperty> headers, String body) {
-        String[] headerArray = Optional.ofNullable(handlePostOrPutHeader(params, headers, body)).orElse(defaultHeader);
+        String[] headerArray = handlePostOrPutHeader(params, headers, body);
         // 如果含有文件
         if (params.stream().anyMatch(paramProperty -> paramProperty.getParamTypeEnum().equals(ParamTypeEnum.FILE))) {
             HttpRequest request = HttpRequest.newBuilder()
@@ -98,7 +107,7 @@ public class HttpUtils {
      * @return
      */
     public static CompletableFuture<HttpResponse<String>> put(String url, List<ParamProperty> params, List<HeaderProperty> headers, String body) {
-        String[] headerArray = Optional.ofNullable(handlePostOrPutHeader(params, headers, body)).orElse(defaultHeader);
+        String[] headerArray = handlePostOrPutHeader(params, headers, body);
         // 如果含有文件
         if (params.stream().anyMatch(paramProperty -> paramProperty.getParamTypeEnum().equals(ParamTypeEnum.FILE))) {
             HttpRequest request = HttpRequest.newBuilder()
@@ -129,7 +138,7 @@ public class HttpUtils {
      */
     public static CompletableFuture<HttpResponse<String>> delete(String url, List<ParamProperty> params, List<HeaderProperty> headers) {
         String queryString = Optional.ofNullable(handleGetOrDeleteParam(params)).orElse("");
-        String[] headerArray = Optional.ofNullable(handleGetOrDeleteHeader(headers)).orElse(defaultHeader);
+        String[] headerArray = handleGetOrDeleteHeader(headers);
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(String.format("%s?%s", url, queryString)))
                 .headers(headerArray)
@@ -161,17 +170,8 @@ public class HttpUtils {
      * @return
      */
     private static String[] handleGetOrDeleteHeader(List<HeaderProperty> headers) {
-        if (!headers.isEmpty())
-            return
-                    headers.stream()
-                            .map(headerProperty -> {
-                                String first = headerProperty.getHeaderTypeEnum().getName();
-                                String second = headerProperty.getValue();
-                                return new String[]{first, second};
-                            })
-                            .reduce((a, b) -> Stream.concat(Arrays.stream(a), Arrays.stream(b)).toArray(String[]::new))
-                            .orElse(new String[]{});
-        else return defaultHeader;
+        if (!headers.isEmpty()) return convertHeaderListToArray(headers);
+        else return convertHeaderListToArray(defaultHeader);
     }
 
     /**
@@ -183,16 +183,24 @@ public class HttpUtils {
      * @return
      */
     private static String[] handlePostOrPutHeader(List<ParamProperty> params, List<HeaderProperty> headers, String body) {
-        if (!body.isEmpty()) {
-            return defaultHeaderWithBody;
-        }
-        if (!headers.isEmpty()) {
-            return handleGetOrDeleteHeader(headers);
-        } else {
-            if (params.stream().anyMatch(paramProperty -> paramProperty.getParamTypeEnum().equals(ParamTypeEnum.FILE))) {
-                return new String[]{"Content-Type", "multipart/form-data; boundary=boundary"};
-            } else return null;
-        }
+        if (!body.isEmpty()) return convertHeaderListToArray(defaultHeaderWithBody);
+        if (!headers.isEmpty()) return handleGetOrDeleteHeader(headers);
+        if (params.stream().anyMatch(paramProperty -> paramProperty.getParamTypeEnum().equals(ParamTypeEnum.FILE)))
+            return convertHeaderListToArray(defaultHeaderWithFileParam);
+        return convertHeaderListToArray(defaultHeaderWithBody);
+    }
+
+    /**
+     * 将list类型的headers转换为string[]
+     * @param headerPropertyList
+     * @return
+     */
+    private static String[] convertHeaderListToArray(List<HeaderProperty> headerPropertyList) {
+        if (headerPropertyList.stream().noneMatch(headerProperty -> headerProperty.getHeaderTypeEnum().equals(HeaderTypeEnum.USER_AGENT)))
+            headerPropertyList.add(new HeaderProperty(HeaderTypeEnum.USER_AGENT, defaultUserAgent));
+        return headerPropertyList.stream()
+                .flatMap(headerProperty -> Stream.of(headerProperty.getHeaderTypeEnum().getName(), headerProperty.getValue()))
+                .toArray(String[]::new);
     }
 
 
