@@ -12,13 +12,19 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.control.ProgressIndicator?>
 <fx:root prefWidth="800.0" type="VBox" xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <HBox alignment="CENTER" prefHeight="70.0" prefWidth="800.0" spacing="30.0">
             <children>
                 <ComboBox fx:id="methodComboBox" prefHeight="23.0" prefWidth="110.0"/>
                 <TextField fx:id="urlTextField" prefHeight="23.0" prefWidth="400.0" promptText="请求url"/>
-                <Button fx:id="sendButton" disable="true" mnemonicParsing="false" onAction="#sendRequest" text="发送"/>
+                <StackPane>
+                    <Button fx:id="sendButton" disable="true" mnemonicParsing="false" onAction="#sendRequest"
+                            text="发送"/>
+                    <ProgressIndicator fx:id="sendingProgress" visible="false" maxWidth="20"/>
+                </StackPane>
                 <Button mnemonicParsing="false" onAction="#clear" text="清空"/>
             </children>
         </HBox>
@@ -81,7 +87,8 @@
                             <children>
                                 <TextArea fx:id="bodyTextArea" layoutX="-4.0" layoutY="-1.0" minHeight="-Infinity"
                                           minWidth="-Infinity" prefHeight="200.0" prefWidth="800.0"/>
-                                <Button fx:id="formatButton" layoutX="730.0" layoutY="160.0" mnemonicParsing="false" text="格式化" onAction="#formatBody" disable="true"/>
+                                <Button fx:id="formatButton" layoutX="730.0" layoutY="160.0" mnemonicParsing="false"
+                                        text="格式化" onAction="#formatBody" disable="true"/>
                             </children>
                         </AnchorPane>
                     </content>

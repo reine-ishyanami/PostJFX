@@ -57,6 +57,8 @@ public class RequestController extends VBox {
 
     @FXML
     void sendRequest() {
+        sendButton.setVisible(false);
+        sendingProgress.setVisible(true);
         String url = urlTextField.getText().split("\\?")[0];
         RequestMethodEnum httpMethod = methodComboBox.getSelectionModel().getSelectedItem();
         ObservableList<HeaderProperty> headers = headersTableView.getItems();
@@ -64,9 +66,15 @@ public class RequestController extends VBox {
         ObservableList<ParamProperty> params = paramsTableView.getItems();
         params.removeIf(paramProperty -> paramProperty.getKey() == null || Objects.equals(paramProperty.getKey(), ""));
         httpMethod.http(url, params, headers, bodyTextArea.getText())
-                .thenAccept(response -> responseController.showResult(new Result(response.statusCode(), response.body())))
-                .exceptionally(throwable -> {
+                .thenAcceptAsync(response -> {
+                    responseController.showResult(new Result(response.statusCode(), response.body()));
+                    sendButton.setVisible(true);
+                    sendingProgress.setVisible(false);
+                })
+                .exceptionallyAsync(throwable -> {
                     responseController.showResult(new Result(500, throwable.getMessage()));
+                    sendButton.setVisible(true);
+                    sendingProgress.setVisible(false);
                     return null;
                 });
     }
@@ -202,6 +210,9 @@ public class RequestController extends VBox {
 
     @FXML
     private Button sendButton;
+
+    @FXML
+    private ProgressIndicator sendingProgress;
 
     @FXML
     private Tab bodyTab;
