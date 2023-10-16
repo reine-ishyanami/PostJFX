@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.reine.postjfx.App;
-import com.reine.postjfx.entity.Result;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,6 +14,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
 import java.io.IOException;
+import java.net.http.HttpResponse;
 
 /**
  * 下方响应内容
@@ -54,28 +54,35 @@ public class ResponseController extends VBox {
         fxmlLoader.load();
     }
 
-    public void showResult(Result result) {
-        int i = result.code();
-        switch (i / 100) {
+    public void showResult(HttpResponse<?> response){
+        int code = response.statusCode();
+        Object message = response.body();
+        switch (code / 100) {
             case 2 -> codeLabel.setTextFill(Color.GREEN);
             case 3 -> codeLabel.setTextFill(Color.YELLOW);
             case 4, 5 -> codeLabel.setTextFill(Color.RED);
         }
         try {
-            JsonNode jsonNode = mapper.readTree(result.message());
+            JsonNode jsonNode = mapper.readTree(message.toString());
             String s = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(jsonNode);
             Platform.runLater(() -> {
-                codeLabel.setText(String.valueOf(i));
+                codeLabel.setText(String.valueOf(code));
                 dataTextArea.setText(s);
             });
         } catch (JsonProcessingException e) {
             Platform.runLater(() -> {
-                codeLabel.setText(String.valueOf(i));
-                dataTextArea.setText(result.message());
+                codeLabel.setText(String.valueOf(code));
+                dataTextArea.setText(message.toString());
             });
         }
     }
 
+    public void showErrorMessage(String message){
+        Platform.runLater(() -> {
+            codeLabel.setText("");
+            dataTextArea.setText(message);
+        });
+    }
 
     @FXML
     void initialize() {

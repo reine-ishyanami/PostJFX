@@ -7,7 +7,6 @@ import com.reine.postjfx.App;
 import com.reine.postjfx.component.*;
 import com.reine.postjfx.entity.HeaderProperty;
 import com.reine.postjfx.entity.ParamProperty;
-import com.reine.postjfx.entity.Result;
 import com.reine.postjfx.enums.HeaderTypeEnum;
 import com.reine.postjfx.enums.ParamTypeEnum;
 import com.reine.postjfx.enums.RequestMethodEnum;
@@ -67,12 +66,12 @@ public class RequestController extends VBox {
         params.removeIf(paramProperty -> paramProperty.getKey() == null || Objects.equals(paramProperty.getKey(), ""));
         httpMethod.http(url, params, headers, bodyTextArea.getText())
                 .thenAcceptAsync(response -> {
-                    responseController.showResult(new Result(response.statusCode(), response.body()));
+                    responseController.showResult(response);
                     sendButton.setVisible(true);
                     sendingProgress.setVisible(false);
                 })
                 .exceptionallyAsync(throwable -> {
-                    responseController.showResult(new Result(500, throwable.getMessage()));
+                    responseController.showErrorMessage(throwable.getMessage());
                     sendButton.setVisible(true);
                     sendingProgress.setVisible(false);
                     return null;
