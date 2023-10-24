@@ -8,10 +8,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.util.Callback;
 
@@ -59,8 +56,10 @@ public class TabHistoryController extends HBox {
                         Button button = new Button(item.method());
                         Label label = new Label(item.url());
                         cell.getChildren().addAll(button, label);
+                        label.setTooltip(new Tooltip(item.url()));
                         setGraphic(cell);
-                        // TODO 按钮点击事件
+                        // 点击按钮复现历史记录
+                        button.setOnAction(event -> postTabController.addPostPageWithData(item.method(), item.url(), item.params(), item.headers(), item.body()));
                     }
                 };
             }

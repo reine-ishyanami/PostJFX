@@ -12,6 +12,7 @@ import com.reine.postjfx.enums.HeaderTypeEnum;
 import com.reine.postjfx.enums.ParamTypeEnum;
 import com.reine.postjfx.enums.RequestMethodEnum;
 import com.reine.postjfx.utils.LogUtils;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -84,6 +85,7 @@ public class RequestController extends VBox {
 
     /**
      * 成功响应时写日志
+     *
      * @param url
      * @param params
      * @param headers
@@ -98,7 +100,7 @@ public class RequestController extends VBox {
         System.out.println(dateTime);
         Log log = new Log(dateTime, method, url, params, headers, body);
         // 向日志列表中写入一条日志
-        LogUtils.logList.add(log);
+        Platform.runLater(()-> LogUtils.logList.add(log));
     }
 
     @FXML
@@ -213,7 +215,7 @@ public class RequestController extends VBox {
 
 
     @FXML
-    void formatBody(){
+    void formatBody() {
         try {
             String body = bodyTextArea.getText();
             JsonNode jsonNode = mapper.readTree(body);
@@ -288,5 +290,22 @@ public class RequestController extends VBox {
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(input);
         return matcher.matches();
+    }
+
+
+    /**
+     * 初始化时如果有传入属性，则初始化控件数据
+     */
+    public void initData(String method,
+                         String url,
+                         ObservableList<ParamProperty> params,
+                         ObservableList<HeaderProperty> headers,
+                         String body) {
+        RequestMethodEnum methodEnum = RequestMethodEnum.valueOf(method);
+        methodComboBox.setValue(methodEnum);
+        urlTextField.setText(url);
+        paramsTableView.setItems(params);
+        headersTableView.setItems(headers);
+        bodyTextArea.setText(body);
     }
 }
