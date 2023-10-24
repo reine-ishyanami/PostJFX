@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.HBox?>
+
+
+<?import com.reine.postjfx.controller.PostTabController?>
+<fx:root type="HBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+         xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <PostTabController fx:id="postTabController"/>
+        <ListView prefWidth="300.0" fx:id="historyListView"/>
+    </children>
+</fx:root>
