@@ -3,8 +3,6 @@ package com.reine.postjfx.controller;
 import com.reine.postjfx.App;
 import com.reine.postjfx.entity.Log;
 import com.reine.postjfx.utils.LogUtils;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
@@ -13,7 +11,6 @@ import javafx.scene.layout.HBox;
 import javafx.util.Callback;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 /**
  * @author reine
@@ -26,8 +23,6 @@ public class TabHistoryController extends HBox {
     @FXML
     private ListView<Log> historyListView;
 
-    private final ObservableList<Log> logList = FXCollections.observableList(new ArrayList<>());
-
     public TabHistoryController() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("tab-history.fxml"));
         fxmlLoader.setRoot(this);
@@ -38,8 +33,7 @@ public class TabHistoryController extends HBox {
 
     @FXML
     void initialize() {
-        LogUtils.logList = logList;
-        historyListView.setItems(logList);
+        historyListView.setItems(LogUtils.logList);
         historyListView.setCellFactory(new Callback<>() {
             @Override
             public ListCell<Log> call(ListView<Log> param) {
