@@ -100,7 +100,7 @@ public class RequestController extends VBox {
         System.out.println(dateTime);
         Log log = new Log(dateTime, method, url, params, headers, body);
         // 向日志列表中写入一条日志
-        Platform.runLater(()-> LogUtils.logList.add(log));
+        Platform.runLater(() -> LogUtils.logList.add(log));
     }
 
     @FXML
@@ -295,17 +295,15 @@ public class RequestController extends VBox {
 
     /**
      * 初始化时如果有传入属性，则初始化控件数据
+     *
+     * @param log 日志记录
      */
-    public void initData(String method,
-                         String url,
-                         ObservableList<ParamProperty> params,
-                         ObservableList<HeaderProperty> headers,
-                         String body) {
-        RequestMethodEnum methodEnum = RequestMethodEnum.valueOf(method);
+    public void initData(Log log) {
+        RequestMethodEnum methodEnum = RequestMethodEnum.valueOf(log.method());
         methodComboBox.setValue(methodEnum);
-        urlTextField.setText(url);
-        paramsTableView.setItems(params);
-        headersTableView.setItems(headers);
-        bodyTextArea.setText(body);
+        urlTextField.setText(log.url());
+        paramsTableView.setItems(log.params());
+        headersTableView.setItems(log.headers());
+        bodyTextArea.setText(log.body());
     }
 }

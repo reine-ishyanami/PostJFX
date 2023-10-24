@@ -5,14 +5,18 @@ import com.reine.postjfx.entity.Log;
 import com.reine.postjfx.utils.LogUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.util.Callback;
 
 import java.io.IOException;
+import java.util.Objects;
 
 /**
+ * 左侧tab标签页右侧历史记录
  * @author reine
  */
 public class TabHistoryController extends HBox {
@@ -45,15 +49,24 @@ public class TabHistoryController extends HBox {
                             setGraphic(null);
                             return;
                         }
-                        HBox cell = new HBox(10);
-                        cell.setAlignment(Pos.CENTER_LEFT);
-                        Button button = new Button(item.method());
+                        BorderPane cell = new BorderPane();
+                        Button method = new Button(item.method());
+                        cell.setLeft(method);
                         Label label = new Label(item.url());
-                        cell.getChildren().addAll(button, label);
+                        cell.setCenter(label);
+                        ImageView delete = new ImageView(new Image(
+                                Objects.requireNonNull(getClass().getResource("/image/del.png")).toString()
+                        ));
+                        delete.setFitWidth(20);
+                        delete.setFitHeight(20);
+                        delete.setPickOnBounds(true);
+                        cell.setRight(delete);
                         label.setTooltip(new Tooltip(item.url()));
                         setGraphic(cell);
                         // 点击按钮复现历史记录
-                        button.setOnAction(event -> postTabController.addPostPageWithData(item.method(), item.url(), item.params(), item.headers(), item.body()));
+                        method.setOnAction(event -> postTabController.addPostPageWithData(item));
+                        // 点击删除按钮删除历史记录
+                        delete.setOnMouseClicked(event -> LogUtils.logList.remove(item));
                     }
                 };
             }

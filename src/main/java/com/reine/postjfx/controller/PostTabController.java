@@ -2,8 +2,7 @@ package com.reine.postjfx.controller;
 
 import com.reine.postjfx.App;
 import com.reine.postjfx.component.EditableTab;
-import com.reine.postjfx.entity.HeaderProperty;
-import com.reine.postjfx.entity.ParamProperty;
+import com.reine.postjfx.entity.Log;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -56,24 +55,16 @@ public class PostTabController extends TabPane {
     /**
      * 初始化一个具有初始数据的新标签页
      *
-     * @param method  请求方法
-     * @param url     请求url
-     * @param params  请求参数
-     * @param headers 请求头
-     * @param body    请求体
+     * @param log 日志记录
      */
-    public void addPostPageWithData(String method,
-                                    String url,
-                                    ObservableList<ParamProperty> params,
-                                    ObservableList<HeaderProperty> headers,
-                                    String body) {
+    public void addPostPageWithData(Log log) {
 
         try {
             EditableTab tab = new EditableTab();
             tab.setTitle("新标签页");
             tab.setOnCloseRequest(this::onCloseRequestCheck);
             // 设置新标签页内容
-            tab.setContent(new PostPageController(method, url, params, headers, body));
+            tab.setContent(new PostPageController(log));
             ObservableList<Tab> tabs = this.getTabs();
             Tab addTabButton = tabs.remove(tabs.size() - 1);
             tabs.addAll(tab, addTabButton);
