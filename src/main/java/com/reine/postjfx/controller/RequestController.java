@@ -6,10 +6,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.reine.postjfx.App;
 import com.reine.postjfx.component.*;
 import com.reine.postjfx.entity.HeaderProperty;
+import com.reine.postjfx.entity.Log;
 import com.reine.postjfx.entity.ParamProperty;
 import com.reine.postjfx.enums.HeaderTypeEnum;
 import com.reine.postjfx.enums.ParamTypeEnum;
 import com.reine.postjfx.enums.RequestMethodEnum;
+import com.reine.postjfx.utils.LogUtils;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,6 +22,7 @@ import javafx.scene.layout.VBox;
 import javafx.util.StringConverter;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -69,6 +72,7 @@ public class RequestController extends VBox {
                     responseController.showResult(response);
                     sendButton.setVisible(true);
                     sendingProgress.setVisible(false);
+                    writeLog(httpMethod.getName(), url, params, headers, bodyTextArea.getText());
                 })
                 .exceptionallyAsync(throwable -> {
                     responseController.showErrorMessage(throwable.getMessage());
@@ -76,6 +80,25 @@ public class RequestController extends VBox {
                     sendingProgress.setVisible(false);
                     return null;
                 });
+    }
+
+    /**
+     * 成功响应时写日志
+     * @param url
+     * @param params
+     * @param headers
+     * @param body
+     */
+    private void writeLog(String method,
+                          String url,
+                          ObservableList<ParamProperty> params,
+                          ObservableList<HeaderProperty> headers,
+                          String body) {
+        LocalDateTime dateTime = LocalDateTime.now();
+        System.out.println(dateTime);
+        Log log = new Log(dateTime, method, url, params, headers, body);
+        // 向日志列表中写入一条日志
+        LogUtils.logList.add(log);
     }
 
     @FXML
