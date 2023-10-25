@@ -14,6 +14,7 @@
 
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.control.Label?>
 <fx:root prefWidth="800.0" type="VBox" xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <HBox alignment="CENTER" prefHeight="70.0" prefWidth="800.0" spacing="30.0">
@@ -37,6 +38,9 @@
                                 <TableView fx:id="headersTableView" editable="true"
                                            onMouseClicked="#addColIfNoneOfHeadersTableView" prefHeight="200.0"
                                            prefWidth="800.0">
+                                    <placeholder>
+                                        <Label text="表中无数据，点击空白区域添加一行数据"/>
+                                    </placeholder>
                                     <columns>
                                         <TableColumn fx:id="nameColOfHeadersTableView" prefWidth="370.0"
                                                      sortable="false" text="参数名"/>
@@ -62,6 +66,9 @@
                                 <TableView fx:id="paramsTableView" editable="true"
                                            onMouseClicked="#addColIfNoneOfParamsTableView" prefHeight="200.0"
                                            prefWidth="800.0">
+                                    <placeholder>
+                                        <Label text="表中无数据，点击空白区域添加一行数据"/>
+                                    </placeholder>
                                     <columns>
                                         <TableColumn fx:id="keyColOfParamsTableView" prefWidth="270.0" sortable="false"
                                                      text="参数名"/>

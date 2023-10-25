@@ -37,6 +37,7 @@ public class TabHistoryController extends HBox {
 
     @FXML
     void initialize() {
+        LogUtils.readFromFileForLogList();
         historyListView.setItems(LogUtils.logList);
         historyListView.setCellFactory(new Callback<>() {
             @Override
