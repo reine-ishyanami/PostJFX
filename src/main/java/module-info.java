@@ -3,6 +3,7 @@ module com.reine.postjfx {
     requires javafx.fxml;
     requires java.net.http;
     requires com.fasterxml.jackson.databind;
+    requires org.xerial.sqlitejdbc;
 
     opens com.reine.postjfx to javafx.fxml;
     opens com.reine.postjfx.enums to javafx.fxml;

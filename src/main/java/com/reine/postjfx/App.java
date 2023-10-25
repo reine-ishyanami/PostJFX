@@ -25,10 +25,6 @@ public class App extends Application {
         );
         stage.setResizable(false);
         stage.show();
-
-        stage.setOnCloseRequest(event -> {
-            LogUtils.saveLogListToFile();
-        });
     }
 
     public static void main(String[] args) {
