@@ -1,6 +1,7 @@
 package com.reine.postjfx;
 
 import com.reine.postjfx.controller.TabHistoryController;
+import com.reine.postjfx.utils.LogUtils;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -24,6 +25,10 @@ public class App extends Application {
         );
         stage.setResizable(false);
         stage.show();
+
+        stage.setOnCloseRequest(event -> {
+            LogUtils.saveLogListToFile();
+        });
     }
 
     public static void main(String[] args) {

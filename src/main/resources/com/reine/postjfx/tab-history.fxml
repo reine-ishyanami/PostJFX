@@ -5,10 +5,15 @@
 
 
 <?import com.reine.postjfx.controller.PostTabController?>
+<?import javafx.scene.control.Label?>
 <fx:root type="HBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
          xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <PostTabController fx:id="postTabController"/>
-        <ListView prefWidth="300.0" fx:id="historyListView"/>
+        <ListView prefWidth="300.0" fx:id="historyListView">
+            <placeholder>
+                <Label text="无历史记录"/>
+            </placeholder>
+        </ListView>
     </children>
 </fx:root>

@@ -18,14 +18,14 @@ public class LogUtils {
      * 保存日志信息到文件
      */
     public static void saveLogListToFile(){
-
+        System.out.println("saveLogListToFile");
     }
 
     /**
      * 读取文件信息写入日志列表
      */
     public static void readFromFileForLogList(){
-
+        System.out.println("readFromFileForLogList");
     }
 
 }
