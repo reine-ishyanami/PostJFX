@@ -5,6 +5,7 @@ import com.reine.postjfx.entity.Log;
 import com.reine.postjfx.utils.LogUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -52,9 +53,12 @@ public class TabHistoryController extends HBox {
                         }
                         BorderPane cell = new BorderPane();
                         Button method = new Button(item.method());
-                        cell.setLeft(method);
+                        method.setPrefWidth(60);
                         Label label = new Label(item.url());
-                        cell.setCenter(label);
+                        HBox center = new HBox(10);
+                        center.setAlignment(Pos.CENTER_LEFT);
+                        center.getChildren().addAll(method, label);
+                        cell.setCenter(center);
                         ImageView delete = new ImageView(new Image(
                                 Objects.requireNonNull(getClass().getResource("/image/del.png")).toString()
                         ));

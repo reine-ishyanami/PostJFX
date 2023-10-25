@@ -24,6 +24,7 @@ import javafx.util.StringConverter;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -83,6 +84,9 @@ public class RequestController extends VBox {
                 });
     }
 
+
+    private final static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd_HH:mm:ss");
+
     /**
      * 成功响应时写日志
      *
@@ -97,8 +101,7 @@ public class RequestController extends VBox {
                           ObservableList<HeaderProperty> headers,
                           String body) {
         LocalDateTime dateTime = LocalDateTime.now();
-        System.out.println(dateTime);
-        Log log = new Log(dateTime, method, url, params, headers, body);
+        Log log = new Log(dateTime.format(formatter), method, url, params, headers, body);
         // 向日志列表中写入一条日志
         Platform.runLater(() -> LogUtils.logList.add(log));
     }

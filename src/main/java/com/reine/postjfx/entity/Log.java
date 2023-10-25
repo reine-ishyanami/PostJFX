@@ -2,8 +2,6 @@ package com.reine.postjfx.entity;
 
 import javafx.collections.ObservableList;
 
-import java.time.LocalDateTime;
-
 /**
  * @author reine
  * 日志记录类
@@ -14,7 +12,7 @@ import java.time.LocalDateTime;
  * @param headers 请求头
  * @param body 请求体
  */
-public record Log(LocalDateTime dateTime,
+public record Log(String dateTime,
                   String method,
                   String url,
                   ObservableList<ParamProperty> params,
