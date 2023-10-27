@@ -7,6 +7,7 @@ import com.reine.postjfx.entity.HeaderProperty;
 import com.reine.postjfx.entity.Log;
 import com.reine.postjfx.entity.ParamProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -29,6 +30,19 @@ import java.util.List;
  */
 public class LogUtils {
 
+    /**
+     * 日期格式化器
+     */
+    private final static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+
+    /**
+     * jackson 数据转换
+     */
+    private final static ObjectMapper mapper = new ObjectMapper();
+
+    /**
+     * 右侧历史记录数据
+     */
     public final static ObservableList<Log> logList = FXCollections.observableList(new ArrayList<>());
 
     /**
@@ -36,9 +50,11 @@ public class LogUtils {
      */
     private final static String logsPath = "logs";
 
-    private final static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+    /**
+     * 该监视属性用于与日期选择器的值进行绑定，方便其他组件调用修改日期选择器的值
+     */
+    public static final SimpleObjectProperty<LocalDate> dateProperty = new SimpleObjectProperty<>();
 
-    private final static ObjectMapper mapper = new ObjectMapper();
 
     /**
      * 初始化标志位
@@ -237,4 +253,5 @@ public class LogUtils {
         logStackSize.set(logStack.size());
         return recentLog;
     }
+
 }

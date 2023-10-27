@@ -23,6 +23,7 @@ import javafx.scene.layout.VBox;
 import javafx.util.StringConverter;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
@@ -74,6 +75,8 @@ public class RequestController extends VBox {
                     responseController.showResult(response);
                     sendButton.setVisible(true);
                     sendingProgress.setVisible(false);
+                    // 强制更新右侧日期选择器时间
+                    Platform.runLater(() -> LogUtils.dateProperty.set(LocalDate.now()));
                     writeLog(httpMethod.getName(), url, params, headers, bodyTextArea.getText());
                 })
                 .exceptionallyAsync(throwable -> {

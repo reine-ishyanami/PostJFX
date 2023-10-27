@@ -35,7 +35,6 @@ public class TabHistoryController extends HBox {
     @FXML
     private Button cancelBtn;
 
-
     public TabHistoryController() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("tab-history.fxml"));
         fxmlLoader.setRoot(this);
@@ -43,19 +42,20 @@ public class TabHistoryController extends HBox {
         fxmlLoader.load();
     }
 
-
     @FXML
     void initialize() {
         // 如果栈中数据大于0，则按钮可点击
-        LogUtils.logStackSize.addListener((observable, oldValue, newValue) -> {
-            cancelBtn.setDisable(newValue.intValue() <= 0);
-        });
+        LogUtils.logStackSize.addListener((observable, oldValue, newValue) -> cancelBtn.setDisable(newValue.intValue() <= 0));
+
+        // 将工具类中的日期监视属性与日期选择器的值进行双向绑定
+        datePicker.valueProperty().bindBidirectional(LogUtils.dateProperty);
 
         // 每次改变选中的日期时，查询对应日期的日志
         datePicker.valueProperty().addListener((observable, oldValue, newValue) -> LogUtils.readFromFileForLogList(newValue));
         // 将日期设置为当天，查询当天的数据
         datePicker.setValue(LocalDate.now());
 
+        // 设置历史记录列表以展示
         historyListView.setItems(LogUtils.logList);
         historyListView.setCellFactory(new Callback<>() {
             @Override
@@ -69,13 +69,16 @@ public class TabHistoryController extends HBox {
                             return;
                         }
                         BorderPane cell = new BorderPane();
+                        // 左侧请求类型按钮
                         Button method = new Button(item.method());
                         method.setPrefWidth(60);
+                        // 中间请求url
                         Label label = new Label(item.url());
                         HBox center = new HBox(10);
                         center.setAlignment(Pos.CENTER_LEFT);
                         center.getChildren().addAll(method, label);
                         cell.setCenter(center);
+                        // 右侧删除按钮
                         ImageView delete = new ImageView(new Image(
                                 Objects.requireNonNull(getClass().getResource("/image/del.png")).toString()
                         ));
