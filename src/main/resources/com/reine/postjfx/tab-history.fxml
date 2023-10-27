@@ -16,7 +16,7 @@
         <VBox>
             <HBox spacing="20" alignment="CENTER">
                 <DatePicker fx:id="datePicker"/>
-                <Button>撤销删除</Button>
+                <Button fx:id="cancelBtn" onAction="#cancelDelete" disable="true">撤销删除</Button>
             </HBox>
             <ListView prefWidth="300.0" fx:id="historyListView" prefHeight="${root.height}">
                 <placeholder>
