@@ -11,12 +11,12 @@
          xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:id="root">
     <children>
         <PostTabController fx:id="postTabController"/>
-        <VBox minWidth="300.0" maxWidth="300.0">
-            <HBox spacing="20" alignment="CENTER">
+        <VBox minWidth="300.0" maxWidth="300.0" alignment="CENTER">
+            <HBox spacing="20" alignment="CENTER" prefHeight="25">
                 <DatePicker fx:id="datePicker"/>
                 <Button fx:id="cancelBtn" onAction="#cancelDelete" disable="true">撤销删除</Button>
             </HBox>
-            <ListView fx:id="historyListView" prefHeight="${root.height}">
+            <ListView fx:id="historyListView" prefHeight="600">
                 <placeholder>
                     <Label text="无历史记录"/>
                 </placeholder>
