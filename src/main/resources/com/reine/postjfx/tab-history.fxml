@@ -1,24 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.layout.HBox?>
-
 
 <?import com.reine.postjfx.controller.PostTabController?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.*?>
 <fx:root type="HBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
          xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:id="root">
     <children>
         <PostTabController fx:id="postTabController"/>
-        <VBox>
+        <VBox minWidth="300.0" maxWidth="300.0">
             <HBox spacing="20" alignment="CENTER">
                 <DatePicker fx:id="datePicker"/>
                 <Button fx:id="cancelBtn" onAction="#cancelDelete" disable="true">撤销删除</Button>
             </HBox>
-            <ListView prefWidth="300.0" fx:id="historyListView" prefHeight="${root.height}">
+            <ListView fx:id="historyListView" prefHeight="${root.height}">
                 <placeholder>
                     <Label text="无历史记录"/>
                 </placeholder>
