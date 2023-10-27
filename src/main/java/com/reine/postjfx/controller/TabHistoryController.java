@@ -32,6 +32,9 @@ public class TabHistoryController extends HBox {
     @FXML
     private DatePicker datePicker;
 
+    @FXML
+    private Button cancelBtn;
+
 
     public TabHistoryController() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("tab-history.fxml"));
@@ -43,9 +46,14 @@ public class TabHistoryController extends HBox {
 
     @FXML
     void initialize() {
+        // 如果栈中数据大于0，则按钮可点击
+        LogUtils.logStackSize.addListener((observable, oldValue, newValue) -> {
+            cancelBtn.setDisable(newValue.intValue() <= 0);
+        });
+
+        // 每次改变选中的日期时，查询对应日期的日志
         datePicker.valueProperty().addListener((observable, oldValue, newValue) -> LogUtils.readFromFileForLogList(newValue));
-        // 查询当天日志
-        // LogUtils.readFromFileForLogList(LocalDate.now());
+        // 将日期设置为当天，查询当天的数据
         datePicker.setValue(LocalDate.now());
 
         historyListView.setItems(LogUtils.logList);
@@ -85,6 +93,11 @@ public class TabHistoryController extends HBox {
                 };
             }
         });
+    }
+
+    @FXML
+    void cancelDelete(){
+        LogUtils.restoreHistory(datePicker.getValue());
     }
 
 }
