@@ -58,7 +58,6 @@ public class PostTabController extends TabPane {
      * @param log 日志记录
      */
     public void addPostPageWithData(Log log) {
-
         try {
             EditableTab tab = new EditableTab();
             tab.setTitle("新标签页");
@@ -87,4 +86,5 @@ public class PostTabController extends TabPane {
     void onCloseRequestCheck(Event event) {
         if (this.getTabs().size() <= 2) event.consume();
     }
+
 }
