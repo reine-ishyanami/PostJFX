@@ -6,14 +6,23 @@
 
 <?import com.reine.postjfx.controller.PostTabController?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Button?>
 <fx:root type="HBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-         xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1">
+         xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:id="root">
     <children>
         <PostTabController fx:id="postTabController"/>
-        <ListView prefWidth="300.0" fx:id="historyListView">
-            <placeholder>
-                <Label text="无历史记录"/>
-            </placeholder>
-        </ListView>
+        <VBox>
+            <HBox spacing="20" alignment="CENTER">
+                <DatePicker fx:id="datePicker"/>
+                <Button>撤销删除</Button>
+            </HBox>
+            <ListView prefWidth="300.0" fx:id="historyListView" prefHeight="${root.height}">
+                <placeholder>
+                    <Label text="无历史记录"/>
+                </placeholder>
+            </ListView>
+        </VBox>
     </children>
 </fx:root>

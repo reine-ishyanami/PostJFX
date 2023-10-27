@@ -40,7 +40,7 @@ public class LogUtils {
     /**
      * 初始化标志位
      */
-    private static boolean init = true;
+    private static boolean initializing = true;
 
     /**
      * 数据库连接
@@ -89,7 +89,7 @@ public class LogUtils {
         // 保存日志信息到文件
         logList.addListener((ListChangeListener<Log>) c -> {
             // 如果是应用启动时的初始化数据操作，则不进行数据列表的响应操作
-            if (!init)
+            if (!initializing)
                 try {
                     while (c.next()) {
                         // 当请求发送成功时，往日志数据库中添加一条数据
@@ -121,12 +121,12 @@ public class LogUtils {
     }
 
     /**
-     * 读取文件信息写入日志列表
+     * 根据传入的日期查询当日日志信息
      */
-    public static void readFromFileForLogList() {
-        // 获取当天的日期
-        LocalDate now = LocalDate.now();
-        String dateStr = now.format(formatter);
+    public static void readFromFileForLogList(LocalDate date) {
+        initializing = true;
+        String dateStr = date.format(formatter);
+        logList.clear();
         try {
             // 查询当天的所有请求操作
             String sql = "SELECT datetime, method, url, params, headers, body from log where substr(datetime, 1, instr(datetime, '_') - 1) = ?";
@@ -154,7 +154,7 @@ public class LogUtils {
                 logList.add(log);
             }
             // 初始化完成，将初始化标志字段取反
-            init = false;
+            initializing = false;
         } catch (SQLException | JsonProcessingException e) {
             throw new RuntimeException(e);
         }

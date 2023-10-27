@@ -14,6 +14,7 @@ import javafx.scene.layout.HBox;
 import javafx.util.Callback;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.Objects;
 
 /**
@@ -28,6 +29,10 @@ public class TabHistoryController extends HBox {
     @FXML
     private ListView<Log> historyListView;
 
+    @FXML
+    private DatePicker datePicker;
+
+
     public TabHistoryController() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("tab-history.fxml"));
         fxmlLoader.setRoot(this);
@@ -38,7 +43,11 @@ public class TabHistoryController extends HBox {
 
     @FXML
     void initialize() {
-        LogUtils.readFromFileForLogList();
+        datePicker.valueProperty().addListener((observable, oldValue, newValue) -> LogUtils.readFromFileForLogList(newValue));
+        // 查询当天日志
+        // LogUtils.readFromFileForLogList(LocalDate.now());
+        datePicker.setValue(LocalDate.now());
+
         historyListView.setItems(LogUtils.logList);
         historyListView.setCellFactory(new Callback<>() {
             @Override
@@ -77,4 +86,5 @@ public class TabHistoryController extends HBox {
             }
         });
     }
+
 }
