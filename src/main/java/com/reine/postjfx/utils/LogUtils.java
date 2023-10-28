@@ -54,12 +54,12 @@ public class LogUtils {
     /**
      * 项目名称
      */
-    private final static String projectName = "PostJFX";
+    private final static String projectName = Constant.projectName;
 
     /**
      * 数据库存储位置
      */
-    private final static String logsPath = "logs";
+    private final static String logsPath = Constant.logDir;
 
     /**
      * 该监视属性用于与日期选择器的值进行绑定，方便其他组件调用修改日期选择器的值

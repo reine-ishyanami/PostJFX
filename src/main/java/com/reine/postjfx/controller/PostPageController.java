@@ -21,11 +21,9 @@ public class PostPageController extends SplitPane {
     @FXML
     private ResponseController responseController;
 
+
     public PostPageController() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("post-page.fxml"));
-        fxmlLoader.setRoot(this);
-        fxmlLoader.setController(this);
-        fxmlLoader.load();
+        initView();
     }
 
     /**
@@ -35,14 +33,20 @@ public class PostPageController extends SplitPane {
      * @throws IOException
      */
     public PostPageController(Log log) throws IOException {
+        initView();
+        // 初始化请求内容信息
+        requestController.initData(log);
+    }
+
+    /**
+     * 初始化页面
+     * @throws IOException
+     */
+    private void initView() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("post-page.fxml"));
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
         fxmlLoader.load();
-
-        // 初始化请求内容信息
-        requestController.initData(log);
-
     }
 
     @FXML

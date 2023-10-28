@@ -17,7 +17,6 @@ public class ParamProperty {
 
     private ParamTypeEnum paramTypeEnum = ParamTypeEnum.TEXT;
 
-
     public ParamProperty() {
     }
 

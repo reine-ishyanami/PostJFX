@@ -29,7 +29,7 @@ public class HttpUtils {
 
     private static final HttpClient client = HttpClient.newHttpClient();
 
-    private static final String defaultUserAgent = "PostJFX/1.1.0";
+    private static final String defaultUserAgent = String.format("%s/%s", Constant.projectName, Constant.version);
 
     private static final List<HeaderProperty> defaultHeader = List.of(
             new HeaderProperty(HeaderTypeEnum.USER_AGENT, defaultUserAgent),
@@ -192,6 +192,7 @@ public class HttpUtils {
 
     /**
      * 将list类型的headers转换为string[]
+     *
      * @param headerPropertyList
      * @return
      */

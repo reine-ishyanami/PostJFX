@@ -1,6 +1,7 @@
 package com.reine.postjfx;
 
 import com.reine.postjfx.controller.TabHistoryController;
+import com.reine.postjfx.utils.Constant;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -15,12 +16,12 @@ public class App extends Application {
         TabHistoryController tabHistoryController = new TabHistoryController();
         Scene scene = new Scene(tabHistoryController);
         scene.getStylesheets().add(
-                Objects.requireNonNull(App.class.getResource("/css/default.css")).toString()
+                Objects.requireNonNull(App.class.getResource(Constant.cssPath)).toString()
         );
-        stage.setTitle("PostJFX");
+        stage.setTitle(Constant.projectName);
         stage.setScene(scene);
         stage.getIcons().add(
-                new Image(Objects.requireNonNull(App.class.getResource("/image/logo.png")).toString())
+                new Image(Objects.requireNonNull(App.class.getResource(Constant.logoPath)).toString())
         );
         stage.setResizable(false);
         stage.show();
