@@ -37,7 +37,6 @@ import java.util.regex.Pattern;
  */
 public class RequestController extends VBox {
 
-
     @FXML
     private TableView<HeaderProperty> headersTableView;
 
