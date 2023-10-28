@@ -14,6 +14,7 @@ import javafx.collections.ObservableList;
 
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.*;
 import java.time.LocalDate;
@@ -44,6 +45,16 @@ public class LogUtils {
      * 右侧历史记录数据
      */
     public final static ObservableList<Log> logList = FXCollections.observableList(new ArrayList<>());
+
+    /**
+     * 获取用户家目录
+     */
+    private final static String userHomeDir = System.getProperty("user.home");
+
+    /**
+     * 项目名称
+     */
+    private final static String projectName = "PostJFX";
 
     /**
      * 数据库存储位置
@@ -116,11 +127,12 @@ public class LogUtils {
     static {
         try {
             // 创建文件夹
-            Files.createDirectories(Paths.get(logsPath));
+            Path dir = Paths.get(userHomeDir, projectName, logsPath);
+            Files.createDirectories(dir);
             // 加载数据库驱动
             Class.forName("org.sqlite.JDBC");
             // 建立数据库连接
-            connection = DriverManager.getConnection("jdbc:sqlite:logs/log.db");
+            connection = DriverManager.getConnection(String.format("jdbc:sqlite:%s/log.db", dir));
             PreparedStatement preparedStatement = connection.prepareStatement(tableSql);
             preparedStatement.execute();
             preparedStatement = connection.prepareStatement(indexSql);
@@ -233,11 +245,10 @@ public class LogUtils {
         readFromFileForLogList(date);
     }
 
-
     /**
      * 将数据推入栈中
      */
-    private static void push(Log log){
+    private static void push(Log log) {
         // 添加到被删除的日志栈中
         logStack.push(log);
         // 设置栈大小
@@ -248,7 +259,7 @@ public class LogUtils {
     /**
      * 将栈中数据弹出
      */
-    private static Log pop(){
+    private static Log pop() {
         Log recentLog = logStack.pop();
         logStackSize.set(logStack.size());
         return recentLog;
