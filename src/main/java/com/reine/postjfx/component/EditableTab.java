@@ -48,6 +48,7 @@ public class EditableTab extends Tab {
             }
         });
 
+        // 失焦事件
         titleTextField.focusedProperty().addListener((obs, wasFocused, isFocused) -> {
             if (!isFocused) {
                 titleLabel.setText(titleTextField.getText());
@@ -56,6 +57,7 @@ public class EditableTab extends Tab {
             }
         });
 
+        // 回车事件
         titleTextField.setOnKeyPressed(e -> {
             if (e.getCode().equals(KeyCode.ENTER)) {
                 titleLabel.setText(titleTextField.getText());

@@ -44,9 +44,7 @@ public class PostTabController extends TabPane {
             tab.setOnCloseRequest(this::onCloseRequestCheck);
             // 设置新标签页内容
             tab.setContent(new PostPageController());
-            ObservableList<Tab> tabs = this.getTabs();
-            Tab addTabButton = tabs.remove(tabs.size() - 1);
-            tabs.addAll(tab, addTabButton);
+            this.getTabs().add(tab);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -64,9 +62,7 @@ public class PostTabController extends TabPane {
             tab.setOnCloseRequest(this::onCloseRequestCheck);
             // 设置新标签页内容
             tab.setContent(new PostPageController(log));
-            ObservableList<Tab> tabs = this.getTabs();
-            Tab addTabButton = tabs.remove(tabs.size() - 1);
-            tabs.addAll(tab, addTabButton);
+            this.getTabs().add(tab);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
