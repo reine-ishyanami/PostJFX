@@ -6,13 +6,12 @@
 <?import com.reine.postjfx.controller.RequestController?>
 <?import com.reine.postjfx.controller.ResponseController?>
 <fx:root type="SplitPane" dividerPositions="0.5, 0.5" orientation="VERTICAL" prefHeight="600.0"
-         prefWidth="800.0"
          xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1">
     <items>
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="800.0">
+        <AnchorPane minHeight="0.0" prefWidth="800.0">
             <RequestController fx:id="requestController"/>
         </AnchorPane>
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="800.0">
+        <AnchorPane minHeight="300.0" prefWidth="800.0">
             <ResponseController fx:id="responseController"/>
         </AnchorPane>
     </items>
