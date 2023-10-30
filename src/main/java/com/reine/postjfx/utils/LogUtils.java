@@ -15,7 +15,6 @@ import javafx.collections.ObservableList;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -47,21 +46,6 @@ public class LogUtils {
     public final static ObservableList<Log> logList = FXCollections.observableList(new ArrayList<>());
 
     /**
-     * 获取用户家目录
-     */
-    private final static String userHomeDir = System.getProperty("user.home");
-
-    /**
-     * 项目名称
-     */
-    private final static String projectName = Constant.projectName;
-
-    /**
-     * 数据库存储位置
-     */
-    private final static String logsPath = Constant.logDir;
-
-    /**
      * 该监视属性用于与日期选择器的值进行绑定，方便其他组件调用修改日期选择器的值
      */
     public static final SimpleObjectProperty<LocalDate> dateProperty = new SimpleObjectProperty<>();
@@ -70,7 +54,7 @@ public class LogUtils {
     /**
      * 初始化标志位
      */
-    private static boolean initializing = true;
+    private static boolean initializing = false;
 
     /**
      * 数据库连接
@@ -127,7 +111,7 @@ public class LogUtils {
     static {
         try {
             // 创建文件夹
-            Path dir = Paths.get(userHomeDir, projectName, logsPath);
+            Path dir = Constant.logDbDir;
             Files.createDirectories(dir);
             // 加载数据库驱动
             Class.forName("org.sqlite.JDBC");
@@ -189,8 +173,10 @@ public class LogUtils {
      * 根据传入的日期查询当日日志信息
      */
     public static void readFromFileForLogList(LocalDate date) {
+        // 设置为正在初始化数据
         initializing = true;
         String dateStr = date.format(formatter);
+        // 清空数据，等待重新装填
         logList.clear();
         try {
             // 查询当天的所有请求操作
@@ -217,10 +203,11 @@ public class LogUtils {
                 // 添加到日志列表中
                 logList.add(log);
             }
-            // 初始化完成，将初始化标志字段取反
-            initializing = false;
         } catch (SQLException | JsonProcessingException e) {
             throw new RuntimeException(e);
+        } finally {
+            // 初始化完成，将初始化标志字段取反
+            initializing = false;
         }
     }
 
@@ -242,6 +229,7 @@ public class LogUtils {
         } catch (SQLException | JsonProcessingException e) {
             throw new RuntimeException(e);
         }
+        // 重新加载数据
         readFromFileForLogList(date);
     }
 
@@ -253,7 +241,6 @@ public class LogUtils {
         logStack.push(log);
         // 设置栈大小
         logStackSize.set(logStack.size());
-
     }
 
     /**
