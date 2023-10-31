@@ -1,11 +1,10 @@
 package com.reine.postjfx.component;
 
 import javafx.geometry.Pos;
-import javafx.scene.control.Label;
+import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.MouseButton;
 import javafx.scene.layout.StackPane;
 
 /**
@@ -14,55 +13,51 @@ import javafx.scene.layout.StackPane;
  */
 public class EditableTab extends Tab {
 
-    private final Label titleLabel;
+    private final Button updateTabName = new Button("改");
 
-    private final TextField titleTextField;
+    private final TextField titleTextField = new TextField();
 
     private final StackPane graphic;
 
     public EditableTab() {
+        titleTextField.setPrefWidth(100);
         graphic = new StackPane();
-        graphic.setAlignment(Pos.CENTER);
-        graphic.setPrefWidth(100);
-        titleLabel = new Label();
-        titleTextField = new TextField();
-        graphic.getChildren().addAll(titleLabel, titleTextField);
-        titleTextField.setVisible(false);
+        graphic.setAlignment(Pos.CENTER_LEFT);
+        graphic.getChildren().add(updateTabName);
         this.setGraphic(graphic);
         listen();
     }
 
-    public void setTitle(String title){
-        titleLabel.setText(title);
-        titleTextField.setText(title);
-    }
-
     private void listen() {
-        // 标题栏双击事件
-        graphic.setOnMouseClicked(event -> {
-            if (event.getButton().equals(MouseButton.PRIMARY) && event.getClickCount() == 2) {
-                titleLabel.setVisible(false);
-                titleTextField.setVisible(true);
-                titleTextField.requestFocus();
-                titleTextField.selectAll();
-            }
+
+        // 只有当标签页选择时，才可以更改标签页名称
+        updateTabName.disableProperty().bind(this.selectedProperty().not());
+
+        // 按钮点击事件
+        updateTabName.setOnAction(event -> {
+            // 点击按钮，展示输入框
+            String text = this.getText();
+            this.setText("");
+            titleTextField.setText(text);
+            // 添加输入框
+            graphic.getChildren().add(titleTextField);
+            // 强行获取焦点
+            titleTextField.requestFocus();
         });
 
         // 失焦事件
         titleTextField.focusedProperty().addListener((obs, wasFocused, isFocused) -> {
             if (!isFocused) {
-                titleLabel.setText(titleTextField.getText());
-                titleLabel.setVisible(true);
-                titleTextField.setVisible(false);
+                this.setText(titleTextField.getText());
+                graphic.getChildren().remove(titleTextField);
             }
         });
 
         // 回车事件
         titleTextField.setOnKeyPressed(e -> {
             if (e.getCode().equals(KeyCode.ENTER)) {
-                titleLabel.setText(titleTextField.getText());
-                titleLabel.setVisible(true);
-                titleTextField.setVisible(false);
+                this.setText(titleTextField.getText());
+                graphic.getChildren().remove(titleTextField);
             }
         });
     }

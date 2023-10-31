@@ -40,7 +40,7 @@ public class PostTabController extends TabPane {
     void addPostPage() {
         try {
             EditableTab tab = new EditableTab();
-            tab.setTitle("新标签页");
+            tab.setText("新标签页");
             tab.setOnCloseRequest(this::onCloseRequestCheck);
             // 设置新标签页内容
             tab.setContent(new PostPageController());
@@ -58,7 +58,7 @@ public class PostTabController extends TabPane {
     public void addPostPageWithData(Log log) {
         try {
             EditableTab tab = new EditableTab();
-            tab.setTitle("新标签页");
+            tab.setText("新标签页");
             tab.setOnCloseRequest(this::onCloseRequestCheck);
             // 设置新标签页内容
             tab.setContent(new PostPageController(log));
