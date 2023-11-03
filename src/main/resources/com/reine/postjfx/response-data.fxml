@@ -12,6 +12,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
 <fx:root prefWidth="800.0" type="VBox" xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <HBox fx:id="tip" alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="800.0" spacing="10.0">
@@ -36,7 +37,7 @@
                         </AnchorPane>
                     </content>
                 </Tab>
-                <Tab text="请求标头">
+                <Tab fx:id="requestTab" text="请求标头" disable="true">
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="800.0">
                             <children>
@@ -46,9 +47,17 @@
                                     </placeholder>
                                     <columns>
                                         <TableColumn fx:id="nameColOfRequestHeader" prefWidth="200.0"
-                                                     sortable="false" text="参数名"/>
+                                                     sortable="false" text="参数名">
+                                            <cellValueFactory>
+                                                <PropertyValueFactory property="key"/>
+                                            </cellValueFactory>
+                                        </TableColumn>
                                         <TableColumn fx:id="valueColOfRequestHeader" prefWidth="600.0"
-                                                     sortable="false" text="参数值"/>
+                                                     sortable="false" text="参数值">
+                                            <cellValueFactory>
+                                                <PropertyValueFactory property="value"/>
+                                            </cellValueFactory>
+                                        </TableColumn>
                                     </columns>
                                     <columnResizePolicy>
                                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
@@ -58,7 +67,7 @@
                         </AnchorPane>
                     </content>
                 </Tab>
-                <Tab text="响应标头">
+                <Tab fx:id="responseTab" text="响应标头" disable="true">
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="800.0">
                             <children>
@@ -68,9 +77,17 @@
                                     </placeholder>
                                     <columns>
                                         <TableColumn fx:id="nameColOfResponseHeader" prefWidth="200.0"
-                                                     sortable="false" text="参数名"/>
+                                                     sortable="false" text="参数名">
+                                            <cellValueFactory>
+                                                <PropertyValueFactory property="key"/>
+                                            </cellValueFactory>
+                                        </TableColumn>
                                         <TableColumn fx:id="valueColOfResponseHeader" prefWidth="600.0"
-                                                     sortable="false" text="参数值"/>
+                                                     sortable="false" text="参数值">
+                                            <cellValueFactory>
+                                                <PropertyValueFactory property="value"/>
+                                            </cellValueFactory>
+                                        </TableColumn>
                                     </columns>
                                     <columnResizePolicy>
                                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>

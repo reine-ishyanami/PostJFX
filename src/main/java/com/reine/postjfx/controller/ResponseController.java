@@ -4,23 +4,21 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.reine.postjfx.App;
+import com.reine.postjfx.entity.property.ReadOnlyHeader;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Label;
-import javafx.scene.control.TabPane;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
 import java.io.IOException;
-import java.net.http.HttpHeaders;
 import java.net.http.HttpResponse;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 下方响应内容
@@ -42,10 +40,10 @@ public class ResponseController extends VBox {
     private TabPane responseTabPane;
 
     @FXML
-    private TableView<Object> requestHeaderTableView;
+    private TableView<ReadOnlyHeader> requestHeaderTableView;
 
     @FXML
-    private TableView<Object> responseHeaderTableView;
+    private TableView<ReadOnlyHeader> responseHeaderTableView;
 
     /**
      * tabpane的header高度
@@ -76,13 +74,34 @@ public class ResponseController extends VBox {
         fxmlLoader.load();
     }
 
+    @FXML
+    private Tab bodyTab;
+
+    @FXML
+    private Tab requestTab;
+
+    @FXML
+    private Tab responseTab;
+
     public void showResult(HttpResponse<?> response) {
-        System.out.println("======request======");
-        HttpHeaders requestHeaders = response.request().headers();
-        System.out.println(requestHeaders.map());
-        System.out.println("======response======");
-        HttpHeaders responseHeaders = response.headers();
-        System.out.println(responseHeaders.map());
+        // 更新请求头信息
+        ObservableList<ReadOnlyHeader> requestHeaderList = FXCollections.observableArrayList();
+        Map<String, List<String>> requestHeader = response.request().headers().map();
+        for (String key : requestHeader.keySet()) {
+            requestHeaderList.add(new ReadOnlyHeader(key, requestHeader.get(key).toString()));
+        }
+        requestHeaderTableView.setItems(requestHeaderList);
+        requestTab.setDisable(false);
+
+        // 更新响应头信息
+        ObservableList<ReadOnlyHeader> responseHeaderList = FXCollections.observableArrayList();
+        Map<String, List<String>> responseHeader = response.headers().map();
+        for (String key : responseHeader.keySet())
+            responseHeaderList.add(new ReadOnlyHeader(key, responseHeader.get(key).toString()));
+        responseHeaderTableView.setItems(responseHeaderList);
+        responseTab.setDisable(false);
+
+        // 渲染响应体信息
         int code = response.statusCode();
         Object message = response.body();
         switch (code / 100) {
@@ -106,6 +125,9 @@ public class ResponseController extends VBox {
     }
 
     public void showErrorMessage(String message) {
+        responseTabPane.getSelectionModel().select(0);
+        requestTab.setDisable(true);
+        responseTab.setDisable(true);
         Platform.runLater(() -> {
             codeLabel.setText("");
             dataTextArea.setText(message);
