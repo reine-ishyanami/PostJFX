@@ -1,4 +1,4 @@
-package com.reine.postjfx.entity;
+package com.reine.postjfx.entity.property;
 
 import com.reine.postjfx.enums.ParamTypeEnum;
 import javafx.beans.property.SimpleBooleanProperty;

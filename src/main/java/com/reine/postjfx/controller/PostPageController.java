@@ -1,7 +1,7 @@
 package com.reine.postjfx.controller;
 
 import com.reine.postjfx.App;
-import com.reine.postjfx.entity.Log;
+import com.reine.postjfx.entity.record.Log;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.SplitPane;

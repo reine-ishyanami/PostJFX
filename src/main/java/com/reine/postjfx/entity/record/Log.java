@@ -1,5 +1,7 @@
-package com.reine.postjfx.entity;
+package com.reine.postjfx.entity.record;
 
+import com.reine.postjfx.entity.property.HeaderProperty;
+import com.reine.postjfx.entity.property.ParamProperty;
 import javafx.collections.ObservableList;
 
 /**

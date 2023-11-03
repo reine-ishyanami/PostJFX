@@ -1,6 +1,6 @@
 package com.reine.postjfx.component;
 
-import com.reine.postjfx.entity.HeaderProperty;
+import com.reine.postjfx.entity.property.HeaderProperty;
 import com.reine.postjfx.enums.HeaderTypeEnum;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableCell;

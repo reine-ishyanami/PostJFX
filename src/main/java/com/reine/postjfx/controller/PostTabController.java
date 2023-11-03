@@ -2,8 +2,7 @@ package com.reine.postjfx.controller;
 
 import com.reine.postjfx.App;
 import com.reine.postjfx.component.EditableTab;
-import com.reine.postjfx.entity.Log;
-import javafx.collections.ObservableList;
+import com.reine.postjfx.entity.record.Log;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
