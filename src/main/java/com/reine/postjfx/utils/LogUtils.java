@@ -92,7 +92,8 @@ public class LogUtils {
     public static void restoreHistory(LocalDate date) {
         // 从栈中弹出一条最近的删除记录
         Log recentLog = pop();
-        LogRepository.removeOne(recentLog);
+        // 将数据重新插入数据库中
+        LogRepository.insertOne(recentLog);
         // 重新加载数据
         readFromFileForLogList(date);
     }
