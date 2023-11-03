@@ -1,6 +1,6 @@
 package com.reine.postjfx.component;
 
-import com.reine.postjfx.entity.ParamProperty;
+import com.reine.postjfx.entity.property.ParamProperty;
 import com.reine.postjfx.enums.ParamTypeEnum;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableCell;

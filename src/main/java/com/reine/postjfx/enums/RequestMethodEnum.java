@@ -1,7 +1,7 @@
 package com.reine.postjfx.enums;
 
-import com.reine.postjfx.entity.HeaderProperty;
-import com.reine.postjfx.entity.ParamProperty;
+import com.reine.postjfx.entity.property.HeaderProperty;
+import com.reine.postjfx.entity.property.ParamProperty;
 import com.reine.postjfx.utils.HttpUtils;
 
 import java.net.http.HttpResponse;

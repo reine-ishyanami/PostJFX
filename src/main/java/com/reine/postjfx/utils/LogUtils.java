@@ -1,6 +1,7 @@
 package com.reine.postjfx.utils;
 
-import com.reine.postjfx.entity.Log;
+import com.reine.postjfx.entity.record.Log;
+import com.reine.postjfx.repository.LogRepository;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;

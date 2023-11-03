@@ -1,7 +1,7 @@
 package com.reine.postjfx.controller;
 
 import com.reine.postjfx.App;
-import com.reine.postjfx.entity.Log;
+import com.reine.postjfx.entity.record.Log;
 import com.reine.postjfx.utils.LogUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
