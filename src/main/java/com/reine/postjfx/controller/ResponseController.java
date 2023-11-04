@@ -16,6 +16,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
 import java.io.IOException;
+import java.net.http.HttpHeaders;
 import java.net.http.HttpResponse;
 import java.util.List;
 import java.util.Map;
@@ -85,22 +86,9 @@ public class ResponseController extends VBox {
 
     public void showResult(HttpResponse<?> response) {
         // 更新请求头信息
-        ObservableList<ReadOnlyHeader> requestHeaderList = FXCollections.observableArrayList();
-        Map<String, List<String>> requestHeader = response.request().headers().map();
-        for (String key : requestHeader.keySet()) {
-            requestHeaderList.add(new ReadOnlyHeader(key, requestHeader.get(key).toString()));
-        }
-        requestHeaderTableView.setItems(requestHeaderList);
-        requestTab.setDisable(false);
-
+        fillTableData(requestTab, requestHeaderTableView, response.request().headers());
         // 更新响应头信息
-        ObservableList<ReadOnlyHeader> responseHeaderList = FXCollections.observableArrayList();
-        Map<String, List<String>> responseHeader = response.headers().map();
-        for (String key : responseHeader.keySet())
-            responseHeaderList.add(new ReadOnlyHeader(key, responseHeader.get(key).toString()));
-        responseHeaderTableView.setItems(responseHeaderList);
-        responseTab.setDisable(false);
-
+        fillTableData(responseTab, responseHeaderTableView, response.headers());
         // 渲染响应体信息
         int code = response.statusCode();
         Object message = response.body();
@@ -122,6 +110,22 @@ public class ResponseController extends VBox {
                 dataTextArea.setText(message.toString());
             });
         }
+    }
+
+    /**
+     * 填充对应表数据
+     * @param tab 标签
+     * @param table 对应标签表
+     * @param headers 要进行处理的HttpHeaders信息
+     */
+    private void fillTableData(Tab tab, TableView<ReadOnlyHeader> table, HttpHeaders headers) {
+        ObservableList<ReadOnlyHeader> headerList = FXCollections.observableArrayList();
+        Map<String, List<String>> headersMap = headers.map();
+        for (String key : headersMap.keySet())
+            for (String s : headersMap.get(key))
+                headerList.add(new ReadOnlyHeader(key, s));
+        table.setItems(headerList);
+        tab.setDisable(false);
     }
 
     public void showErrorMessage(String message) {
