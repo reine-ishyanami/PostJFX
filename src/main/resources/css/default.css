@@ -24,3 +24,15 @@ PostTabController {
 PostTabController #btnTab {
     -fx-padding: 0 0;
 }
+
+/*post-page*/
+.requestView {
+    -fx-min-height: 0.0;
+    -fx-pref-width: 800.0;
+}
+
+.responseView {
+    -fx-min-height: 300.0;
+    -fx-pref-width: 800.0;
+}
+
