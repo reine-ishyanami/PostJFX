@@ -3,6 +3,7 @@ package com.reine.postjfx.controller;
 import com.reine.postjfx.App;
 import com.reine.postjfx.component.EditableTab;
 import com.reine.postjfx.entity.record.Log;
+import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -43,7 +44,7 @@ public class PostTabController extends TabPane {
             tab.setOnCloseRequest(this::onCloseRequestCheck);
             // 设置新标签页内容
             tab.setContent(new PostPageController());
-            this.getTabs().add(tab);
+            insertNewTab(tab);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -61,11 +62,25 @@ public class PostTabController extends TabPane {
             tab.setOnCloseRequest(this::onCloseRequestCheck);
             // 设置新标签页内容
             tab.setContent(new PostPageController(log));
-            this.getTabs().add(tab);
+            insertNewTab(tab);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
+
+
+    /**
+     * 插入新标签页
+     * @param tab 要增加的新标签页
+     */
+    private void insertNewTab(EditableTab tab) {
+        ObservableList<Tab> tabs = this.getTabs();
+        Tab addTabButton = tabs.remove(tabs.size() - 1);
+        tabs.addAll(tab, addTabButton);
+        // 如果标签页数量过多，则移除添加按钮
+        if (getWidth() > 800) tabs.remove(btnTab);
+    }
+
 
     @FXML
     void initialize() {
@@ -74,12 +89,17 @@ public class PostTabController extends TabPane {
         addTabButton.fire();
     }
 
+    @FXML
+    private Tab btnTab;
+
     /**
      * 检查该选项卡是否是最后一个选项卡，如果是，则不能关闭
      */
     @FXML
     void onCloseRequestCheck(Event event) {
         if (this.getTabs().size() <= 2) event.consume();
+        // 当标签栏长度没有溢出时，判断最后一个标签是否为btnTab，如果不是则添加
+        if (getWidth() <= 800.0 && !getTabs().get(getTabs().size() - 1).equals(btnTab)) getTabs().add(btnTab);
     }
 
 }
