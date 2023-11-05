@@ -7,16 +7,16 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.*?>
-<fx:root type="HBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+<fx:root type="HBox"
          xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:id="root">
     <children>
         <PostTabController fx:id="postTabController"/>
-        <VBox minWidth="300.0" maxWidth="300.0" alignment="CENTER">
-            <HBox spacing="20" alignment="CENTER" prefHeight="25">
+        <VBox styleClass="historyView">
+            <HBox>
                 <DatePicker fx:id="datePicker"/>
                 <Button fx:id="cancelBtn" onAction="#cancelDelete" disable="true">撤销删除</Button>
             </HBox>
-            <ListView fx:id="historyListView" prefHeight="600">
+            <ListView fx:id="historyListView">
                 <placeholder>
                     <Label text="无历史记录"/>
                 </placeholder>
