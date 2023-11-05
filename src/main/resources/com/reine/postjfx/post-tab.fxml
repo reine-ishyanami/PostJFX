@@ -6,7 +6,7 @@
 <fx:root type="TabPane"
          xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17.0.6">
     <tabs>
-        <Tab closable="false" disable="true">
+        <Tab closable="false" disable="true" fx:id="btnTab" style="-fx-padding: 0 0;">
             <graphic>
                 <Button fx:id="addTabButton" onAction="#addPostPage" text="+" focusTraversable="false"/>
             </graphic>
