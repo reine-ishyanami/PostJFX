@@ -83,9 +83,7 @@ public class PostTabController extends TabPane {
 
 
     @FXML
-    void initialize() {
-        this.setStyle("-fx-open-tab-animation: GROW; -fx-close-tab-animation: GROW;");
-        // 默认触发一次按钮，新建一个标签页
+    void initialize() {// 默认触发一次按钮，新建一个标签页
         addTabButton.fire();
     }
 
