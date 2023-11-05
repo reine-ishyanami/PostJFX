@@ -8,10 +8,10 @@
 <fx:root type="SplitPane" dividerPositions="0.5, 0.5" orientation="VERTICAL" prefHeight="600.0"
          xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1">
     <items>
-        <AnchorPane minHeight="0.0" prefWidth="800.0">
+        <AnchorPane styleClass="requestView">
             <RequestController fx:id="requestController"/>
         </AnchorPane>
-        <AnchorPane minHeight="300.0" prefWidth="800.0">
+        <AnchorPane styleClass="responseView">
             <ResponseController fx:id="responseController"/>
         </AnchorPane>
     </items>
