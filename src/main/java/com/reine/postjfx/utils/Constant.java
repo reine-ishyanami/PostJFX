@@ -22,7 +22,7 @@ public class Constant {
     /**
      * 版本号
      */
-    public static final String version = "1.2.3";
+    public static final String version = "1.2.5";
 
     /**
      * 应用图标路径
