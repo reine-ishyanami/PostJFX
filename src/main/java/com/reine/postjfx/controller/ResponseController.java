@@ -47,9 +47,9 @@ public class ResponseController extends VBox {
     private TableView<ReadOnlyHeader> responseHeaderTableView;
 
     /**
-     * tabpane的header高度
+     * tabPane的header高度
      */
-    private final double tabPaneHeaderHeight = 33;
+    private final double tabPaneHeaderHeight = 80;
 
     public void setMainController(PostPageController postPageController) {
         // 绑定计算
@@ -60,10 +60,9 @@ public class ResponseController extends VBox {
                 .add(1.0)
                 .multiply(postPageController.getPrefHeight())
                 .subtract(tip.getPrefHeight()));
-        requestHeaderTableView.prefHeightProperty().bind(responseTabPane.heightProperty().subtract(33));
-        responseHeaderTableView.prefHeightProperty().bind(responseTabPane.heightProperty().subtract(33));
-        dataTextArea.prefHeightProperty().bind(responseTabPane.heightProperty().subtract(33));
-
+        requestHeaderTableView.prefHeightProperty().bind(responseTabPane.prefHeightProperty().subtract(tabPaneHeaderHeight));
+        responseHeaderTableView.prefHeightProperty().bind(responseTabPane.prefHeightProperty().subtract(tabPaneHeaderHeight));
+        dataTextArea.prefHeightProperty().bind(responseTabPane.prefHeightProperty().subtract(tabPaneHeaderHeight));
     }
 
     private final ObjectMapper mapper = new ObjectMapper();
@@ -140,6 +139,7 @@ public class ResponseController extends VBox {
 
     @FXML
     void initialize() {
-
+        requestHeaderTableView.setColumnResizePolicy(param -> true);
+        responseHeaderTableView.setColumnResizePolicy(param -> true);
     }
 }
