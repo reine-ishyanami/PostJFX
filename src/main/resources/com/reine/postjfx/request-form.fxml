@@ -30,8 +30,8 @@
                                     <columns>
                                         <TableColumn fx:id="nameColOfHeadersTableView" sortable="false" text="参数名"/>
                                         <TableColumn fx:id="valueColOfHeadersTableView" sortable="false" text="参数值"/>
-                                        <TableColumn fx:id="addRowOfHeadersTableView" sortable="false"/>
-                                        <TableColumn fx:id="removeRowOfHeadersTableView" sortable="false"/>
+                                        <TableColumn fx:id="addRowOfHeadersTableView" sortable="false" styleClass="tableButton"/>
+                                        <TableColumn fx:id="removeRowOfHeadersTableView" sortable="false" styleClass="tableButton"/>
                                     </columns>
                                     <columnResizePolicy>
                                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
@@ -54,8 +54,8 @@
                                         <TableColumn fx:id="keyColOfParamsTableView" sortable="false" text="参数名"/>
                                         <TableColumn fx:id="typeColOfParamsTableView" sortable="false" text="参数类型"/>
                                         <TableColumn fx:id="valueColOfParamsTableView" sortable="false" text="参数值"/>
-                                        <TableColumn fx:id="addRowOfParamsTableView" sortable="false"/>
-                                        <TableColumn fx:id="removeRowOfParamsTableView" sortable="false"/>
+                                        <TableColumn fx:id="addRowOfParamsTableView" sortable="false" styleClass="tableButton"/>
+                                        <TableColumn fx:id="removeRowOfParamsTableView" sortable="false" styleClass="tableButton"/>
                                     </columns>
                                     <columnResizePolicy>
                                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
