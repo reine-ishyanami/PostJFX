@@ -161,3 +161,15 @@ ResponseController .nameOfTable {
 ResponseController .valueOfTable {
     -fx-pref-width: 580.0;
 }
+
+/*去除聚焦时的蓝色边框*/
+ListView:focused,
+TableView:focused,
+TextArea:focused,
+TabPane:focused,
+Button:focused,
+TextField:focused,
+ComboBox:focused,
+DatePicker:focused{
+    -fx-focus-color: transparent;
+}
