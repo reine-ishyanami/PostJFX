@@ -282,6 +282,18 @@ public class RequestController extends VBox {
                 sendButton.setDisable(true);
             }
         }));
+
+        // 输入框回车提交事件
+        urlTextField.setOnAction(e -> {
+            if (isHttpUri(urlTextField.getText())) {
+                sendButton.fire();
+                urlTextField.setTooltip(null);
+                sendButton.setDisable(false);
+            } else {
+                urlTextField.setTooltip(urlToolTip);
+                sendButton.setDisable(true);
+            }
+        });
     }
 
     /**
