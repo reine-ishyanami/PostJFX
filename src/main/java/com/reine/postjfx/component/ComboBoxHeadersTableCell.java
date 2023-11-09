@@ -15,6 +15,7 @@ public class ComboBoxHeadersTableCell extends TableCell<HeaderProperty, HeaderTy
     private final ComboBox<HeaderTypeEnum> comboBox = new ComboBox<>();
 
     public ComboBoxHeadersTableCell() {
+        comboBox.setPrefWidth(340);
         comboBox.getItems().addAll(HeaderTypeEnum.values());
         comboBox.setConverter(new StringConverter<>() {
             @Override

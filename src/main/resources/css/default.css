@@ -32,7 +32,7 @@ PostTabController #btnTab {
 }
 
 .responseView {
-    -fx-min-height: 300.0;
+    -fx-min-height: 290.0;
     -fx-pref-width: 800.0;
 }
 
