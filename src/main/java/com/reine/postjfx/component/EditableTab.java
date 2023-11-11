@@ -1,11 +1,16 @@
 package com.reine.postjfx.component;
 
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.StackPane;
+
+import java.util.Objects;
 
 /**
  * 可编辑选项卡标题的选项卡
@@ -13,13 +18,20 @@ import javafx.scene.layout.StackPane;
  */
 public class EditableTab extends Tab {
 
-    private final Button updateTabName = new Button("改");
+    private final Node updateTabName;
 
     private final TextField titleTextField = new TextField();
 
     private final StackPane graphic;
 
     public EditableTab() {
+        ImageView editImage = new ImageView(new Image(
+                Objects.requireNonNull(getClass().getResource("/image/edit.png")).toString()
+        ));
+        editImage.setFitWidth(15);
+        editImage.setFitHeight(15);
+        editImage.setPickOnBounds(true);
+        this.updateTabName = editImage;
         titleTextField.setPrefWidth(100);
         graphic = new StackPane();
         graphic.setAlignment(Pos.CENTER_LEFT);
@@ -34,7 +46,7 @@ public class EditableTab extends Tab {
         updateTabName.disableProperty().bind(this.selectedProperty().not());
 
         // 按钮点击事件
-        updateTabName.setOnAction(event -> {
+        updateTabName.setOnMouseClicked(event -> {
             // 点击按钮，展示输入框
             String text = this.getText();
             this.setText("");
