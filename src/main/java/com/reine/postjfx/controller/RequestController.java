@@ -303,7 +303,7 @@ public class RequestController extends VBox {
      * @return
      */
     private boolean isHttpUri(String input) {
-        String regex = "^(http|https)://[a-zA-Z0-9.-]+(:[0-9]+)?(/[a-zA-Z0-9/]+)*(\\?[a-zA-Z0-9&=]+)?$";
+        String regex = "^(http|https)://[a-zA-Z0-9.-]+(:[0-9]+)?(/[a-zA-Z0-9./]+)*(\\?[a-zA-Z0-9&=]+)?$";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(input);
         return matcher.matches();
