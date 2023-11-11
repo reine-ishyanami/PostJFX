@@ -16,4 +16,5 @@ module com.reine.postjfx {
     exports com.reine.postjfx.component;
     exports com.reine.postjfx.entity.property;
     exports com.reine.postjfx.entity.record;
+
 }
