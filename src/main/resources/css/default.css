@@ -23,6 +23,8 @@ PostTabController {
 
 PostTabController #btnTab {
     -fx-padding: 0 0;
+    -fx-pref-height: 25;
+    -fx-pref-width: 25;
 }
 
 /*post-page*/
