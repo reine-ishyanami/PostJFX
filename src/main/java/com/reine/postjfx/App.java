@@ -13,8 +13,8 @@ import java.util.Objects;
 public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        TabHistoryController tabHistoryController = new TabHistoryController();
-        Scene scene = new Scene(tabHistoryController);
+        TabHistoryController root = new TabHistoryController();
+        Scene scene = new Scene(root);
         scene.getStylesheets().add(
                 Objects.requireNonNull(App.class.getResource(Constant.cssPath)).toString()
         );

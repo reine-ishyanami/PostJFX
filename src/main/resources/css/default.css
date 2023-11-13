@@ -1,3 +1,11 @@
+.root { /*If it is an external font, you need to load it; @font-face {...} */
+    -fx-font-family: "JetBrains Mono";
+    -fx-font-size: 12;
+    -fx-text-fill: #811818ff;
+    -fx-fill: #811818ff;
+    -fx-focus-color: -fx-base;
+}
+
 /*tab-history*/
 .historyView {
     -fx-min-width: 300.0;
@@ -162,16 +170,4 @@ ResponseController .nameOfTable {
 /*参数值表格列*/
 ResponseController .valueOfTable {
     -fx-pref-width: 580.0;
-}
-
-/*去除聚焦时的蓝色边框*/
-ListView:focused,
-TableView:focused,
-TextArea:focused,
-TabPane:focused,
-Button:focused,
-TextField:focused,
-ComboBox:focused,
-DatePicker:focused{
-    -fx-focus-color: transparent;
 }
