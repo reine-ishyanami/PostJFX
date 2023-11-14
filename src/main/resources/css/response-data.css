@@ -1,0 +1,42 @@
+ResponseController {
+    -fx-pref-width: 800.0;
+}
+
+/*状态码栏*/
+ResponseController > HBox {
+    -fx-alignment: center-left;
+    -fx-pref-height: 50.0;
+    -fx-pref-width: 800.0;
+    -fx-spacing: 10.0;
+}
+
+ResponseController > TabPane {
+    -fx-pref-width: 800.0;
+}
+
+/*tabPane 每项*/
+ResponseController > TabPane > Tab > AnchorPane {
+    -fx-min-height: 0.0;
+    -fx-min-width: 0.0;
+    -fx-pref-width: 800.0;
+}
+
+/*每个tableview*/
+ResponseController TableView {
+    -fx-pref-width: 800.0;
+}
+
+/*响应内容区域*/
+ResponseController #dataTextArea {
+    -fx-pref-width: 800.0;
+}
+
+/*参数名表格列*/
+ResponseController .nameOfTable {
+    -fx-pref-width: 200.0;
+}
+
+/*参数值表格列*/
+ResponseController .valueOfTable {
+    -fx-pref-width: 580.0;
+}

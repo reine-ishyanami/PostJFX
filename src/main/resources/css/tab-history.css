@@ -1,0 +1,15 @@
+.historyView {
+    -fx-min-width: 300.0;
+    -fx-max-width: 300.0;
+    -fx-alignment: center;
+}
+
+.historyView > HBox {
+    -fx-spacing: 20.0;
+    -fx-alignment: center;
+    -fx-pref-height: 25.0;
+}
+
+.historyView > ListView {
+    -fx-pref-height: 600.0;
+}
