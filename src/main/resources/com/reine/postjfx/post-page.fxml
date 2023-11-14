@@ -4,7 +4,7 @@
 <?import com.reine.postjfx.controller.ResponseController?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.layout.AnchorPane?>
-<fx:root type="SplitPane" dividerPositions="0.5, 0.5" orientation="VERTICAL" prefHeight="600.0"
+<fx:root type="SplitPane" dividerPositions="0.5, 0.5" orientation="VERTICAL" prefHeight="600.0" stylesheets="/css/post-page.css"
          xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1">
     <items>
         <AnchorPane styleClass="requestView">

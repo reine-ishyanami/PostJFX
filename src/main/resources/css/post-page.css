@@ -1,0 +1,9 @@
+.requestView {
+    -fx-min-height: 0.0;
+    -fx-pref-width: 800.0;
+}
+
+.responseView {
+    -fx-min-height: 290.0;
+    -fx-pref-width: 800.0;
+}
