@@ -31,7 +31,6 @@ public class LogUtils {
      */
     public static final SimpleObjectProperty<LocalDate> dateProperty = new SimpleObjectProperty<>();
 
-
     /**
      * 初始化标志位
      */
@@ -55,13 +54,13 @@ public class LogUtils {
             // 如果是应用启动时的初始化数据操作，则不进行数据列表的响应操作
             if (!initializing)
                 while (c.next()) {
-                    // 当请求发送成功时，往日志数据库中添加一条数据
+                    // 往日志列表中写入数据时，将新数据写入到数据库
                     if (c.wasAdded()) {
                         Log log = c.getAddedSubList().get(0);
                         // 向数据库中写入一条数据
                         LogRepository.insertOne(log);
                     }
-                    // 点击日志项的删除按钮时，删除数据库中的日志信息
+                    // 删除日志列表中的数据时，删除数据库中的日志信息
                     if (c.wasRemoved()) {
                         Log log = c.getRemoved().get(0);
                         // 删除数据库中指定日期时间的数据
@@ -70,12 +69,17 @@ public class LogUtils {
                     }
                 }
         });
+
+        // 日期改变时，查询对应日期的日志
+        dateProperty.addListener(((observable, oldValue, newValue) -> {
+            readFromDbForLogList(newValue);
+        }));
     }
 
     /**
      * 根据传入的日期查询当日日志信息
      */
-    public static void readFromFileForLogList(LocalDate date) {
+    private static void readFromDbForLogList(LocalDate date) {
         // 设置为正在初始化数据
         initializing = true;
         // 清空数据，等待重新装填
@@ -95,7 +99,7 @@ public class LogUtils {
         // 将数据重新插入数据库中
         LogRepository.insertOne(recentLog);
         // 重新加载数据
-        readFromFileForLogList(date);
+        readFromDbForLogList(date);
     }
 
     /**

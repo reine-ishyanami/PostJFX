@@ -21,6 +21,7 @@ import java.util.Objects;
 
 /**
  * 左侧tab标签页右侧历史记录
+ *
  * @author reine
  */
 public class TabHistoryController extends HBox {
@@ -52,8 +53,6 @@ public class TabHistoryController extends HBox {
         // 将工具类中的日期监视属性与日期选择器的值进行双向绑定
         datePicker.valueProperty().bindBidirectional(LogUtils.dateProperty);
 
-        // 每次改变选中的日期时，查询对应日期的日志
-        datePicker.valueProperty().addListener((observable, oldValue, newValue) -> LogUtils.readFromFileForLogList(newValue));
         // 将日期设置为当天，查询当天的数据
         datePicker.setValue(LocalDate.now());
 
@@ -113,10 +112,11 @@ public class TabHistoryController extends HBox {
                 };
             }
         });
+
     }
 
     @FXML
-    void cancelDelete(){
+    void cancelDelete() {
         LogUtils.restoreHistory(datePicker.getValue());
     }
 
