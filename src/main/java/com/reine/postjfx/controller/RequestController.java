@@ -104,15 +104,14 @@ public class RequestController extends VBox {
                           String body) {
         LocalDateTime dateTime = LocalDateTime.now();
         Log log = new Log(dateTime.format(formatter), method, url, params, headers, body);
-        // 向日志列表中写入一条日志
-        Platform.runLater(() -> LogUtils.logList.add(log));
+        // 向日志列表头部插入一条日志
+        Platform.runLater(() -> LogUtils.logList.add(0, log));
     }
 
     @FXML
     void clear() {
         urlTextField.clear();
     }
-
 
     @FXML
     void initialize() {

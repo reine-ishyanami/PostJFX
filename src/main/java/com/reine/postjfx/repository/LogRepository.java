@@ -160,7 +160,7 @@ public class LogRepository {
             SELECT datetime, method, url, params, headers, body
             FROM log
             WHERE substr(datetime, 1, instr(datetime, '_') - 1) = ?
-            ORDER BY datetime
+            ORDER BY datetime DESC
             """;
 
     /**
@@ -194,7 +194,7 @@ public class LogRepository {
                 logList.add(log);
             }
             return logList;
-        } catch (SQLException | JsonProcessingException e){
+        } catch (SQLException | JsonProcessingException e) {
             throw new RuntimeException(e);
         }
     }

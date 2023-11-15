@@ -113,8 +113,9 @@ public class ResponseController extends VBox {
 
     /**
      * 填充对应表数据
-     * @param tab 标签
-     * @param table 对应标签表
+     *
+     * @param tab     标签
+     * @param table   对应标签表
      * @param headers 要进行处理的HttpHeaders信息
      */
     private void fillTableData(Tab tab, TableView<ReadOnlyHeader> table, HttpHeaders headers) {

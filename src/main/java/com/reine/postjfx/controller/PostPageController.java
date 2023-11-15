@@ -40,6 +40,7 @@ public class PostPageController extends SplitPane {
 
     /**
      * 初始化页面
+     *
      * @throws IOException
      */
     private void initView() throws IOException {

@@ -13,6 +13,7 @@ import java.util.Objects;
 
 /**
  * 可编辑选项卡标题的选项卡
+ *
  * @author reine
  */
 public class EditableTab extends Tab {

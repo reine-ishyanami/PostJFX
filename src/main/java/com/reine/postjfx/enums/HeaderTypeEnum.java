@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
  *
  * @author reine
  */
-public enum HeaderTypeEnum{
+public enum HeaderTypeEnum {
     ACCEPT("Accept"),
     ACCEPT_CHARSET("Accept-Charset"),
     ACCEPT_ENCODING("Accept-Encoding"),
@@ -67,7 +67,7 @@ public enum HeaderTypeEnum{
     private static final Map<String, HeaderTypeEnum> HEADER_TYPE_ENUM_MAP =
             Arrays.stream(HeaderTypeEnum.values()).collect(Collectors.toMap(HeaderTypeEnum::getName, Function.identity()));
 
-    public static HeaderTypeEnum of(String name){
+    public static HeaderTypeEnum of(String name) {
         return HEADER_TYPE_ENUM_MAP.get(name);
     }
 

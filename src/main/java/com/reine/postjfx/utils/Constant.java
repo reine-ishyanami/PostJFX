@@ -5,6 +5,7 @@ import java.nio.file.Paths;
 
 /**
  * 常量类
+ *
  * @author reine
  */
 public class Constant {
