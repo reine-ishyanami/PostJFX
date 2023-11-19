@@ -135,8 +135,6 @@ public class ResponseController extends VBox {
                     dataTextArea.setText(String.format("检测到 %s 类型文件，点击右上角下载", fileType != null ? fileType : "未知"));
                     // 显示下载按钮
                     downloadButton.setVisible(true);
-                    downloadButton.setDisable(false);
-                    downloadButton.setText("下载");
                 });
                 // 具体下载操作
                 downloadButton.setOnAction(e -> {
@@ -158,9 +156,8 @@ public class ResponseController extends VBox {
                                 } catch (IOException ignored) {
                                 }
                             });
-                    // 屏蔽下载按钮，避免多次下载
-                    downloadButton.setText("已下载");
-                    downloadButton.setDisable(true);
+                    // 重置输入流，以便二次下载
+                    inputStream.reset();
                 });
             } catch (IOException ignored) {
             }
