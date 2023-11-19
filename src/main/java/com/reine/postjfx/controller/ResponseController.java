@@ -133,13 +133,16 @@ public class ResponseController extends VBox {
                 Platform.runLater(() -> {
                     codeLabel.setText(String.valueOf(code));
                     dataTextArea.setText(String.format("检测到 %s 类型文件，点击右上角下载", fileType != null ? fileType : "未知"));
+                    // 显示下载按钮
+                    downloadButton.setVisible(true);
+                    downloadButton.setDisable(false);
+                    downloadButton.setText("下载");
                 });
-                // 显示下载按钮
-                downloadButton.setVisible(true);
                 // 具体下载操作
                 downloadButton.setOnAction(e -> {
                     FileChooser fileChooser = new FileChooser();
                     fileChooser.setTitle("保存文件");
+                    fileChooser.setInitialFileName(String.format("example.%s", fileType));
                     ObservableList<FileChooser.ExtensionFilter> extensionFilters = fileChooser.getExtensionFilters();
                     if (fileType != null)
                         extensionFilters.add(new FileChooser.ExtensionFilter(fileType, String.format("*.%s", fileType)));
@@ -155,6 +158,9 @@ public class ResponseController extends VBox {
                                 } catch (IOException ignored) {
                                 }
                             });
+                    // 屏蔽下载按钮，避免多次下载
+                    downloadButton.setText("已下载");
+                    downloadButton.setDisable(true);
                 });
             } catch (IOException ignored) {
             }
