@@ -54,7 +54,7 @@ public class HttpUtils {
      * @param headers
      * @return
      */
-    public static CompletableFuture<HttpResponse<String>> get(String url, List<ParamProperty> params, List<HeaderProperty> headers) {
+    public static CompletableFuture<HttpResponse<byte[]>> get(String url, List<ParamProperty> params, List<HeaderProperty> headers) {
         String queryString = Optional.ofNullable(handleGetOrDeleteParam(params)).orElse("");
         String[] headerArray = handleGetOrDeleteHeader(headers);
         HttpRequest request = HttpRequest.newBuilder()
@@ -62,7 +62,7 @@ public class HttpUtils {
                 .headers(headerArray)
                 .GET()
                 .build();
-        return client.sendAsync(request, HttpResponse.BodyHandlers.ofString());
+        return client.sendAsync(request, HttpResponse.BodyHandlers.ofByteArray());
     }
 
     /**
@@ -74,7 +74,7 @@ public class HttpUtils {
      * @param body
      * @return
      */
-    public static CompletableFuture<HttpResponse<String>> post(String url, List<ParamProperty> params, List<HeaderProperty> headers, String body) {
+    public static CompletableFuture<HttpResponse<byte[]>> post(String url, List<ParamProperty> params, List<HeaderProperty> headers, String body) {
         String[] headerArray = handlePostOrPutHeader(params, headers, body);
         // 如果含有文件
         if (params.stream().anyMatch(paramProperty -> paramProperty.getParamTypeEnum().equals(ParamTypeEnum.FILE))) {
@@ -83,7 +83,7 @@ public class HttpUtils {
                     .headers(headerArray)
                     .POST(HttpRequest.BodyPublishers.ofByteArray(handlePostOrPutParam(params)))
                     .build();
-            return client.sendAsync(request, HttpResponse.BodyHandlers.ofString());
+            return client.sendAsync(request, HttpResponse.BodyHandlers.ofByteArray());
             // 不包含文件
         } else {
             String queryString = Optional.ofNullable(handleGetOrDeleteParam(params)).orElse("");
@@ -92,7 +92,7 @@ public class HttpUtils {
                     .headers(headerArray)
                     .POST(HttpRequest.BodyPublishers.ofString(body))
                     .build();
-            return client.sendAsync(request, HttpResponse.BodyHandlers.ofString());
+            return client.sendAsync(request, HttpResponse.BodyHandlers.ofByteArray());
         }
     }
 
@@ -106,7 +106,7 @@ public class HttpUtils {
      * @param body
      * @return
      */
-    public static CompletableFuture<HttpResponse<String>> put(String url, List<ParamProperty> params, List<HeaderProperty> headers, String body) {
+    public static CompletableFuture<HttpResponse<byte[]>> put(String url, List<ParamProperty> params, List<HeaderProperty> headers, String body) {
         String[] headerArray = handlePostOrPutHeader(params, headers, body);
         // 如果含有文件
         if (params.stream().anyMatch(paramProperty -> paramProperty.getParamTypeEnum().equals(ParamTypeEnum.FILE))) {
@@ -115,7 +115,7 @@ public class HttpUtils {
                     .headers(headerArray)
                     .PUT(HttpRequest.BodyPublishers.ofByteArray(handlePostOrPutParam(params)))
                     .build();
-            return client.sendAsync(request, HttpResponse.BodyHandlers.ofString());
+            return client.sendAsync(request, HttpResponse.BodyHandlers.ofByteArray());
             // 不包含文件
         } else {
             String queryString = Optional.ofNullable(handleGetOrDeleteParam(params)).orElse("");
@@ -124,7 +124,7 @@ public class HttpUtils {
                     .headers(headerArray)
                     .PUT(HttpRequest.BodyPublishers.ofString(body))
                     .build();
-            return client.sendAsync(request, HttpResponse.BodyHandlers.ofString());
+            return client.sendAsync(request, HttpResponse.BodyHandlers.ofByteArray());
         }
     }
 
@@ -136,7 +136,7 @@ public class HttpUtils {
      * @param headers
      * @return
      */
-    public static CompletableFuture<HttpResponse<String>> delete(String url, List<ParamProperty> params, List<HeaderProperty> headers) {
+    public static CompletableFuture<HttpResponse<byte[]>> delete(String url, List<ParamProperty> params, List<HeaderProperty> headers) {
         String queryString = Optional.ofNullable(handleGetOrDeleteParam(params)).orElse("");
         String[] headerArray = handleGetOrDeleteHeader(headers);
         HttpRequest request = HttpRequest.newBuilder()
@@ -144,7 +144,7 @@ public class HttpUtils {
                 .headers(headerArray)
                 .DELETE()
                 .build();
-        return client.sendAsync(request, HttpResponse.BodyHandlers.ofString());
+        return client.sendAsync(request, HttpResponse.BodyHandlers.ofByteArray());
     }
 
     /**

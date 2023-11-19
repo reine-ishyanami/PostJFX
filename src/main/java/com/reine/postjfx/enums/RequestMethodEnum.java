@@ -16,22 +16,22 @@ import java.util.concurrent.CompletableFuture;
 public enum RequestMethodEnum {
     GET("GET") {
         @Override
-        public CompletableFuture<HttpResponse<String>> http(String url, List<ParamProperty> params, List<HeaderProperty> headers, String body) {
+        public CompletableFuture<HttpResponse<byte[]>> http(String url, List<ParamProperty> params, List<HeaderProperty> headers, String body) {
             return HttpUtils.get(url, params, headers);
         }
     }, POST("POST") {
         @Override
-        public CompletableFuture<HttpResponse<String>> http(String url, List<ParamProperty> params, List<HeaderProperty> headers, String body) {
+        public CompletableFuture<HttpResponse<byte[]>> http(String url, List<ParamProperty> params, List<HeaderProperty> headers, String body) {
             return HttpUtils.post(url, params, headers, body);
         }
     }, PUT("PUT") {
         @Override
-        public CompletableFuture<HttpResponse<String>> http(String url, List<ParamProperty> params, List<HeaderProperty> headers, String body) {
+        public CompletableFuture<HttpResponse<byte[]>> http(String url, List<ParamProperty> params, List<HeaderProperty> headers, String body) {
             return HttpUtils.put(url, params, headers, body);
         }
     }, DELETE("DELETE") {
         @Override
-        public CompletableFuture<HttpResponse<String>> http(String url, List<ParamProperty> params, List<HeaderProperty> headers, String body) {
+        public CompletableFuture<HttpResponse<byte[]>> http(String url, List<ParamProperty> params, List<HeaderProperty> headers, String body) {
             return HttpUtils.delete(url, params, headers);
         }
     };
@@ -45,6 +45,6 @@ public enum RequestMethodEnum {
         return name;
     }
 
-    public abstract CompletableFuture<HttpResponse<String>> http(String url, List<ParamProperty> params, List<HeaderProperty> headers, String body);
+    public abstract CompletableFuture<HttpResponse<byte[]>> http(String url, List<ParamProperty> params, List<HeaderProperty> headers, String body);
 
 }

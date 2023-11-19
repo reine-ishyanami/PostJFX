@@ -93,7 +93,7 @@ public class ResponseController extends VBox {
     @FXML
     private Tab responseTab;
 
-    public void showResult(HttpResponse<?> response) {
+    public void showResult(HttpResponse<byte[]> response) {
         // 更新请求头信息
         fillTableData(requestTab, requestHeaderTableView, response.request().headers());
         // 更新响应头信息
@@ -107,11 +107,12 @@ public class ResponseController extends VBox {
             case 3 -> codeLabel.setTextFill(Color.YELLOW);
             case 4, 5 -> codeLabel.setTextFill(Color.RED);
         }
+        // 如果是文本类型的响应内容
         if (responseContentType.stream().anyMatch(s -> s.contains("text"))) {
-            Object message = response.body();
+            byte[] message = response.body();
             downloadButton.setVisible(false);
             try {
-                JsonNode jsonNode = mapper.readTree(message.toString());
+                JsonNode jsonNode = mapper.readTree(new String(message));
                 String s = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(jsonNode);
                 Platform.runLater(() -> {
                     codeLabel.setText(String.valueOf(code));
@@ -120,30 +121,29 @@ public class ResponseController extends VBox {
             } catch (JsonProcessingException e) {
                 Platform.runLater(() -> {
                     codeLabel.setText(String.valueOf(code));
-                    dataTextArea.setText(message.toString());
+                    dataTextArea.setText(new String(message));
                 });
             }
+            // 非文本类型的响应内容
         } else {
-            String body = (String) response.body();
-            byte[] bytes = body.getBytes();
-            try (ByteArrayInputStream inputStream = new ByteArrayInputStream(bytes)) {
+            byte[] body = response.body();
+            try (ByteArrayInputStream inputStream = new ByteArrayInputStream(body)) {
                 String fileType = FileTypeUtil.getType(inputStream);
                 inputStream.reset();
                 Platform.runLater(() -> {
                     codeLabel.setText(String.valueOf(code));
-                    dataTextArea.setText(String.format("检测到%s类型文件，点击右上角下载", fileType != null ? fileType : "未知"));
+                    dataTextArea.setText(String.format("检测到 %s 类型文件，点击右上角下载", fileType != null ? fileType : "未知"));
                 });
                 // 显示下载按钮
                 downloadButton.setVisible(true);
-                // FIXME 具体下载操作
+                // 具体下载操作
                 downloadButton.setOnAction(e -> {
                     FileChooser fileChooser = new FileChooser();
                     fileChooser.setTitle("保存文件");
-                    fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("所有类型", "*.*"));
-                    if (fileType != null) {
-                        fileChooser.getExtensionFilters()
-                                .add(new FileChooser.ExtensionFilter(fileType, String.format("*.%s", fileType)));
-                    }
+                    ObservableList<FileChooser.ExtensionFilter> extensionFilters = fileChooser.getExtensionFilters();
+                    if (fileType != null)
+                        extensionFilters.add(new FileChooser.ExtensionFilter(fileType, String.format("*.%s", fileType)));
+                    extensionFilters.add(new FileChooser.ExtensionFilter("所有类型", "*.*"));
                     File file = fileChooser.showSaveDialog(getScene().getWindow());
                     Optional.ofNullable(file)
                             .ifPresent(f -> {
@@ -152,13 +152,11 @@ public class ResponseController extends VBox {
                                     while (inputStream.read(byteArray) != -1)
                                         outputStream.write(byteArray);
                                     outputStream.flush();
-                                } catch (IOException innerE) {
-                                    innerE.printStackTrace();
+                                } catch (IOException ignored) {
                                 }
                             });
                 });
-            } catch (IOException outerE) {
-                outerE.printStackTrace();
+            } catch (IOException ignored) {
             }
 
         }
