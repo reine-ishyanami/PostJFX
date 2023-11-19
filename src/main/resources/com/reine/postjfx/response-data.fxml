@@ -16,6 +16,11 @@
                     </HBox.margin>
                 </Label>
                 <Label fx:id="codeLabel"/>
+                <Button fx:id="downloadButton" text="下载" visible="false">
+                    <HBox.margin>
+                        <Insets left="600.0"/>
+                    </HBox.margin>
+                </Button>
             </children>
         </HBox>
         <TabPane fx:id="responseTabPane" tabClosingPolicy="UNAVAILABLE">

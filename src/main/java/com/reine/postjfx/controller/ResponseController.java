@@ -1,5 +1,6 @@
 package com.reine.postjfx.controller;
 
+import cn.hutool.core.io.FileTypeUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,12 +15,18 @@ import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
 
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.http.HttpHeaders;
 import java.net.http.HttpResponse;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * 下方响应内容
@@ -30,6 +37,9 @@ public class ResponseController extends VBox {
 
     @FXML
     private HBox tip;
+
+    @FXML
+    private Button downloadButton;
 
     @FXML
     private Label codeLabel;
@@ -87,27 +97,70 @@ public class ResponseController extends VBox {
         // 更新请求头信息
         fillTableData(requestTab, requestHeaderTableView, response.request().headers());
         // 更新响应头信息
-        fillTableData(responseTab, responseHeaderTableView, response.headers());
+        HttpHeaders responseHeaders = response.headers();
+        fillTableData(responseTab, responseHeaderTableView, responseHeaders);
         // 渲染响应体信息
         int code = response.statusCode();
-        Object message = response.body();
+        List<String> responseContentType = responseHeaders.allValues("content-type");
         switch (code / 100) {
             case 2 -> codeLabel.setTextFill(Color.GREEN);
             case 3 -> codeLabel.setTextFill(Color.YELLOW);
             case 4, 5 -> codeLabel.setTextFill(Color.RED);
         }
-        try {
-            JsonNode jsonNode = mapper.readTree(message.toString());
-            String s = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(jsonNode);
-            Platform.runLater(() -> {
-                codeLabel.setText(String.valueOf(code));
-                dataTextArea.setText(s);
-            });
-        } catch (JsonProcessingException e) {
-            Platform.runLater(() -> {
-                codeLabel.setText(String.valueOf(code));
-                dataTextArea.setText(message.toString());
-            });
+        if (responseContentType.stream().anyMatch(s -> s.contains("text"))) {
+            Object message = response.body();
+            downloadButton.setVisible(false);
+            try {
+                JsonNode jsonNode = mapper.readTree(message.toString());
+                String s = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(jsonNode);
+                Platform.runLater(() -> {
+                    codeLabel.setText(String.valueOf(code));
+                    dataTextArea.setText(s);
+                });
+            } catch (JsonProcessingException e) {
+                Platform.runLater(() -> {
+                    codeLabel.setText(String.valueOf(code));
+                    dataTextArea.setText(message.toString());
+                });
+            }
+        } else {
+            String body = (String) response.body();
+            byte[] bytes = body.getBytes();
+            try (ByteArrayInputStream inputStream = new ByteArrayInputStream(bytes)) {
+                String fileType = FileTypeUtil.getType(inputStream);
+                inputStream.reset();
+                Platform.runLater(() -> {
+                    codeLabel.setText(String.valueOf(code));
+                    dataTextArea.setText(String.format("检测到%s类型文件，点击右上角下载", fileType != null ? fileType : "未知"));
+                });
+                // 显示下载按钮
+                downloadButton.setVisible(true);
+                // FIXME 具体下载操作
+                downloadButton.setOnAction(e -> {
+                    FileChooser fileChooser = new FileChooser();
+                    fileChooser.setTitle("保存文件");
+                    fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("所有类型", "*.*"));
+                    if (fileType != null) {
+                        fileChooser.getExtensionFilters()
+                                .add(new FileChooser.ExtensionFilter(fileType, String.format("*.%s", fileType)));
+                    }
+                    File file = fileChooser.showSaveDialog(getScene().getWindow());
+                    Optional.ofNullable(file)
+                            .ifPresent(f -> {
+                                try (FileOutputStream outputStream = new FileOutputStream(f)) {
+                                    byte[] byteArray = new byte[1024];
+                                    while (inputStream.read(byteArray) != -1)
+                                        outputStream.write(byteArray);
+                                    outputStream.flush();
+                                } catch (IOException innerE) {
+                                    innerE.printStackTrace();
+                                }
+                            });
+                });
+            } catch (IOException outerE) {
+                outerE.printStackTrace();
+            }
+
         }
     }
 
