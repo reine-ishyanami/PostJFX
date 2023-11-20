@@ -23,6 +23,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.http.HttpHeaders;
 import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -112,7 +113,7 @@ public class ResponseController extends VBox {
             byte[] message = response.body();
             downloadButton.setVisible(false);
             try {
-                JsonNode jsonNode = mapper.readTree(new String(message));
+                JsonNode jsonNode = mapper.readTree(new String(message, StandardCharsets.UTF_8));
                 String s = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(jsonNode);
                 Platform.runLater(() -> {
                     codeLabel.setText(String.valueOf(code));
@@ -121,7 +122,7 @@ public class ResponseController extends VBox {
             } catch (JsonProcessingException e) {
                 Platform.runLater(() -> {
                     codeLabel.setText(String.valueOf(code));
-                    dataTextArea.setText(new String(message));
+                    dataTextArea.setText(new String(message, StandardCharsets.UTF_8));
                 });
             }
             // 非文本类型的响应内容
@@ -161,7 +162,6 @@ public class ResponseController extends VBox {
                 });
             } catch (IOException ignored) {
             }
-
         }
     }
 

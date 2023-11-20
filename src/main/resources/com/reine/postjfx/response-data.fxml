@@ -5,7 +5,7 @@
 <?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<fx:root type="VBox" stylesheets="/css/response-data.css"
+<fx:root type="VBox" stylesheets="@css/response-data.css"
          xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <HBox fx:id="tip">

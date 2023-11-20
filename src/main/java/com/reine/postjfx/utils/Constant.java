@@ -23,7 +23,7 @@ public class Constant {
     /**
      * 版本号
      */
-    public static final String version = "1.2.5";
+    public static final String version = "1.3.0";
 
     /**
      * 应用图标路径
@@ -33,7 +33,7 @@ public class Constant {
     /**
      * 应用样式路径
      */
-    public static final String cssPath = "/css/default.css";
+    public static final String cssPath = "css/default.css";
 
     /**
      * 获取当前用户家目录
