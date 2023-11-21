@@ -1,5 +1,10 @@
 name: Gradle JPackage Build
-on: workflow_dispatch
+# 定义在推送tag时触发工作流程与手动触发工作流程
+on:
+  push:
+    tags:
+      - '*'
+  workflow_dispatch:
 jobs:
   build:
     runs-on: ${{ matrix.os }}
