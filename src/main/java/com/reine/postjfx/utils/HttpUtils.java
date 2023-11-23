@@ -1,5 +1,6 @@
 package com.reine.postjfx.utils;
 
+import com.reine.postjfx.config.AppProp;
 import com.reine.postjfx.entity.property.HeaderProperty;
 import com.reine.postjfx.entity.property.ParamProperty;
 import com.reine.postjfx.enums.HeaderTypeEnum;
@@ -29,7 +30,7 @@ public class HttpUtils {
 
     private static final HttpClient client = HttpClient.newHttpClient();
 
-    private static final String defaultUserAgent = String.format("%s/%s", Constant.projectName, Constant.version);
+    private static final String defaultUserAgent = String.format("%s/%s", AppProp.projectName, AppProp.version);
 
     private static final List<HeaderProperty> defaultHeader = List.of(
             new HeaderProperty(HeaderTypeEnum.USER_AGENT, defaultUserAgent),
