@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.reine.postjfx.entity.property.HeaderProperty;
 import com.reine.postjfx.entity.property.ParamProperty;
 import com.reine.postjfx.entity.record.Log;
-import com.reine.postjfx.utils.Constant;
+import com.reine.postjfx.config.AppProp;
 import javafx.collections.FXCollections;
 
 import java.io.IOException;
@@ -39,7 +39,7 @@ public class LogRepository {
     static {
         try {
             // 创建文件夹
-            Path dir = Constant.logDbDir;
+            Path dir = AppProp.logDbDir;
             Files.createDirectories(dir);
             // 加载数据库驱动
             Class.forName("org.sqlite.JDBC");
