@@ -23,10 +23,12 @@ import javafx.scene.layout.VBox;
 import javafx.util.StringConverter;
 
 import java.io.IOException;
+import java.net.http.HttpResponse;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -59,6 +61,14 @@ public class RequestController extends VBox {
         this.responseController = responseController;
     }
 
+    /**
+     * 接收发送请求的线程
+     */
+    private CompletableFuture<HttpResponse<byte[]>> http = null;
+
+    @FXML
+    private Button cancelButton;
+
     @FXML
     void sendRequest() {
         sendButton.setVisible(false);
@@ -69,19 +79,25 @@ public class RequestController extends VBox {
         headers.removeIf(headerProperty -> headerProperty.getHeaderTypeEnum() == null);
         ObservableList<ParamProperty> params = paramsTableView.getItems();
         params.removeIf(paramProperty -> paramProperty.getKey() == null || Objects.equals(paramProperty.getKey(), ""));
-        httpMethod.http(url, params, headers, bodyTextArea.getText())
+        this.http = httpMethod.http(url, params, headers, bodyTextArea.getText());
+        cancelButton.setVisible(true);
+        http
                 .thenAcceptAsync(response -> {
                     responseController.showResult(response);
                     sendButton.setVisible(true);
                     sendingProgress.setVisible(false);
+                    cancelButton.setVisible(false);
+                    this.http = null;
                     // 强制更新右侧日期选择器时间
                     Platform.runLater(() -> LogUtils.dateProperty.set(LocalDate.now()));
                     writeLog(httpMethod.getName(), url, params, headers, bodyTextArea.getText());
                 })
                 .exceptionallyAsync(throwable -> {
-                    responseController.showErrorMessage(throwable.getMessage());
+                    responseController.showError(throwable);
                     sendButton.setVisible(true);
                     sendingProgress.setVisible(false);
+                    cancelButton.setVisible(false);
+                    this.http = null;
                     return null;
                 });
     }
@@ -111,6 +127,13 @@ public class RequestController extends VBox {
     @FXML
     void clear() {
         urlTextField.clear();
+    }
+
+    @FXML
+    void cancel() {
+        if (this.http != null) {
+            http.cancel(true);
+        }
     }
 
     @FXML
