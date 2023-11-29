@@ -24,7 +24,6 @@ import java.io.IOException;
 import java.net.http.HttpHeaders;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -109,7 +108,7 @@ public class ResponseController extends VBox {
             case 4, 5 -> codeLabel.setTextFill(Color.RED);
         }
         // 如果是文本类型的响应内容
-        if (responseContentType.stream().anyMatch(s -> s.contains("text"))) {
+        if (responseContentType.stream().anyMatch(s -> s.contains("text") || s.contains("json"))) {
             byte[] message = response.body();
             downloadButton.setVisible(false);
             try {
@@ -182,13 +181,13 @@ public class ResponseController extends VBox {
         tab.setDisable(false);
     }
 
-    public void showErrorMessage(String message) {
+    public void showError(Throwable exception) {
         responseTabPane.getSelectionModel().select(0);
         requestTab.setDisable(true);
         responseTab.setDisable(true);
         Platform.runLater(() -> {
             codeLabel.setText("");
-            dataTextArea.setText(message);
+            dataTextArea.setText(exception.getLocalizedMessage());
         });
     }
 
