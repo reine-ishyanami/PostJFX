@@ -112,7 +112,6 @@ public class TabHistoryController extends HBox {
                 };
             }
         });
-
     }
 
     @FXML

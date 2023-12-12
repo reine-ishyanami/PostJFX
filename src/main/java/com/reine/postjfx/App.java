@@ -25,6 +25,10 @@ public class App extends Application {
         );
         stage.setResizable(false);
         stage.show();
+
+        // 窗口最小宽高
+        stage.setMinHeight(625.0);
+        stage.setMinWidth(1100.0);
     }
 
     public static void main(String[] args) {
