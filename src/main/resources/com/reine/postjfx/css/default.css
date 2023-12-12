@@ -1,5 +1,4 @@
 .root { /*If it is an external font, you need to load it; @font-face {...} */
-    -fx-font-family: "JetBrains Mono";
     -fx-font-size: 12;
     -fx-text-fill: #811818ff;
     -fx-fill: #811818ff;
