@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.reine.postjfx.App;
 import com.reine.postjfx.entity.property.ReadOnlyHeader;
 import javafx.application.Platform;
+import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -68,11 +69,13 @@ public class ResponseController extends VBox {
         responseTabPane.prefHeightProperty().bind(postPageController.getDividers().get(0).positionProperty()
                 .negate()
                 .add(1.0)
-                .multiply(postPageController.getPrefHeight())
-                .subtract(tip.getPrefHeight()));
-        requestHeaderTableView.prefHeightProperty().bind(responseTabPane.prefHeightProperty().subtract(tabPaneHeaderHeight));
-        responseHeaderTableView.prefHeightProperty().bind(responseTabPane.prefHeightProperty().subtract(tabPaneHeaderHeight));
-        dataTextArea.prefHeightProperty().bind(responseTabPane.prefHeightProperty().subtract(tabPaneHeaderHeight));
+                .multiply(postPageController.prefHeightProperty())
+                .subtract(tip.prefHeightProperty()));
+        requestHeaderTableView.prefHeightProperty().bind(responseTabPane.prefHeightProperty().subtract(tip.prefHeightProperty()));
+        responseHeaderTableView.prefHeightProperty().bind(responseTabPane.prefHeightProperty().subtract(tip.prefHeightProperty()));
+        dataTextArea.prefHeightProperty().bind(responseTabPane.prefHeightProperty().subtract(tip.prefHeightProperty()));
+
+
     }
 
     private final ObjectMapper mapper = new ObjectMapper();
@@ -193,7 +196,12 @@ public class ResponseController extends VBox {
 
     @FXML
     void initialize() {
-        requestHeaderTableView.setColumnResizePolicy(param -> true);
-        responseHeaderTableView.setColumnResizePolicy(param -> true);
+        // requestHeaderTableView.setColumnResizePolicy(param -> true);
+        // responseHeaderTableView.setColumnResizePolicy(param -> true);
+        ReadOnlyDoubleProperty widthProperty = this.widthProperty();
+        ReadOnlyDoubleProperty heightProperty = this.heightProperty();
+        requestHeaderTableView.prefWidthProperty().bind(widthProperty);
+        responseHeaderTableView.prefWidthProperty().bind(widthProperty);
+        dataTextArea.prefWidthProperty().bind(widthProperty);
     }
 }

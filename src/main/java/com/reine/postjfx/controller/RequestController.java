@@ -13,12 +13,16 @@ import com.reine.postjfx.enums.ParamTypeEnum;
 import com.reine.postjfx.enums.RequestMethodEnum;
 import com.reine.postjfx.utils.LogUtils;
 import javafx.application.Platform;
+import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.util.StringConverter;
 
@@ -142,6 +146,27 @@ public class RequestController extends VBox {
         initParamsTableView();
         initBodyTab();
         initTopRequestNode();
+        binding();
+    }
+
+    private void binding() {
+        ReadOnlyDoubleProperty widthProperty = this.widthProperty();
+        ReadOnlyDoubleProperty heightProperty = this.heightProperty();
+        headersTableView.prefWidthProperty().bind(widthProperty);
+        nameColOfHeadersTableView.prefWidthProperty().bind(
+                headersTableView.prefWidthProperty().subtract(60).multiply(0.5)
+        );
+        valueColOfHeadersTableView.prefWidthProperty().bind(
+                headersTableView.prefWidthProperty().subtract(60).multiply(0.5)
+        );
+        paramsTableView.prefWidthProperty().bind(widthProperty);
+        keyColOfParamsTableView.prefWidthProperty().bind(
+                paramsTableView.prefWidthProperty().subtract(60).multiply(0.5).subtract(100)
+        );
+        valueColOfParamsTableView.prefWidthProperty().bind(
+                paramsTableView.prefWidthProperty().subtract(60).multiply(0.5)
+        );
+        bodyTextArea.prefWidthProperty().bind(widthProperty);
     }
 
     @FXML
@@ -160,7 +185,7 @@ public class RequestController extends VBox {
      * 初始化请求标头表
      */
     void initHeadersTableView() {
-        headersTableView.setColumnResizePolicy(param -> true);
+        // headersTableView.setColumnResizePolicy(param -> true);
         nameColOfHeadersTableView.setCellValueFactory(new PropertyValueFactory<>("headerTypeEnum"));
         nameColOfHeadersTableView.setCellFactory(param -> new ComboBoxHeadersTableCell());
         valueColOfHeadersTableView.setCellValueFactory(new PropertyValueFactory<>("value"));
@@ -200,7 +225,7 @@ public class RequestController extends VBox {
      * 初始化请求参数表
      */
     void initParamsTableView() {
-        paramsTableView.setColumnResizePolicy(param -> true);
+        // paramsTableView.setColumnResizePolicy(param -> true);
         keyColOfParamsTableView.setCellValueFactory(new PropertyValueFactory<>("key"));
         keyColOfParamsTableView.setCellFactory(TextFieldTableCell.forTableColumn());
         typeColOfParamsTableView.setCellValueFactory(new PropertyValueFactory<>("paramTypeEnum"));

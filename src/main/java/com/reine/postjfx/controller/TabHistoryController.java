@@ -3,6 +3,8 @@ package com.reine.postjfx.controller;
 import com.reine.postjfx.App;
 import com.reine.postjfx.entity.record.Log;
 import com.reine.postjfx.utils.LogUtils;
+import com.reine.postjfx.utils.NodeManage;
+import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
@@ -13,6 +15,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 
 import java.io.IOException;
@@ -37,6 +40,7 @@ public class TabHistoryController extends HBox {
 
     @FXML
     private Button cancelBtn;
+
 
     public TabHistoryController() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("tab-history.fxml"));
@@ -112,6 +116,25 @@ public class TabHistoryController extends HBox {
                 };
             }
         });
+
+        // 绑定宽高
+        binding();
+    }
+
+    /**
+     * 宽高绑定
+     */
+    private void binding() {
+        Stage stage = NodeManage.getPrimaryStage();
+        ReadOnlyDoubleProperty heightProperty = stage.heightProperty();
+        ReadOnlyDoubleProperty widthProperty = stage.widthProperty();
+
+        // 右侧列表高度绑定
+        historyListView.prefHeightProperty().bind(heightProperty.subtract(((HBox)datePicker.getParent()).getHeight()));
+        // 左侧请求区域高度绑定
+        postTabController.prefHeightProperty().bind(heightProperty);
+        // 左侧请求区域高度绑定
+        postTabController.prefWidthProperty().bind(widthProperty.subtract(historyListView.getWidth()));
     }
 
     @FXML

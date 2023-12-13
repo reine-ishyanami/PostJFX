@@ -30,13 +30,3 @@ ResponseController TableView {
 ResponseController #dataTextArea {
     -fx-pref-width: 800.0;
 }
-
-/*参数名表格列*/
-ResponseController .nameOfTable {
-    -fx-pref-width: 200.0;
-}
-
-/*参数值表格列*/
-ResponseController .valueOfTable {
-    -fx-pref-width: 580.0;
-}
