@@ -41,7 +41,7 @@
                                                      styleClass="tableButton"/>
                                     </columns>
                                     <columnResizePolicy>
-                                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                                        <TableView fx:constant="UNCONSTRAINED_RESIZE_POLICY"/>
                                     </columnResizePolicy>
                                 </TableView>
                             </children>
@@ -67,7 +67,7 @@
                                                      styleClass="tableButton"/>
                                     </columns>
                                     <columnResizePolicy>
-                                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                                        <TableView fx:constant="UNCONSTRAINED_RESIZE_POLICY"/>
                                     </columnResizePolicy>
                                 </TableView>
                             </children>
@@ -79,8 +79,11 @@
                         <AnchorPane>
                             <children>
                                 <TextArea fx:id="bodyTextArea"/>
-                                <Button fx:id="formatButton" layoutX="730.0" layoutY="160.0" mnemonicParsing="false"
-                                        text="格式化" onAction="#formatBody" disable="true"/>
+                                <Button fx:id="formatButton" mnemonicParsing="false"
+                                        text="格式化" onAction="#formatBody" disable="true">
+                                    <AnchorPane.topAnchor>10</AnchorPane.topAnchor>
+                                    <AnchorPane.rightAnchor>30</AnchorPane.rightAnchor>
+                                </Button>
                             </children>
                         </AnchorPane>
                     </content>

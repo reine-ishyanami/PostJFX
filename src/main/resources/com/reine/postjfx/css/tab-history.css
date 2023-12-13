@@ -7,7 +7,7 @@
 .historyView > HBox {
     -fx-spacing: 20.0;
     -fx-alignment: center;
-    -fx-pref-height: 25.0;
+    -fx-pref-height: 40.0;
 }
 
 .historyView > ListView {

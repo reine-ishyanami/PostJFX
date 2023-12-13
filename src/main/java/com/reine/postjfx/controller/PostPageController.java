@@ -2,9 +2,12 @@ package com.reine.postjfx.controller;
 
 import com.reine.postjfx.App;
 import com.reine.postjfx.entity.record.Log;
+import com.reine.postjfx.utils.NodeManage;
+import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.SplitPane;
+import javafx.scene.control.TabPane;
 
 import java.io.IOException;
 
@@ -48,12 +51,25 @@ public class PostPageController extends SplitPane {
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
         fxmlLoader.load();
+        TabPane tabPane = NodeManage.getTabPane();
+        this.prefHeightProperty().bind(tabPane.heightProperty().subtract(10));
+        this.prefWidthProperty().bind(tabPane.widthProperty());
     }
 
     @FXML
     void initialize() {
-        requestController.setResponseController(responseController);
+        // 绑定宽高
+        binding();
         responseController.setMainController(this);
+        requestController.setResponseController(responseController);
+    }
+
+    private void binding() {
+        TabPane tabPane = NodeManage.getTabPane();
+        ReadOnlyDoubleProperty heightProperty = tabPane.heightProperty();
+        ReadOnlyDoubleProperty widthProperty = tabPane.widthProperty();
+        requestController.prefWidthProperty().bind(widthProperty);
+        responseController.prefWidthProperty().bind(widthProperty);
     }
 
 

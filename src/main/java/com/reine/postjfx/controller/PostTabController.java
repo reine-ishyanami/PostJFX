@@ -3,6 +3,7 @@ package com.reine.postjfx.controller;
 import com.reine.postjfx.App;
 import com.reine.postjfx.component.EditableTab;
 import com.reine.postjfx.entity.record.Log;
+import com.reine.postjfx.utils.NodeManage;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -47,8 +48,6 @@ public class PostTabController extends TabPane {
             // 设置新标签页内容
             tab.setContent(new PostPageController());
             insertNewTab(tab);
-            // 每次点击按钮，清空缓存
-            if (!errorX.isEmpty()) errorX.clear();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -82,11 +81,6 @@ public class PostTabController extends TabPane {
         ObservableList<Tab> tabs = this.getTabs();
         if (tabs.get(tabs.size() - 1).equals(btnTab)) tabs.add(tabs.size() - 1, tab);
         else tabs.add(tab);
-        double maxX = addTabButton.localToScene(addTabButton.getBoundsInLocal()).getMaxX();
-        if (maxX > 750.0) {
-            errorX.add(maxX);
-            tabs.remove(btnTab);
-        }
     }
 
     /**
@@ -96,7 +90,9 @@ public class PostTabController extends TabPane {
 
 
     @FXML
-    void initialize() {// 默认触发一次按钮，新建一个标签页
+    void initialize() {
+        NodeManage.setTabPane(this);
+        // 默认触发一次按钮，新建一个标签页
         addTabButton.fire();
     }
 
@@ -111,8 +107,5 @@ public class PostTabController extends TabPane {
         if (this.getTabs().size() <= 2) event.consume();
         // 删除时默认添加增加标签页
         if (!getTabs().get(getTabs().size() - 1).equals(btnTab)) getTabs().add(btnTab);
-        double maxX = addTabButton.localToScene(addTabButton.getBoundsInLocal()).getMaxX();
-        // 如果添加完增加标签页后，其偏移量大于指定数值，则代表此时标签页仍然是溢出状态，移除掉增加标签页的按钮
-        if (maxX > 900.0 || errorX.contains(maxX)) getTabs().remove(btnTab);
     }
 }

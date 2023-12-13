@@ -2,6 +2,7 @@ package com.reine.postjfx;
 
 import com.reine.postjfx.controller.TabHistoryController;
 import com.reine.postjfx.config.AppProp;
+import com.reine.postjfx.utils.NodeManage;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -13,6 +14,12 @@ import java.util.Objects;
 public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
+        // 窗口最小宽高
+        stage.setHeight(625.0);
+        stage.setMinHeight(625.0);
+        stage.setWidth(1100.0);
+        stage.setMinWidth(1100.0);
+        NodeManage.setPrimaryStage(stage);
         TabHistoryController root = new TabHistoryController();
         Scene scene = new Scene(root);
         scene.getStylesheets().add(
@@ -23,12 +30,8 @@ public class App extends Application {
         stage.getIcons().add(
                 new Image(Objects.requireNonNull(App.class.getResource(AppProp.logoPath)).toString())
         );
-        stage.setResizable(false);
         stage.show();
 
-        // 窗口最小宽高
-        stage.setMinHeight(625.0);
-        stage.setMinWidth(1100.0);
     }
 
     public static void main(String[] args) {

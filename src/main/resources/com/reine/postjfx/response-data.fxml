@@ -29,7 +29,7 @@
                     <content>
                         <AnchorPane>
                             <children>
-                                <TextArea fx:id="dataTextArea" layoutX="-4.0" layoutY="-1.0" editable="false"
+                                <TextArea fx:id="dataTextArea" layoutX="-4.0" layoutY="-1.0" editable="true"
                                           promptText="响应内容"/>
                             </children>
                         </AnchorPane>
