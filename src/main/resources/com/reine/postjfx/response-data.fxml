@@ -27,72 +27,56 @@
             <tabs>
                 <Tab fx:id="bodyTab" text="响应内容">
                     <content>
-                        <AnchorPane>
-                            <children>
-                                <TextArea fx:id="dataTextArea" layoutX="-4.0" layoutY="-1.0" editable="true"
-                                          promptText="响应内容"/>
-                            </children>
-                        </AnchorPane>
+                        <TextArea fx:id="dataTextArea" layoutX="-4.0" layoutY="-1.0" editable="false"
+                                  promptText="响应内容"/>
                     </content>
                 </Tab>
                 <Tab fx:id="requestTab" text="请求标头" disable="true">
                     <content>
-                        <AnchorPane>
-                            <children>
-                                <TableView fx:id="requestHeaderTableView">
-                                    <placeholder>
-                                        <Label text="无请求头部信息"/>
-                                    </placeholder>
-                                    <columns>
-                                        <TableColumn fx:id="nameColOfRequestHeader" sortable="false" text="参数名"
-                                                     styleClass="nameOfTable">
-                                            <cellValueFactory>
-                                                <PropertyValueFactory property="key"/>
-                                            </cellValueFactory>
-                                        </TableColumn>
-                                        <TableColumn fx:id="valueColOfRequestHeader" sortable="false" text="参数值"
-                                                     styleClass="valueOfTable">
-                                            <cellValueFactory>
-                                                <PropertyValueFactory property="value"/>
-                                            </cellValueFactory>
-                                        </TableColumn>
-                                    </columns>
-                                    <columnResizePolicy>
-                                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
-                                    </columnResizePolicy>
-                                </TableView>
-                            </children>
-                        </AnchorPane>
+                        <TableView fx:id="requestHeaderTableView">
+                            <placeholder>
+                                <Label text="无请求头部信息"/>
+                            </placeholder>
+                            <columns>
+                                <TableColumn fx:id="nameColOfRequestHeader" sortable="false" text="参数名">
+                                    <cellValueFactory>
+                                        <PropertyValueFactory property="key"/>
+                                    </cellValueFactory>
+                                </TableColumn>
+                                <TableColumn fx:id="valueColOfRequestHeader" sortable="false" text="参数值">
+                                    <cellValueFactory>
+                                        <PropertyValueFactory property="value"/>
+                                    </cellValueFactory>
+                                </TableColumn>
+                            </columns>
+                            <columnResizePolicy>
+                                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                            </columnResizePolicy>
+                        </TableView>
                     </content>
                 </Tab>
                 <Tab fx:id="responseTab" text="响应标头" disable="true">
                     <content>
-                        <AnchorPane>
-                            <children>
-                                <TableView fx:id="responseHeaderTableView">
-                                    <placeholder>
-                                        <Label text="无响应头部信息"/>
-                                    </placeholder>
-                                    <columns>
-                                        <TableColumn fx:id="nameColOfResponseHeader" sortable="false" text="参数名"
-                                                     styleClass="nameOfTable">
-                                            <cellValueFactory>
-                                                <PropertyValueFactory property="key"/>
-                                            </cellValueFactory>
-                                        </TableColumn>
-                                        <TableColumn fx:id="valueColOfResponseHeader" sortable="false" text="参数值"
-                                                     styleClass="valueOfTable">
-                                            <cellValueFactory>
-                                                <PropertyValueFactory property="value"/>
-                                            </cellValueFactory>
-                                        </TableColumn>
-                                    </columns>
-                                    <columnResizePolicy>
-                                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
-                                    </columnResizePolicy>
-                                </TableView>
-                            </children>
-                        </AnchorPane>
+                        <TableView fx:id="responseHeaderTableView">
+                            <placeholder>
+                                <Label text="无响应头部信息"/>
+                            </placeholder>
+                            <columns>
+                                <TableColumn fx:id="nameColOfResponseHeader" sortable="false" text="参数名">
+                                    <cellValueFactory>
+                                        <PropertyValueFactory property="key"/>
+                                    </cellValueFactory>
+                                </TableColumn>
+                                <TableColumn fx:id="valueColOfResponseHeader" sortable="false" text="参数值">
+                                    <cellValueFactory>
+                                        <PropertyValueFactory property="value"/>
+                                    </cellValueFactory>
+                                </TableColumn>
+                            </columns>
+                            <columnResizePolicy>
+                                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                            </columnResizePolicy>
+                        </TableView>
                     </content>
                 </Tab>
             </tabs>

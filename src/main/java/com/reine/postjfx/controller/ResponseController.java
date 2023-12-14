@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.reine.postjfx.App;
 import com.reine.postjfx.entity.property.ReadOnlyHeader;
 import javafx.application.Platform;
+import javafx.beans.binding.DoubleBinding;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -57,10 +58,14 @@ public class ResponseController extends VBox {
     @FXML
     private TableView<ReadOnlyHeader> responseHeaderTableView;
 
-    /**
-     * tabPane的header高度
-     */
-    private final double tabPaneHeaderHeight = 80;
+    @FXML
+    private TableColumn<ReadOnlyHeader, String> nameColOfRequestHeader;
+    @FXML
+    private TableColumn<ReadOnlyHeader, String> valueColOfRequestHeader;
+    @FXML
+    private TableColumn<ReadOnlyHeader, String> nameColOfResponseHeader;
+    @FXML
+    private TableColumn<ReadOnlyHeader, String> valueColOfResponseHeader;
 
     public void setMainController(PostPageController postPageController) {
         // 绑定计算
@@ -71,11 +76,17 @@ public class ResponseController extends VBox {
                 .add(1.0)
                 .multiply(postPageController.prefHeightProperty())
                 .subtract(tip.prefHeightProperty()));
-        requestHeaderTableView.prefHeightProperty().bind(responseTabPane.prefHeightProperty().subtract(tip.prefHeightProperty()));
-        responseHeaderTableView.prefHeightProperty().bind(responseTabPane.prefHeightProperty().subtract(tip.prefHeightProperty()));
-        dataTextArea.prefHeightProperty().bind(responseTabPane.prefHeightProperty().subtract(tip.prefHeightProperty()));
+        DoubleBinding tableViewWidthPropertyDivide2 = responseTabPane.prefWidthProperty().subtract(20).divide(2.0);
+        DoubleBinding doubleBinding = responseTabPane.prefHeightProperty().subtract(tip.prefHeightProperty());
+        requestHeaderTableView.prefHeightProperty().bind(doubleBinding);
+        nameColOfRequestHeader.prefWidthProperty().bind(tableViewWidthPropertyDivide2);
+        valueColOfRequestHeader.prefWidthProperty().bind(tableViewWidthPropertyDivide2);
 
+        responseHeaderTableView.prefHeightProperty().bind(doubleBinding);
+        nameColOfResponseHeader.prefWidthProperty().bind(tableViewWidthPropertyDivide2);
+        valueColOfResponseHeader.prefWidthProperty().bind(tableViewWidthPropertyDivide2);
 
+        dataTextArea.prefHeightProperty().bind(doubleBinding);
     }
 
     private final ObjectMapper mapper = new ObjectMapper();

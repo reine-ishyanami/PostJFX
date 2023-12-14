@@ -130,7 +130,7 @@ public class TabHistoryController extends HBox {
         ReadOnlyDoubleProperty widthProperty = stage.widthProperty();
 
         // 右侧列表高度绑定
-        historyListView.prefHeightProperty().bind(heightProperty.subtract(((HBox)datePicker.getParent()).getHeight()));
+        historyListView.prefHeightProperty().bind(heightProperty.subtract(((HBox) datePicker.getParent()).getHeight()));
         // 左侧请求区域高度绑定
         postTabController.prefHeightProperty().bind(heightProperty);
         // 左侧请求区域高度绑定
