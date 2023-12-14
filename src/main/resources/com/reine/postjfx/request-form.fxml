@@ -25,53 +25,45 @@
             <tabs>
                 <Tab text="请求标头">
                     <content>
-                        <AnchorPane>
-                            <children>
-                                <TableView fx:id="headersTableView" editable="true"
-                                           onMouseClicked="#addColIfNoneOfHeadersTableView">
-                                    <placeholder>
-                                        <Label text="表中无数据，点击空白区域添加一行数据"/>
-                                    </placeholder>
-                                    <columns>
-                                        <TableColumn fx:id="nameColOfHeadersTableView" sortable="false" text="参数名"/>
-                                        <TableColumn fx:id="valueColOfHeadersTableView" sortable="false" text="参数值"/>
-                                        <TableColumn fx:id="addRowOfHeadersTableView" sortable="false"
-                                                     styleClass="tableButton"/>
-                                        <TableColumn fx:id="removeRowOfHeadersTableView" sortable="false"
-                                                     styleClass="tableButton"/>
-                                    </columns>
-                                    <columnResizePolicy>
-                                        <TableView fx:constant="UNCONSTRAINED_RESIZE_POLICY"/>
-                                    </columnResizePolicy>
-                                </TableView>
-                            </children>
-                        </AnchorPane>
+                        <TableView fx:id="headersTableView" editable="true"
+                                   onMouseClicked="#addColIfNoneOfHeadersTableView">
+                            <placeholder>
+                                <Label text="表中无数据，点击空白区域添加一行数据"/>
+                            </placeholder>
+                            <columns>
+                                <TableColumn fx:id="nameColOfHeadersTableView" sortable="false" text="参数名"/>
+                                <TableColumn fx:id="valueColOfHeadersTableView" sortable="false" text="参数值"/>
+                                <TableColumn fx:id="addRowOfHeadersTableView" sortable="false"
+                                             styleClass="tableButton"/>
+                                <TableColumn fx:id="removeRowOfHeadersTableView" sortable="false"
+                                             styleClass="tableButton"/>
+                            </columns>
+                            <columnResizePolicy>
+                                <TableView fx:constant="UNCONSTRAINED_RESIZE_POLICY"/>
+                            </columnResizePolicy>
+                        </TableView>
                     </content>
                 </Tab>
                 <Tab text="请求参数">
                     <content>
-                        <AnchorPane>
-                            <children>
-                                <TableView fx:id="paramsTableView" editable="true"
-                                           onMouseClicked="#addColIfNoneOfParamsTableView">
-                                    <placeholder>
-                                        <Label text="表中无数据，点击空白区域添加一行数据"/>
-                                    </placeholder>
-                                    <columns>
-                                        <TableColumn fx:id="keyColOfParamsTableView" sortable="false" text="参数名"/>
-                                        <TableColumn fx:id="typeColOfParamsTableView" sortable="false" text="参数类型"/>
-                                        <TableColumn fx:id="valueColOfParamsTableView" sortable="false" text="参数值"/>
-                                        <TableColumn fx:id="addRowOfParamsTableView" sortable="false"
-                                                     styleClass="tableButton"/>
-                                        <TableColumn fx:id="removeRowOfParamsTableView" sortable="false"
-                                                     styleClass="tableButton"/>
-                                    </columns>
-                                    <columnResizePolicy>
-                                        <TableView fx:constant="UNCONSTRAINED_RESIZE_POLICY"/>
-                                    </columnResizePolicy>
-                                </TableView>
-                            </children>
-                        </AnchorPane>
+                        <TableView fx:id="paramsTableView" editable="true"
+                                   onMouseClicked="#addColIfNoneOfParamsTableView">
+                            <placeholder>
+                                <Label text="表中无数据，点击空白区域添加一行数据"/>
+                            </placeholder>
+                            <columns>
+                                <TableColumn fx:id="keyColOfParamsTableView" sortable="false" text="参数名"/>
+                                <TableColumn fx:id="typeColOfParamsTableView" sortable="false" text="参数类型"/>
+                                <TableColumn fx:id="valueColOfParamsTableView" sortable="false" text="参数值"/>
+                                <TableColumn fx:id="addRowOfParamsTableView" sortable="false"
+                                             styleClass="tableButton"/>
+                                <TableColumn fx:id="removeRowOfParamsTableView" sortable="false"
+                                             styleClass="tableButton"/>
+                            </columns>
+                            <columnResizePolicy>
+                                <TableView fx:constant="UNCONSTRAINED_RESIZE_POLICY"/>
+                            </columnResizePolicy>
+                        </TableView>
                     </content>
                 </Tab>
                 <Tab fx:id="bodyTab" text="请求体">

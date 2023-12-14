@@ -13,16 +13,14 @@ import com.reine.postjfx.enums.ParamTypeEnum;
 import com.reine.postjfx.enums.RequestMethodEnum;
 import com.reine.postjfx.utils.LogUtils;
 import javafx.application.Platform;
+import javafx.beans.binding.DoubleBinding;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.util.StringConverter;
 
@@ -151,21 +149,14 @@ public class RequestController extends VBox {
 
     private void binding() {
         ReadOnlyDoubleProperty widthProperty = this.widthProperty();
-        ReadOnlyDoubleProperty heightProperty = this.heightProperty();
         headersTableView.prefWidthProperty().bind(widthProperty);
-        nameColOfHeadersTableView.prefWidthProperty().bind(
-                headersTableView.prefWidthProperty().subtract(60).multiply(0.5)
-        );
-        valueColOfHeadersTableView.prefWidthProperty().bind(
-                headersTableView.prefWidthProperty().subtract(60).multiply(0.5)
-        );
+        DoubleBinding headersTableViewWidthPropertyDivide2 = headersTableView.prefWidthProperty().subtract(60).divide(2);
+        nameColOfHeadersTableView.prefWidthProperty().bind(headersTableViewWidthPropertyDivide2);
+        valueColOfHeadersTableView.prefWidthProperty().bind(headersTableViewWidthPropertyDivide2);
         paramsTableView.prefWidthProperty().bind(widthProperty);
-        keyColOfParamsTableView.prefWidthProperty().bind(
-                paramsTableView.prefWidthProperty().subtract(60).multiply(0.5).subtract(100)
-        );
-        valueColOfParamsTableView.prefWidthProperty().bind(
-                paramsTableView.prefWidthProperty().subtract(60).multiply(0.5)
-        );
+        DoubleBinding paramsTableViewWidthPropertyDivide2 = paramsTableView.prefWidthProperty().subtract(60).divide(2);
+        keyColOfParamsTableView.prefWidthProperty().bind(paramsTableViewWidthPropertyDivide2.subtract(100));
+        valueColOfParamsTableView.prefWidthProperty().bind(paramsTableViewWidthPropertyDivide2);
         bodyTextArea.prefWidthProperty().bind(widthProperty);
     }
 

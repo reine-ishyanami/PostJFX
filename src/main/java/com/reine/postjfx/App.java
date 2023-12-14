@@ -1,7 +1,7 @@
 package com.reine.postjfx;
 
-import com.reine.postjfx.controller.TabHistoryController;
 import com.reine.postjfx.config.AppProp;
+import com.reine.postjfx.controller.TabHistoryController;
 import com.reine.postjfx.utils.NodeManage;
 import javafx.application.Application;
 import javafx.scene.Scene;

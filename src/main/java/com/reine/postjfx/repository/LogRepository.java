@@ -3,10 +3,10 @@ package com.reine.postjfx.repository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.reine.postjfx.config.AppProp;
 import com.reine.postjfx.entity.property.HeaderProperty;
 import com.reine.postjfx.entity.property.ParamProperty;
 import com.reine.postjfx.entity.record.Log;
-import com.reine.postjfx.config.AppProp;
 import javafx.collections.FXCollections;
 
 import java.io.IOException;
