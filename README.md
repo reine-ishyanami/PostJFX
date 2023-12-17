@@ -7,3 +7,5 @@
 2. `GET`, `DELETE`请求不支持发送请求体以及上传文件
 3. 历史记录信息存储在`~/PostJFX/logs/log.db`中
 
+启动效果
+![](./image/launch.png)
