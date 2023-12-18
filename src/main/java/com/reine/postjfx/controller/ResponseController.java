@@ -77,7 +77,7 @@ public class ResponseController extends VBox {
                 .multiply(postPageController.prefHeightProperty())
                 .subtract(tip.prefHeightProperty()));
         DoubleBinding tableViewWidthPropertyDivide2 = responseTabPane.prefWidthProperty().subtract(20).divide(2.0);
-        DoubleBinding doubleBinding = responseTabPane.prefHeightProperty().subtract(tip.prefHeightProperty());
+        DoubleBinding doubleBinding = responseTabPane.prefHeightProperty().subtract(tip.getPrefHeight());
         requestHeaderTableView.prefHeightProperty().bind(doubleBinding);
         nameColOfRequestHeader.prefWidthProperty().bind(tableViewWidthPropertyDivide2);
         valueColOfRequestHeader.prefWidthProperty().bind(tableViewWidthPropertyDivide2);
@@ -87,6 +87,7 @@ public class ResponseController extends VBox {
         valueColOfResponseHeader.prefWidthProperty().bind(tableViewWidthPropertyDivide2);
 
         dataTextArea.prefHeightProperty().bind(doubleBinding);
+
     }
 
     private final ObjectMapper mapper = new ObjectMapper();

@@ -83,11 +83,6 @@ public class PostTabController extends TabPane {
         else tabs.add(tab);
     }
 
-    /**
-     * 缓存溢出标签页的位置信息
-     */
-    private final Set<Double> errorX = new HashSet<>();
-
 
     @FXML
     void initialize() {
