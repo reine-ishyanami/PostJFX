@@ -16,8 +16,6 @@ ResponseController > TabPane {
 
 /*tabPane 每项*/
 ResponseController > TabPane > Tab > AnchorPane {
-    -fx-min-height: 0.0;
-    -fx-min-width: 0.0;
     -fx-pref-width: 800.0;
 }
 

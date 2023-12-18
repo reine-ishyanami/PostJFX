@@ -34,8 +34,6 @@ RequestController > TabPane {
 
 /*表格所占区域*/
 RequestController > TabPane > Tab > AnchorPane {
-    -fx-min-height: 0.0;
-    -fx-min-width: 0.0;
     -fx-pref-height: 200.0;
     -fx-pref-width: 800.0;
 }
