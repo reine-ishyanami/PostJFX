@@ -2,6 +2,7 @@ package com.reine.postjfx;
 
 import com.reine.postjfx.config.AppProp;
 import com.reine.postjfx.controller.TabHistoryController;
+import com.reine.postjfx.repository.LogRepository;
 import com.reine.postjfx.utils.NodeManage;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -31,7 +32,16 @@ public class App extends Application {
                 new Image(Objects.requireNonNull(App.class.getResource(AppProp.logoPath)).toString())
         );
         stage.show();
+    }
 
+    @Override
+    public void init() {
+        LogRepository.getInstance().init();
+    }
+
+    @Override
+    public void stop() throws Exception {
+        LogRepository.getInstance().release();
     }
 
     public static void main(String[] args) {
