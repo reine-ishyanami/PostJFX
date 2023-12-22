@@ -46,9 +46,14 @@ public class LogUtils {
      */
     public static final SimpleIntegerProperty logStackSize = new SimpleIntegerProperty(0);
 
+    /**
+     * 数据库操作类
+     */
+    private static final LogRepository logRepository = LogRepository.getInstance();
+
     static {
-        LogRepository.createTable();
-        LogRepository.createIndex();
+        logRepository.createTable();
+        logRepository.createIndex();
         // 保存日志信息到数据库
         logList.addListener((ListChangeListener<Log>) c -> {
             // 如果是应用启动时的初始化数据操作，则不进行数据列表的响应操作
@@ -58,13 +63,13 @@ public class LogUtils {
                     if (c.wasAdded()) {
                         Log log = c.getAddedSubList().get(0);
                         // 向数据库中写入一条数据
-                        LogRepository.insertOne(log);
+                        logRepository.insertOne(log);
                     }
                     // 删除日志列表中的数据时，删除数据库中的日志信息
                     if (c.wasRemoved()) {
                         Log log = c.getRemoved().get(0);
                         // 删除数据库中指定日期时间的数据
-                        LogRepository.removeOne(log);
+                        logRepository.removeOne(log);
                         push(log);
                     }
                 }
@@ -84,7 +89,7 @@ public class LogUtils {
         initializing = true;
         // 清空数据，等待重新装填
         logList.clear();
-        List<Log> logs = LogRepository.selectListByDate(date);
+        List<Log> logs = logRepository.selectListByDate(date);
         logList.addAll(logs);
         // 初始化完成，将初始化标志字段取反
         initializing = false;
@@ -97,7 +102,7 @@ public class LogUtils {
         // 从栈中弹出一条最近的删除记录
         Log recentLog = pop();
         // 将数据重新插入数据库中
-        LogRepository.insertOne(recentLog);
+        logRepository.insertOne(recentLog);
         // 重新加载数据
         readFromDbForLogList(date);
     }

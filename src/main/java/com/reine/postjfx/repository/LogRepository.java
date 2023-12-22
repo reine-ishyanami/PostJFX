@@ -28,15 +28,30 @@ public class LogRepository {
     /**
      * jackson 数据转换
      */
-    private final static ObjectMapper mapper = new ObjectMapper();
+    private final ObjectMapper mapper = new ObjectMapper();
 
     /**
      * 数据库连接
      */
-    private static final Connection connection;
+    private Connection connection;
 
+    private static LogRepository logRepository;
 
-    static {
+    /**
+     * 获取单例对象
+     *
+     * @return
+     */
+    public static LogRepository getInstance() {
+        if (logRepository == null)
+            logRepository = new LogRepository();
+        return logRepository;
+    }
+
+    /**
+     * 初始化数据库连接
+     */
+    public void init() {
         try {
             // 创建文件夹
             Path dir = AppProp.logDbDir;
@@ -50,11 +65,19 @@ public class LogRepository {
         }
     }
 
+    /**
+     * 关闭数据库连接
+     */
+    public void release() throws SQLException {
+        if (connection != null && !connection.isClosed()) {
+            connection.close();
+        }
+    }
 
     /**
      * 建表语句
      */
-    private static final String tableSql = """
+    private final String tableSql = """
             CREATE TABLE IF NOT EXISTS log
             (
                 datetime TEXT,
@@ -69,7 +92,7 @@ public class LogRepository {
     /**
      * 创建数据库
      */
-    public static void createTable() {
+    public void createTable() {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(tableSql);
             preparedStatement.execute();
@@ -82,7 +105,7 @@ public class LogRepository {
     /**
      * 建索引语句
      */
-    private static final String indexSql = """
+    private final String indexSql = """
             CREATE INDEX IF NOT EXISTS datetime_index ON log(datetime);
             """;
 
@@ -90,7 +113,7 @@ public class LogRepository {
     /**
      * 创建索引
      */
-    public static void createIndex() {
+    public void createIndex() {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(indexSql);
             preparedStatement.execute();
@@ -103,7 +126,7 @@ public class LogRepository {
     /**
      * 插入语句
      */
-    private static final String insertSql = """
+    private final String insertSql = """
             INSERT INTO log('datetime', 'method','url', 'params','headers', 'body' )
             VALUES (?, ?, ?, ?, ?, ?);
             """;
@@ -112,7 +135,7 @@ public class LogRepository {
     /**
      * 往数据库中插入一条数据
      */
-    public static void insertOne(Log log) {
+    public void insertOne(Log log) {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(insertSql);
             preparedStatement.setString(1, log.dateTime());
@@ -131,14 +154,14 @@ public class LogRepository {
     /**
      * 删除语句
      */
-    private static final String deleteSql = """
+    private final String deleteSql = """
             DELETE FROM log WHERE datetime = ?
             """;
 
     /**
      * 删除数据库中指定一条数据
      */
-    public static void removeOne(Log log) {
+    public void removeOne(Log log) {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(deleteSql);
             preparedStatement.setString(1, log.dateTime());
@@ -151,12 +174,12 @@ public class LogRepository {
     /**
      * 日期格式化器
      */
-    private final static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
 
     /**
      * 查询语句
      */
-    private static final String querySql = """
+    private final String querySql = """
             SELECT datetime, method, url, params, headers, body
             FROM log
             WHERE substr(datetime, 1, instr(datetime, '_') - 1) = ?
@@ -166,7 +189,7 @@ public class LogRepository {
     /**
      * 从数据库中查询指定数据
      */
-    public static List<Log> selectListByDate(LocalDate date) {
+    public List<Log> selectListByDate(LocalDate date) {
         try {
             String dateStr = date.format(formatter);
             PreparedStatement preparedStatement = connection.prepareStatement(querySql);
