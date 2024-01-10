@@ -1,0 +1,30 @@
+name: Windows Native-Image Build
+# 定义在推送tag时触发工作流程与手动触发工作流程
+on:
+  push:
+    tags:
+      - '*'
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      # 安装GraalVM，配置JAVA_HOME GRAALVM_HOME
+      - name: Setup GraalVM
+        uses: graalvm/setup-graalvm@v1
+        with:
+          java-version: '21'
+          distribution: 'graalvm-community'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      # 使用 Gradle 构建您的项目
+      - name: GraalVM Native Build
+        run: gradlew nativeBuild nativePackage
+
+      # 将暂存目录作为构建工件上传。构建完成后您将能够下载它。
+      - name: Upload
+        uses: actions/upload-artifact@v2
+        with:
+          name: PostJFX
+          path: build/gluonfx/x86_64-windows/*.exe
+
