@@ -46,7 +46,7 @@ test {
 jlink {
     options = ['--strip-debug', '--compress', '2', '--no-header-files', '--no-man-pages']
     launcher {
-        name = "${version}"
+        name = "${appName}"
         noConsole = true
     }
     jpackage {
