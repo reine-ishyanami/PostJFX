@@ -40,7 +40,7 @@ public class AddButton<T> extends TableCell<T, Void> {
                 event.consume();
                 try {
                     Class<?> rowType = getTableRow().getItem().getClass();
-                    getTableView().getItems().add((T) rowType.cast(rowType.getDeclaredConstructor().newInstance()));
+                    getTableView().getItems().add((T) rowType.getDeclaredConstructor().newInstance());
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }

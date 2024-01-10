@@ -56,9 +56,9 @@ public class AppProp {
             // 调试应用时执行
             // 读取 build.gradle 文件中的应用版本属性
             Properties properties = new Properties();
-            properties.load(new FileInputStream("build.gradle"));
+            properties.load(new FileInputStream("gradle.properties"));
             // 字符串处理
-            version = properties.getProperty("appVersion").replaceAll("'", "");
+            version = properties.getProperty("version");
         } catch (IOException e) {
             // 打包成可执行程序时执行
             // 读取环境变量的应用版本属性
