@@ -9,6 +9,7 @@ jobs:
   build:
     runs-on: windows-latest
     steps:
+      - uses: actions/checkout@v4
       # 安装GraalVM，配置JAVA_HOME GRAALVM_HOME
       - name: Setup GraalVM
         uses: graalvm/setup-graalvm@v1
@@ -16,14 +17,12 @@ jobs:
           java-version: '21'
           distribution: 'graalvm-community'
           github-token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: test dir
-        run: ls
-
+      - name: Validate Gradle wrapper
+        uses: gradle/wrapper-validation-action@ccb4328a959376b642e027874838f60f8e596de3
       # 使用 Gradle 构建您的项目
       - name: GraalVM Native Build
         run:
-          gradlew nativeBuild nativePackage
+          .\gradlew nativeBuild nativePackage
 
       # 将暂存目录作为构建工件上传。构建完成后您将能够下载它。
       - name: Upload
