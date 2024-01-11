@@ -17,9 +17,13 @@ jobs:
           distribution: 'graalvm-community'
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: test dir
+        run: ls
+
       # 使用 Gradle 构建您的项目
       - name: GraalVM Native Build
-        run: gradlew nativeBuild nativePackage
+        run:
+          gradlew nativeBuild nativePackage
 
       # 将暂存目录作为构建工件上传。构建完成后您将能够下载它。
       - name: Upload
