@@ -58,8 +58,6 @@ public class PostPageController extends SplitPane{
 
     @FXML
     void initialize() {
-        // adaptiveWidthAndHeight();
-        responseController.setMainController(this);
         requestController.setResponseController(responseController);
     }
 
@@ -72,18 +70,5 @@ public class PostPageController extends SplitPane{
         requestController.prefWidthProperty().bind(widthProperty);
         responseController.prefWidthProperty().bind(widthProperty);
     }
-
-    /**
-     * 组件自适应宽高
-     */
-    // @Override
-    // public void adaptiveWidthAndHeight() {
-    //     TabPane tabPane = NodeManage.getTabPane();
-    //     ReadOnlyDoubleProperty heightProperty = tabPane.heightProperty();
-    //     ReadOnlyDoubleProperty widthProperty = tabPane.widthProperty();
-    //     requestController.prefWidthProperty().bind(widthProperty);
-    //     responseController.prefWidthProperty().bind(widthProperty);
-    // }
-
 
 }

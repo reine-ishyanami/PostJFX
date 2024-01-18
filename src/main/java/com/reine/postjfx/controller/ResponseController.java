@@ -13,6 +13,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -67,23 +68,23 @@ public class ResponseController extends VBox {
     @FXML
     private TableColumn<ReadOnlyHeader, String> valueColOfResponseHeader;
 
-    public void setMainController(PostPageController postPageController) {
-        // 绑定计算
-        // 当拖动分割面板的分割条时，下方响应内容区域高度也会随之改变
-        // 计算规则 【 (- (分割条所占区域) + 1.0) * (主界面高度) - (响应码区域高度)】
-        responseTabPane.prefHeightProperty().bind(postPageController.getDividers().get(0).positionProperty()
-                .negate()
-                .add(1.0)
-                .multiply(postPageController.prefHeightProperty())
-                .subtract(tip.prefHeightProperty()));
-    }
-
     /**
      * 组件自适应宽高
      */
     @Override
     protected void layoutChildren()  {
         super.layoutChildren();
+        PostPageController postPageController =
+                (PostPageController) this.getParent().getParent().getParent();
+        // 绑定计算
+        // 当拖动分割面板的分割条时，下方响应内容区域高度也会随之改变
+        // 计算规则 【 (- (分割条所占区域) + 1.0) * (主界面高度) - (响应码区域高度)】
+        responseTabPane.prefHeightProperty().bind(postPageController.getDividers().getFirst().positionProperty()
+                .negate()
+                .add(1.0)
+                .multiply(postPageController.prefHeightProperty())
+                .subtract(tip.prefHeightProperty()));
+
         DoubleBinding tableViewWidthPropertyDivide2 = responseTabPane.prefWidthProperty().subtract(20).divide(2.0);
         DoubleBinding doubleBinding = responseTabPane.prefHeightProperty().subtract(tip.getPrefHeight());
         requestHeaderTableView.prefHeightProperty().bind(doubleBinding);
