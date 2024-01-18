@@ -27,7 +27,7 @@ import java.util.Objects;
  *
  * @author reine
  */
-public class TabHistoryController extends HBox implements Adaptive {
+public class TabHistoryController extends HBox {
 
     @FXML
     private PostTabController postTabController;
@@ -117,14 +117,14 @@ public class TabHistoryController extends HBox implements Adaptive {
             }
         });
 
-        adaptiveWidthAndHeight();
     }
 
     /**
      * 组件自适应宽高
      */
     @Override
-    public void adaptiveWidthAndHeight() {
+    protected void layoutChildren() {
+        super.layoutChildren();
         Stage stage = NodeManage.getPrimaryStage();
         ReadOnlyDoubleProperty heightProperty = stage.heightProperty();
         ReadOnlyDoubleProperty widthProperty = stage.widthProperty();

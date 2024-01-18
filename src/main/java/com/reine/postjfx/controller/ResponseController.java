@@ -35,7 +35,7 @@ import java.util.Optional;
  *
  * @author reine
  */
-public class ResponseController extends VBox implements Adaptive {
+public class ResponseController extends VBox {
 
     @FXML
     private HBox tip;
@@ -76,14 +76,14 @@ public class ResponseController extends VBox implements Adaptive {
                 .add(1.0)
                 .multiply(postPageController.prefHeightProperty())
                 .subtract(tip.prefHeightProperty()));
-        adaptiveWidthAndHeight();
     }
 
     /**
      * 组件自适应宽高
      */
     @Override
-    public void adaptiveWidthAndHeight()  {
+    protected void layoutChildren()  {
+        super.layoutChildren();
         DoubleBinding tableViewWidthPropertyDivide2 = responseTabPane.prefWidthProperty().subtract(20).divide(2.0);
         DoubleBinding doubleBinding = responseTabPane.prefHeightProperty().subtract(tip.getPrefHeight());
         requestHeaderTableView.prefHeightProperty().bind(doubleBinding);

@@ -40,7 +40,7 @@ import java.util.regex.Pattern;
  *
  * @author reine
  */
-public class RequestController extends VBox implements Adaptive {
+public class RequestController extends VBox {
 
     @FXML
     private TableView<HeaderProperty> headersTableView;
@@ -142,14 +142,11 @@ public class RequestController extends VBox implements Adaptive {
         initParamsTableView();
         initBodyTab();
         initTopRequestNode();
-        adaptiveWidthAndHeight();
     }
 
-    /**
-     * 组件自适应宽高
-     */
     @Override
-    public void adaptiveWidthAndHeight()  {
+    protected void layoutChildren()  {
+        super.layoutChildren();
         ReadOnlyDoubleProperty widthProperty = this.widthProperty();
         headersTableView.prefWidthProperty().bind(widthProperty);
         DoubleBinding headersTableViewWidthPropertyDivide2 = headersTableView.prefWidthProperty().subtract(60).divide(2);

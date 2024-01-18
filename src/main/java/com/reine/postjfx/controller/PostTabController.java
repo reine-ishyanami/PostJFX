@@ -21,7 +21,7 @@ import java.util.Set;
  *
  * @author reine
  */
-public class PostTabController extends TabPane implements Adaptive{
+public class PostTabController extends TabPane{
 
     @FXML
     private Tab addPostPageTab;
@@ -104,8 +104,4 @@ public class PostTabController extends TabPane implements Adaptive{
         if (!getTabs().getLast().equals(btnTab)) getTabs().add(btnTab);
     }
 
-    @Override
-    public void adaptiveWidthAndHeight() {
-
-    }
 }
