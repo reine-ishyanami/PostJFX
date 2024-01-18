@@ -16,7 +16,7 @@ import java.io.IOException;
  *
  * @author reine
  */
-public class PostPageController extends SplitPane {
+public class PostPageController extends SplitPane implements Adaptive {
 
     @FXML
     private RequestController requestController;
@@ -58,13 +58,17 @@ public class PostPageController extends SplitPane {
 
     @FXML
     void initialize() {
-        // 绑定宽高
-        binding();
+        adaptiveWidthAndHeight();
         responseController.setMainController(this);
         requestController.setResponseController(responseController);
     }
 
-    private void binding() {
+
+    /**
+     * 组件自适应宽高
+     */
+    @Override
+    public void adaptiveWidthAndHeight() {
         TabPane tabPane = NodeManage.getTabPane();
         ReadOnlyDoubleProperty heightProperty = tabPane.heightProperty();
         ReadOnlyDoubleProperty widthProperty = tabPane.widthProperty();

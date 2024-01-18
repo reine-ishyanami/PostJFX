@@ -27,7 +27,7 @@ import java.util.Objects;
  *
  * @author reine
  */
-public class TabHistoryController extends HBox {
+public class TabHistoryController extends HBox implements Adaptive {
 
     @FXML
     private PostTabController postTabController;
@@ -117,18 +117,17 @@ public class TabHistoryController extends HBox {
             }
         });
 
-        // 绑定宽高
-        binding();
+        adaptiveWidthAndHeight();
     }
 
     /**
-     * 宽高绑定
+     * 组件自适应宽高
      */
-    private void binding() {
+    @Override
+    public void adaptiveWidthAndHeight() {
         Stage stage = NodeManage.getPrimaryStage();
         ReadOnlyDoubleProperty heightProperty = stage.heightProperty();
         ReadOnlyDoubleProperty widthProperty = stage.widthProperty();
-
         // 右侧列表高度绑定
         historyListView.prefHeightProperty().bind(heightProperty.subtract(((HBox) datePicker.getParent()).getHeight()));
         // 左侧请求区域高度绑定

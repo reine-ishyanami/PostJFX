@@ -35,7 +35,7 @@ import java.util.Optional;
  *
  * @author reine
  */
-public class ResponseController extends VBox {
+public class ResponseController extends VBox implements Adaptive {
 
     @FXML
     private HBox tip;
@@ -76,18 +76,23 @@ public class ResponseController extends VBox {
                 .add(1.0)
                 .multiply(postPageController.prefHeightProperty())
                 .subtract(tip.prefHeightProperty()));
+        adaptiveWidthAndHeight();
+    }
+
+    /**
+     * 组件自适应宽高
+     */
+    @Override
+    public void adaptiveWidthAndHeight()  {
         DoubleBinding tableViewWidthPropertyDivide2 = responseTabPane.prefWidthProperty().subtract(20).divide(2.0);
         DoubleBinding doubleBinding = responseTabPane.prefHeightProperty().subtract(tip.getPrefHeight());
         requestHeaderTableView.prefHeightProperty().bind(doubleBinding);
         nameColOfRequestHeader.prefWidthProperty().bind(tableViewWidthPropertyDivide2);
         valueColOfRequestHeader.prefWidthProperty().bind(tableViewWidthPropertyDivide2);
-
         responseHeaderTableView.prefHeightProperty().bind(doubleBinding);
         nameColOfResponseHeader.prefWidthProperty().bind(tableViewWidthPropertyDivide2);
         valueColOfResponseHeader.prefWidthProperty().bind(tableViewWidthPropertyDivide2);
-
         dataTextArea.prefHeightProperty().bind(doubleBinding);
-
     }
 
     private final ObjectMapper mapper = new ObjectMapper();

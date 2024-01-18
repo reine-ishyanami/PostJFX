@@ -22,9 +22,8 @@ jobs:
       # 使用 Gradle 构建您的项目
       - name: GraalVM Native Build
         run:
-          .\gradlew nativeBuild nativePackage
-
-      # 将暂存目录作为构建工件上传。构建完成后您将能够下载它。
+          .\gradlew nativeBuild
+      # 上传打包完成后的产品，以供下载
       - name: Upload
         uses: actions/upload-artifact@v2
         with:

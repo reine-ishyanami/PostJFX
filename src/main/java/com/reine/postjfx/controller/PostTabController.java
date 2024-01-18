@@ -21,7 +21,7 @@ import java.util.Set;
  *
  * @author reine
  */
-public class PostTabController extends TabPane {
+public class PostTabController extends TabPane implements Adaptive{
 
     @FXML
     private Tab addPostPageTab;
@@ -79,7 +79,7 @@ public class PostTabController extends TabPane {
      */
     private void insertNewTab(EditableTab tab) {
         ObservableList<Tab> tabs = this.getTabs();
-        if (tabs.get(tabs.size() - 1).equals(btnTab)) tabs.add(tabs.size() - 1, tab);
+        if (tabs.getLast().equals(btnTab)) tabs.add(tabs.size() - 1, tab);
         else tabs.add(tab);
     }
 
@@ -101,6 +101,11 @@ public class PostTabController extends TabPane {
     void onCloseRequestCheck(Event event) {
         if (this.getTabs().size() <= 2) event.consume();
         // 删除时默认添加增加标签页
-        if (!getTabs().get(getTabs().size() - 1).equals(btnTab)) getTabs().add(btnTab);
+        if (!getTabs().getLast().equals(btnTab)) getTabs().add(btnTab);
+    }
+
+    @Override
+    public void adaptiveWidthAndHeight() {
+
     }
 }

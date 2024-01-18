@@ -4,7 +4,7 @@
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <fx:root type="TabPane" stylesheets="@css/post-tab.css"
-         xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17.0.6">
+         xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1">
     <tabs>
         <Tab closable="false" disable="true" fx:id="btnTab">
             <graphic>
