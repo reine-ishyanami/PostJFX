@@ -145,7 +145,7 @@ public class RequestController extends VBox {
     }
 
     @Override
-    protected void layoutChildren()  {
+    protected void layoutChildren() {
         super.layoutChildren();
         ReadOnlyDoubleProperty widthProperty = this.widthProperty();
         headersTableView.prefWidthProperty().bind(widthProperty);

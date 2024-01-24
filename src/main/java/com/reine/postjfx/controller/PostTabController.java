@@ -13,15 +13,13 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * 多选项卡
  *
  * @author reine
  */
-public class PostTabController extends TabPane{
+public class PostTabController extends TabPane {
 
     @FXML
     private Tab addPostPageTab;

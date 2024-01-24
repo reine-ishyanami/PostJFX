@@ -116,7 +116,6 @@ public class TabHistoryController extends HBox {
                 };
             }
         });
-
     }
 
     /**

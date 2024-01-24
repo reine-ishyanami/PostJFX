@@ -1,11 +1,11 @@
 package com.reine.postjfx.controller;
 
-import cn.hutool.core.io.FileTypeUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.reine.postjfx.App;
 import com.reine.postjfx.entity.property.ReadOnlyHeader;
+import com.reine.postjfx.enums.FileMagicNumber;
 import javafx.application.Platform;
 import javafx.beans.binding.DoubleBinding;
 import javafx.beans.property.ReadOnlyDoubleProperty;
@@ -13,7 +13,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -27,6 +26,7 @@ import java.io.IOException;
 import java.net.http.HttpHeaders;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -72,7 +72,7 @@ public class ResponseController extends VBox {
      * 组件自适应宽高
      */
     @Override
-    protected void layoutChildren()  {
+    protected void layoutChildren() {
         super.layoutChildren();
         PostPageController postPageController =
                 (PostPageController) this.getParent().getParent().getParent();
@@ -149,7 +149,13 @@ public class ResponseController extends VBox {
         } else {
             byte[] body = response.body();
             try (ByteArrayInputStream inputStream = new ByteArrayInputStream(body)) {
-                String fileType = FileTypeUtil.getType(inputStream);
+                String fileType;
+                byte[] bytes = inputStream.readAllBytes();
+                // 检测文件类型
+                fileType = Arrays.stream(FileMagicNumber.values())
+                        .filter(value -> value.match(bytes))
+                        .findFirst()
+                        .map(FileMagicNumber::getExtension).orElse(null);
                 inputStream.reset();
                 Platform.runLater(() -> {
                     codeLabel.setText(String.valueOf(code));

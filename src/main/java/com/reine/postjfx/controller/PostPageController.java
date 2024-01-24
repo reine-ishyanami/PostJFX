@@ -16,7 +16,7 @@ import java.io.IOException;
  *
  * @author reine
  */
-public class PostPageController extends SplitPane{
+public class PostPageController extends SplitPane {
 
     @FXML
     private RequestController requestController;
@@ -51,9 +51,6 @@ public class PostPageController extends SplitPane{
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
         fxmlLoader.load();
-        TabPane tabPane = NodeManage.getTabPane();
-        this.prefHeightProperty().bind(tabPane.heightProperty().subtract(10));
-        this.prefWidthProperty().bind(tabPane.widthProperty());
     }
 
     @FXML
@@ -67,6 +64,8 @@ public class PostPageController extends SplitPane{
         TabPane tabPane = NodeManage.getTabPane();
         ReadOnlyDoubleProperty heightProperty = tabPane.heightProperty();
         ReadOnlyDoubleProperty widthProperty = tabPane.widthProperty();
+        this.prefHeightProperty().bind(heightProperty.subtract(10));
+        this.prefWidthProperty().bind(widthProperty);
         requestController.prefWidthProperty().bind(widthProperty);
         responseController.prefWidthProperty().bind(widthProperty);
     }
