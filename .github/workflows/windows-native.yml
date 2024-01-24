@@ -25,8 +25,8 @@ jobs:
           .\gradlew nativeBuild
       # 上传打包完成后的产品，以供下载
       - name: Upload
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
-          name: PostJFX
+          name: PostJFX-graalvm
           path: build/gluonfx/x86_64-windows/*.exe
 
