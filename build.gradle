@@ -49,7 +49,7 @@ jlink {
         noConsole = true
     }
     jpackage {
-        icon = project.file("${buildDir}/resources/main/image/favicon.ico")
+        icon = project.file("/build/resources/main/image/favicon.ico")
         imageName = "${appName}"
         vendor = "${vendorName}"
         if (org.gradle.internal.os.OperatingSystem.current().windows) {

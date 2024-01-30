@@ -58,16 +58,22 @@ public class PostPageController extends SplitPane {
         requestController.setResponseController(responseController);
     }
 
+
+    private boolean initialLayout = false;
+
     @Override
     protected void layoutChildren() {
         super.layoutChildren();
-        TabPane tabPane = NodeManage.getTabPane();
-        ReadOnlyDoubleProperty heightProperty = tabPane.heightProperty();
-        ReadOnlyDoubleProperty widthProperty = tabPane.widthProperty();
-        this.prefHeightProperty().bind(heightProperty.subtract(10));
-        this.prefWidthProperty().bind(widthProperty);
-        requestController.prefWidthProperty().bind(widthProperty);
-        responseController.prefWidthProperty().bind(widthProperty);
+        if (!initialLayout){
+            TabPane tabPane = NodeManage.getTabPane();
+            ReadOnlyDoubleProperty heightProperty = tabPane.heightProperty();
+            ReadOnlyDoubleProperty widthProperty = tabPane.widthProperty();
+            this.prefHeightProperty().bind(heightProperty.subtract(10));
+            this.prefWidthProperty().bind(widthProperty);
+            requestController.prefWidthProperty().bind(widthProperty);
+            responseController.prefWidthProperty().bind(widthProperty);
+            initialLayout = true;
+        }
     }
 
 }

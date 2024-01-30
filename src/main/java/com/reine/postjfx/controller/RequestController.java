@@ -144,19 +144,25 @@ public class RequestController extends VBox {
         initTopRequestNode();
     }
 
+
+    private boolean initialLayout = false;
+
     @Override
     protected void layoutChildren() {
         super.layoutChildren();
-        ReadOnlyDoubleProperty widthProperty = this.widthProperty();
-        headersTableView.prefWidthProperty().bind(widthProperty);
-        DoubleBinding headersTableViewWidthPropertyDivide2 = headersTableView.prefWidthProperty().subtract(60).divide(2);
-        nameColOfHeadersTableView.prefWidthProperty().bind(headersTableViewWidthPropertyDivide2);
-        valueColOfHeadersTableView.prefWidthProperty().bind(headersTableViewWidthPropertyDivide2);
-        paramsTableView.prefWidthProperty().bind(widthProperty);
-        DoubleBinding paramsTableViewWidthPropertyDivide2 = paramsTableView.prefWidthProperty().subtract(60).divide(2);
-        keyColOfParamsTableView.prefWidthProperty().bind(paramsTableViewWidthPropertyDivide2.subtract(100));
-        valueColOfParamsTableView.prefWidthProperty().bind(paramsTableViewWidthPropertyDivide2);
-        bodyTextArea.prefWidthProperty().bind(widthProperty);
+        if (!initialLayout) {
+            ReadOnlyDoubleProperty widthProperty = this.widthProperty();
+            headersTableView.prefWidthProperty().bind(widthProperty);
+            DoubleBinding headersTableViewWidthPropertyDivide2 = headersTableView.prefWidthProperty().subtract(60).divide(2);
+            nameColOfHeadersTableView.prefWidthProperty().bind(headersTableViewWidthPropertyDivide2);
+            valueColOfHeadersTableView.prefWidthProperty().bind(headersTableViewWidthPropertyDivide2);
+            paramsTableView.prefWidthProperty().bind(widthProperty);
+            DoubleBinding paramsTableViewWidthPropertyDivide2 = paramsTableView.prefWidthProperty().subtract(60).divide(2);
+            keyColOfParamsTableView.prefWidthProperty().bind(paramsTableViewWidthPropertyDivide2.subtract(100));
+            valueColOfParamsTableView.prefWidthProperty().bind(paramsTableViewWidthPropertyDivide2);
+            bodyTextArea.prefWidthProperty().bind(widthProperty);
+            initialLayout = true;
+        }
     }
 
     @FXML

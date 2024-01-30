@@ -118,21 +118,27 @@ public class TabHistoryController extends HBox {
         });
     }
 
+
+    private boolean initialLayout = false;
+
     /**
      * 组件自适应宽高
      */
     @Override
     protected void layoutChildren() {
         super.layoutChildren();
-        Stage stage = NodeManage.getPrimaryStage();
-        ReadOnlyDoubleProperty heightProperty = stage.heightProperty();
-        ReadOnlyDoubleProperty widthProperty = stage.widthProperty();
-        // 右侧列表高度绑定
-        historyListView.prefHeightProperty().bind(heightProperty.subtract(((HBox) datePicker.getParent()).getHeight()));
-        // 左侧请求区域高度绑定
-        postTabController.prefHeightProperty().bind(heightProperty);
-        // 左侧请求区域高度绑定
-        postTabController.prefWidthProperty().bind(widthProperty.subtract(historyListView.getWidth()));
+        if (!initialLayout) {
+            Stage stage = NodeManage.getPrimaryStage();
+            ReadOnlyDoubleProperty heightProperty = stage.heightProperty();
+            ReadOnlyDoubleProperty widthProperty = stage.widthProperty();
+            // 右侧列表高度绑定
+            historyListView.prefHeightProperty().bind(heightProperty.subtract(((HBox) datePicker.getParent()).getHeight()));
+            // 左侧请求区域高度绑定
+            postTabController.prefHeightProperty().bind(heightProperty);
+            // 左侧请求区域高度绑定
+            postTabController.prefWidthProperty().bind(widthProperty.subtract(historyListView.getWidth()));
+            initialLayout = true;
+        }
     }
 
     @FXML
