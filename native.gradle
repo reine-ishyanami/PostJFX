@@ -14,7 +14,7 @@ apply plugin: "com.gluonhq.gluonfx-gradle-plugin"
 mainClassName = "${mainClassName}".toString()
 
 run {
-    jvmArgs=["-agentlib:native-image-agent=config-merge-dir=src/main/resources/META-INF/native-image"]
+    jvmArgs = ["-agentlib:native-image-agent=config-merge-dir=src/main/resources/META-INF/native-image"]
 }
 
 gluonfx {
