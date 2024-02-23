@@ -52,8 +52,24 @@ jlink {
         icon = layout.buildDirectory.file("resources/main/image/favicon.ico").getOrNull().asFile
         imageName = "${appName}"
         vendor = "${vendorName}"
-        if (org.gradle.internal.os.OperatingSystem.current().windows) {
-            installerOptions += ['--win-per-user-install', '--win-dir-chooser', '--win-menu', '--win-shortcut', '--win-menu-group', 'PostJFX']
+        def currentSystem = org.gradle.internal.os.OperatingSystem.current()
+        if (currentSystem.windows) {
+            installerOptions += [
+                    '--win-per-user-install',
+                    '--win-dir-chooser',
+                    '--win-menu',
+                    '--win-shortcut',
+                    '--win-menu-group', 'PostJFX'
+            ]
+        }
+        if (currentSystem.linux){
+            installerOptions += [
+                    '--linux-shortcut',
+                    '--linux-menu-group', 'PostJFX'
+            ]
+        }
+        if (currentSystem.macOsX){
+
         }
     }
 }
