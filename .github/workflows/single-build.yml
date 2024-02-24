@@ -1,0 +1,81 @@
+name: Single Platform JPackage
+# 定义被其他工作流程调用以及手动触发工作流程
+on:
+  workflow_dispatch:
+    inputs:
+      java-version:
+        required: false
+        type: string
+        default: '21'
+        description: 基于哪个Java版本进行构建
+      platform:
+        required: false
+        type: string
+        default: ubuntu
+        description: 基于哪个操作系统进行构建(ubuntu, windows, macos)
+  workflow_call:
+    inputs:
+      java-version:
+        required: false
+        type: string
+        default: '21'
+        description: 基于哪个Java版本进行构建
+      platform:
+        required: false
+        type: string
+        default: ubuntu
+        description: 基于哪个操作系统进行构建(ubuntu, windows, macos)
+# 按照所选平台选择对应平台进行构建
+jobs:
+  build:
+    runs-on: ${{ inputs.platform }}-latest
+    name: build-${{ inputs.platform }}
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@v4
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ inputs.java-version }}
+          distribution: temurin
+      - name: Echo JAVA_HOME
+        run: echo $JAVA_HOME
+      - name: Verify Gradle Wrapper
+        uses: gradle/wrapper-validation-action@v2
+      - name: Execute build
+        run: ./gradlew --info --stacktrace build
+      - name: Execute jlink
+        run: ./gradlew --info --stacktrace jlink
+      - name: Execute jpackage
+        run: ./gradlew --info --stacktrace jpackage
+      # 上传产品，根据选中平台上传对应产品
+      - name: Upload DEB as an artifact
+        if: ${{ inputs.platform == 'ubuntu' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: PostJFX-jdk-${{ inputs.java-version }}-${{ inputs.platform }}-deb
+          path: build/jpackage/*.deb
+      - name: Upload RPM as an artifact
+        if: ${{ inputs.platform == 'ubuntu' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: PostJFX-jdk-${{ inputs.java-version }}-${{ inputs.platform }}-rpm
+          path: build/jpackage/*.rpm
+      - name: Upload EXE as an artifact
+        if: ${{ inputs.platform == 'windows' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: PostJFX-jdk-${{ inputs.java-version }}-${{ inputs.platform }}-exe
+          path: build/jpackage/*.exe
+      - name: Upload MSI as an artifact
+        if: ${{ inputs.platform == 'windows' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: PostJFX-jdk-${{ inputs.java-version }}-${{ inputs.platform }}-msi
+          path: build/jpackage/*.msi
+      - name: Upload DMG as an artifact
+        if: ${{ inputs.platform == 'macos' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: PostJFX-jdk-${{ inputs.java-version }}-${{ inputs.platform }}-dmg
+          path: build/jpackage/*.dmg

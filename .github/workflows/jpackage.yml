@@ -6,9 +6,21 @@ on:
       - '*'
   workflow_dispatch:
 jobs:
-  call-linux:
-    uses: ./.github/workflows/build-linux.yml
-  call-windows:
-    uses: ./.github/workflows/build-windows.yml
-  call-macos:
-    uses: ./.github/workflows/build-macos.yml
+  build-linux:
+    name: Build on linux
+    uses: ./.github/workflows/single-build.yml
+    with:
+      java-version: 21
+      platform: ubuntu
+  build-windows:
+    name: Build on windows
+    uses: ./.github/workflows/single-build.yml
+    with:
+      java-version: 21
+      platform: windows
+  build-macos:
+    name: Build on macos
+    uses: ./.github/workflows/single-build.yml
+    with:
+      java-version: 21
+      platform: macos
