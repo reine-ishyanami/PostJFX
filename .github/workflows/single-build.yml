@@ -79,3 +79,9 @@ jobs:
         with:
           name: PostJFX-jdk-${{ inputs.java-version }}-${{ inputs.platform }}-dmg
           path: build/jpackage/*.dmg
+      - name: Upload PKG as an artifact
+        if: ${{ inputs.platform == 'macos' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: PostJFX-jdk-${{ inputs.java-version }}-${{ inputs.platform }}-pkg
+          path: build/jpackage/*.pkg
