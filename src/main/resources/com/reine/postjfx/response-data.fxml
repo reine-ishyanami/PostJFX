@@ -2,27 +2,33 @@
 
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.layout.*?>
 <fx:root type="VBox" stylesheets="@css/response-data.css"
          xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1">
     <children>
-        <HBox fx:id="tip">
-            <children>
-                <Label text="状态码">
-                    <HBox.margin>
+        <BorderPane fx:id="tip">
+            <left>
+                <HBox>
+                    <children>
+                        <Label text="状态码"/>
+                        <Label fx:id="codeLabel"/>
+                    </children>
+                    <BorderPane.margin>
                         <Insets left="30.0"/>
-                    </HBox.margin>
-                </Label>
-                <Label fx:id="codeLabel"/>
-                <Button fx:id="downloadButton" text="下载" visible="false">
-                    <HBox.margin>
-                        <Insets left="600.0"/>
-                    </HBox.margin>
-                </Button>
-            </children>
-        </HBox>
+                    </BorderPane.margin>
+                </HBox>
+            </left>
+            <right>
+                <HBox>
+                    <Button fx:id="downloadButton" text="下载" visible="false"/>
+                    <BorderPane.margin>
+                        <Insets right="30"/>
+                    </BorderPane.margin>
+                </HBox>
+            </right>
+        </BorderPane>
         <TabPane fx:id="responseTabPane" tabClosingPolicy="UNAVAILABLE">
             <tabs>
                 <Tab fx:id="bodyTab" text="响应内容">

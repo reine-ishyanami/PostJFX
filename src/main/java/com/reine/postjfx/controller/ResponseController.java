@@ -14,7 +14,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
@@ -39,7 +39,7 @@ import java.util.Optional;
 public class ResponseController extends VBox {
 
     @FXML
-    private HBox tip;
+    private BorderPane tip;
 
     @FXML
     private Button downloadButton;

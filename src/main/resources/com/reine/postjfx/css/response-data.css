@@ -3,10 +3,13 @@ ResponseController {
 }
 
 /*状态码栏*/
-ResponseController > HBox {
-    -fx-alignment: center-left;
+ResponseController > BorderPane {
     -fx-pref-height: 50.0;
     -fx-pref-width: 800.0;
+}
+
+ResponseController > BorderPane > HBox {
+    -fx-alignment: center;
     -fx-spacing: 10.0;
 }
 
