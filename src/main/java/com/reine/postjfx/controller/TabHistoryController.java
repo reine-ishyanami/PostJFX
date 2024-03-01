@@ -7,20 +7,19 @@ import com.reine.postjfx.utils.NodeManage;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import org.kordamp.ikonli.antdesignicons.AntDesignIconsOutlined;
+import org.kordamp.ikonli.javafx.FontIcon;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.Objects;
 
 /**
  * 左侧tab标签页右侧历史记录
@@ -87,30 +86,25 @@ public class TabHistoryController extends HBox {
                         // 左侧请求类型按钮
                         Button method = new Button(item.method());
                         method.setPrefWidth(60);
+                        cell.setLeft(method);
+                        BorderPane.setAlignment(method, Pos.CENTER);
                         // 中间请求url
                         Label label = new Label(item.url());
                         label.setMaxWidth(180.0);
                         label.setMinWidth(180.0);
-                        HBox center = new HBox(10);
-                        center.setAlignment(Pos.CENTER_LEFT);
-                        center.getChildren().addAll(method, label);
-                        cell.setLeft(center);
+                        cell.setCenter(label);
+                        BorderPane.setAlignment(label, Pos.CENTER_LEFT);
+                        BorderPane.setMargin(label, new Insets(0, 0, 0, 10));
                         // 右侧删除按钮
-                        ImageView delete = new ImageView(new Image(
-                                Objects.requireNonNull(getClass().getResource("/image/del.png")).toString()
-                        ));
-                        delete.setFitWidth(20);
-                        delete.setFitHeight(20);
-                        delete.setPickOnBounds(true);
-                        VBox right = new VBox();
-                        right.setAlignment(Pos.CENTER);
-                        right.getChildren().add(delete);
-                        cell.setRight(right);
+                        FontIcon icon = new FontIcon(AntDesignIconsOutlined.DELETE);
+                        icon.setPickOnBounds(true);
+                        cell.setRight(icon);
+                        BorderPane.setAlignment(icon, Pos.CENTER);
                         label.setTooltip(new Tooltip(item.url()));
                         // 点击按钮复现历史记录
                         method.setOnAction(event -> postTabController.addPostPageWithData(item));
                         // 点击删除按钮删除历史记录
-                        delete.setOnMouseClicked(event -> LogUtils.logList.remove(item));
+                        icon.setOnMouseClicked(event -> LogUtils.logList.remove(item));
                         return cell;
                     }
                 };

@@ -13,3 +13,7 @@
 .historyView > ListView {
     -fx-pref-height: 600.0;
 }
+
+.historyView > ListView .scroll-bar:horizontal {
+    -fx-visibility: hidden;
+}

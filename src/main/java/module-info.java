@@ -4,6 +4,8 @@ module com.reine.postjfx {
     requires java.net.http;
     requires com.fasterxml.jackson.databind;
     requires org.xerial.sqlitejdbc;
+    requires org.kordamp.ikonli.javafx;
+    requires org.kordamp.ikonli.antdesignicons;
 
     opens com.reine.postjfx to javafx.fxml;
     opens com.reine.postjfx.enums to javafx.fxml;

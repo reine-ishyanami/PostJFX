@@ -32,6 +32,8 @@ javafx {
 }
 
 dependencies {
+    implementation "org.kordamp.ikonli:ikonli-javafx:${ikonliVersion}"
+    implementation "org.kordamp.ikonli:ikonli-antdesignicons-pack:${ikonliVersion}"
     implementation "org.xerial:sqlite-jdbc:${sqliteVersion}"
     implementation "com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}"
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")

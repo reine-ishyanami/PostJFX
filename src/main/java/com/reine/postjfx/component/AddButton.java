@@ -1,12 +1,8 @@
 package com.reine.postjfx.component;
 
-import javafx.geometry.Pos;
 import javafx.scene.control.TableCell;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
-
-import java.util.Objects;
+import org.kordamp.ikonli.antdesignicons.AntDesignIconsOutlined;
+import org.kordamp.ikonli.javafx.FontIcon;
 
 /**
  * 表格中添加一行按钮
@@ -26,17 +22,10 @@ public class AddButton<T> extends TableCell<T, Void> {
         if (empty) {
             this.setGraphic(null);
         } else {
-            HBox root = new HBox();
-            root.setAlignment(Pos.CENTER);
-            ImageView imageView = new ImageView(
-                    new Image(Objects.requireNonNull(getClass().getResource("/image/add.png")).toString())
-            );
-            imageView.setFitWidth(10);
-            imageView.setFitHeight(10);
-            root.getChildren().add(imageView);
-            root.setPickOnBounds(true);
-            this.setGraphic(root);
-            root.setOnMouseClicked(event -> {
+            FontIcon icon = new FontIcon(AntDesignIconsOutlined.PLUS);
+            icon.setPickOnBounds(true);
+            this.setGraphic(icon);
+            icon.setOnMouseClicked(event -> {
                 event.consume();
                 try {
                     Class<?> rowType = getTableRow().getItem().getClass();
