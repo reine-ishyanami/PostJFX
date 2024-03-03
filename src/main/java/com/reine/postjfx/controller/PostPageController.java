@@ -2,7 +2,7 @@ package com.reine.postjfx.controller;
 
 import com.reine.postjfx.App;
 import com.reine.postjfx.entity.record.Log;
-import com.reine.postjfx.utils.NodeManage;
+import com.reine.postjfx.utils.Helper;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -65,7 +65,7 @@ public class PostPageController extends SplitPane {
     protected void layoutChildren() {
         super.layoutChildren();
         if (!initialLayout){
-            TabPane tabPane = NodeManage.getTabPane();
+            TabPane tabPane = Helper.getTabPane();
             ReadOnlyDoubleProperty heightProperty = tabPane.heightProperty();
             ReadOnlyDoubleProperty widthProperty = tabPane.widthProperty();
             this.prefHeightProperty().bind(heightProperty.subtract(10));

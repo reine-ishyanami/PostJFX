@@ -3,7 +3,7 @@ package com.reine.postjfx;
 import com.reine.postjfx.config.AppProp;
 import com.reine.postjfx.controller.TabHistoryController;
 import com.reine.postjfx.repository.LogRepository;
-import com.reine.postjfx.utils.NodeManage;
+import com.reine.postjfx.utils.Helper;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -20,7 +20,7 @@ public class App extends Application {
         stage.setMinHeight(625.0);
         stage.setWidth(1100.0);
         stage.setMinWidth(1100.0);
-        NodeManage.setPrimaryStage(stage);
+        Helper.setPrimaryStage(stage);
         TabHistoryController root = new TabHistoryController();
         Scene scene = new Scene(root);
         scene.getStylesheets().add(

@@ -3,7 +3,7 @@ package com.reine.postjfx.controller;
 import com.reine.postjfx.App;
 import com.reine.postjfx.entity.record.Log;
 import com.reine.postjfx.utils.LogUtils;
-import com.reine.postjfx.utils.NodeManage;
+import com.reine.postjfx.utils.Helper;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -122,7 +122,7 @@ public class TabHistoryController extends HBox {
     protected void layoutChildren() {
         super.layoutChildren();
         if (!initialLayout) {
-            Stage stage = NodeManage.getPrimaryStage();
+            Stage stage = Helper.getPrimaryStage();
             ReadOnlyDoubleProperty heightProperty = stage.heightProperty();
             ReadOnlyDoubleProperty widthProperty = stage.widthProperty();
             // 右侧列表高度绑定

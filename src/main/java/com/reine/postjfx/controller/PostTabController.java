@@ -3,7 +3,7 @@ package com.reine.postjfx.controller;
 import com.reine.postjfx.App;
 import com.reine.postjfx.component.EditableTab;
 import com.reine.postjfx.entity.record.Log;
-import com.reine.postjfx.utils.NodeManage;
+import com.reine.postjfx.utils.Helper;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -84,7 +84,7 @@ public class PostTabController extends TabPane {
 
     @FXML
     void initialize() {
-        NodeManage.setTabPane(this);
+        Helper.setTabPane(this);
         // 默认触发一次按钮，新建一个标签页
         addTabButton.fire();
     }

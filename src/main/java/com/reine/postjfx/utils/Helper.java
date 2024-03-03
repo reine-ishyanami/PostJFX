@@ -4,9 +4,10 @@ import javafx.scene.control.TabPane;
 import javafx.stage.Stage;
 
 /**
+ * 辅助类
  * @author reine
  */
-public class NodeManage {
+public class Helper {
 
     private static Stage PRIMARY_STAGE;
 
@@ -17,7 +18,7 @@ public class NodeManage {
     }
 
     public static void setPrimaryStage(Stage primaryStage) {
-        NodeManage.PRIMARY_STAGE = primaryStage;
+        Helper.PRIMARY_STAGE = primaryStage;
     }
 
     public static TabPane getTabPane() {
@@ -25,6 +26,6 @@ public class NodeManage {
     }
 
     public static void setTabPane(TabPane tabPane) {
-        NodeManage.TAB_PANE = tabPane;
+        Helper.TAB_PANE = tabPane;
     }
 }
