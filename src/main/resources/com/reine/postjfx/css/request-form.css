@@ -11,9 +11,10 @@ RequestController > HBox {
 }
 
 /*请求方法下拉框*/
-RequestController #methodComboBox {
+RequestController #methodComboBox{
     -fx-pref-height: 23.0;
     -fx-pref-width: 110.0;
+    -fx-background-color: #ccccff;
 }
 
 /*输入框*/

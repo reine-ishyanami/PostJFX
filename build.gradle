@@ -32,6 +32,7 @@ javafx {
 }
 
 dependencies {
+    implementation "io.github.mkpaz:atlantafx-base:${atlantafxVersion}"
     implementation "org.kordamp.ikonli:ikonli-javafx:${ikonliVersion}"
     implementation "org.kordamp.ikonli:ikonli-antdesignicons-pack:${ikonliVersion}"
     implementation "org.xerial:sqlite-jdbc:${sqliteVersion}"

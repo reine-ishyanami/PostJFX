@@ -8,7 +8,7 @@
     <tabs>
         <Tab closable="false" disable="true" fx:id="btnTab">
             <graphic>
-                <Button fx:id="addTabButton" onAction="#addPostPage" text="+" focusTraversable="false"/>
+                <Button fx:id="addTabButton" onAction="#addPostPage" focusTraversable="false"/>
             </graphic>
         </Tab>
     </tabs>

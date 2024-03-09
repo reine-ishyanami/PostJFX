@@ -1,5 +1,6 @@
 package com.reine.postjfx;
 
+import atlantafx.base.theme.PrimerLight;
 import com.reine.postjfx.config.AppProp;
 import com.reine.postjfx.controller.TabHistoryController;
 import com.reine.postjfx.repository.LogRepository;
@@ -15,6 +16,7 @@ import java.util.Objects;
 public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
+        Application.setUserAgentStylesheet(new PrimerLight().getUserAgentStylesheet());
         // 窗口最小宽高
         stage.setHeight(625.0);
         stage.setMinHeight(625.0);
@@ -32,6 +34,7 @@ public class App extends Application {
                 new Image(Objects.requireNonNull(App.class.getResource(AppProp.logoPath)).toString())
         );
         stage.show();
+        // stage.
     }
 
     @Override

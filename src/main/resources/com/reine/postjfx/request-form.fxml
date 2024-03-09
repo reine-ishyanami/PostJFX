@@ -7,28 +7,28 @@
     <children>
         <HBox>
             <children>
-                <ComboBox fx:id="methodComboBox"/>
+                <ComboBox fx:id="methodComboBox" styleClass="success"/>
                 <TextField fx:id="urlTextField" promptText="请求url"/>
                 <StackPane>
                     <Button fx:id="sendButton" disable="true" mnemonicParsing="false" onAction="#sendRequest"
-                            text="发送"/>
+                            text="发送" styleClass="accent"/>
                     <ProgressIndicator fx:id="sendingProgress" visible="false"/>
                 </StackPane>
                 <StackPane>
-                    <Button mnemonicParsing="false" onAction="#clear" text="清空"/>
+                    <Button mnemonicParsing="false" onAction="#clear" text="清空" styleClass="danger"/>
                     <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancel" text="取消"
-                            visible="false"/>
+                            visible="false" styleClass="danger"/>
                 </StackPane>
             </children>
         </HBox>
-        <TabPane tabClosingPolicy="UNAVAILABLE">
+        <TabPane tabClosingPolicy="UNAVAILABLE" styleClass="classic">
             <tabs>
                 <Tab text="请求标头">
                     <content>
                         <TableView fx:id="headersTableView" editable="true"
                                    onMouseClicked="#addColIfNoneOfHeadersTableView">
                             <placeholder>
-                                <Label text="表中无数据，点击空白区域添加一行数据"/>
+                                <Label text="表中无数据，点击空白区域添加一行数据" />
                             </placeholder>
                             <columns>
                                 <TableColumn fx:id="nameColOfHeadersTableView" sortable="false" text="参数名"/>

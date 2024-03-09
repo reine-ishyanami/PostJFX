@@ -86,6 +86,7 @@ public class TabHistoryController extends HBox {
                         // 左侧请求类型按钮
                         Button method = new Button(item.method());
                         method.setPrefWidth(60);
+                        method.getStyleClass().add("success");
                         cell.setLeft(method);
                         BorderPane.setAlignment(method, Pos.CENTER);
                         // 中间请求url

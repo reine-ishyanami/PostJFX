@@ -11,6 +11,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import org.kordamp.ikonli.antdesignicons.AntDesignIconsOutlined;
+import org.kordamp.ikonli.javafx.FontIcon;
 
 import java.io.IOException;
 
@@ -86,6 +88,7 @@ public class PostTabController extends TabPane {
     void initialize() {
         Helper.setTabPane(this);
         // 默认触发一次按钮，新建一个标签页
+        addTabButton.setGraphic(new FontIcon(AntDesignIconsOutlined.PLUS));
         addTabButton.fire();
     }
 

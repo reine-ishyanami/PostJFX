@@ -15,7 +15,7 @@
         <VBox styleClass="historyView">
             <HBox>
                 <DatePicker fx:id="datePicker"/>
-                <Button fx:id="cancelBtn" onAction="#cancelDelete" disable="true">撤销删除</Button>
+                <Button fx:id="cancelBtn" onAction="#cancelDelete" disable="true" styleClass="accent">撤销删除</Button>
             </HBox>
             <ListView fx:id="historyListView">
                 <placeholder>

@@ -1,6 +1,9 @@
 .root { /*If it is an external font, you need to load it; @font-face {...} */
     -fx-font-size: 12;
-    -fx-text-fill: #811818ff;
-    -fx-fill: #811818ff;
-    -fx-focus-color: -fx-base;
 }
+.ikonli-font-icon {
+    -fx-icon-color: -color-fg-default;
+    -fx-fill: -color-fg-default;
+    -fx-icon-size: 12px;
+}
+

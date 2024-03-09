@@ -22,14 +22,14 @@
             </left>
             <right>
                 <HBox>
-                    <Button fx:id="downloadButton" text="下载" visible="false"/>
+                    <Button fx:id="downloadButton" text="下载" visible="false" styleClass="success"/>
                     <BorderPane.margin>
                         <Insets right="30"/>
                     </BorderPane.margin>
                 </HBox>
             </right>
         </BorderPane>
-        <TabPane fx:id="responseTabPane" tabClosingPolicy="UNAVAILABLE">
+        <TabPane fx:id="responseTabPane" tabClosingPolicy="UNAVAILABLE" styleClass="classic">
             <tabs>
                 <Tab fx:id="bodyTab" text="响应内容">
                     <content>

@@ -6,6 +6,7 @@ module com.reine.postjfx {
     requires org.xerial.sqlitejdbc;
     requires org.kordamp.ikonli.javafx;
     requires org.kordamp.ikonli.antdesignicons;
+    requires atlantafx.base;
 
     opens com.reine.postjfx to javafx.fxml;
     opens com.reine.postjfx.enums to javafx.fxml;
