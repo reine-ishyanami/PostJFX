@@ -51,4 +51,4 @@ jobs:
           draft: false
           fail_on_unmatched_files: true
           prerelease: false
-          files: product/PostJFX-*
+          files: product/*
